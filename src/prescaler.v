@@ -21,5 +21,5 @@ module prescaler #(parameter DIV_FACTOR = 4) (
             end
         end
     end
-
+    
 endmodule
