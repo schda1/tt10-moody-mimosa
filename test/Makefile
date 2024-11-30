@@ -6,6 +6,8 @@ SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
 PROJECT_SOURCES = project.v
+PROJECT_SOURCES += prescaler.v
+PROJECT_SOURCES += edge_triggered_counter.v
 
 ifneq ($(GATES),yes)
 
