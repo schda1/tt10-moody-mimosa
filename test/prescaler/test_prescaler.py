@@ -13,14 +13,15 @@ async def init(dut):
     cocotb.start_soon(clock.start())
 
     # Reset
-    dut.clk_out.value = 0
+    dut.clk_out_div_4.value = 0
+    dut.clk_out_div_10.value = 0
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 10)
     dut.rst_n.value = 1
     await ClockCycles(dut.clk, 1)
 
 @cocotb.test()
-async def test_prescaler(dut):
+async def test_prescaler_div_4(dut):
     """
     Check whether 4 prescaler actually divides input clock by 4. 
     """
@@ -28,14 +29,48 @@ async def test_prescaler(dut):
     await init(dut)
     
     for i in range(16):
-        # Two cycles low
-        assert dut.clk_out.value == 0
-        await ClockCycles(dut.clk, 1)
-        assert dut.clk_out.value == 0
-        await ClockCycles(dut.clk, 1)
-        # Two cycles high
-        assert dut.clk_out.value == 1
-        await ClockCycles(dut.clk, 1)
-        assert dut.clk_out.value == 1
-        await ClockCycles(dut.clk, 1)
+
+        for _ in range(2):
+            assert dut.clk_out_div_4.value == 0
+            await ClockCycles(dut.clk, 1)
+
+        for _ in range(2):
+            assert dut.clk_out_div_4.value == 1
+            await ClockCycles(dut.clk, 1)
+        
+@cocotb.test()
+async def test_prescaler_div_10(dut):
+    """
+    Check whether 10 prescaler actually divides input clock by 10. 
+    """
+    
+    await init(dut)
+    
+    for i in range(16):
+
+        for _ in range(5):
+            assert dut.clk_out_div_10.value == 0
+            await ClockCycles(dut.clk, 1)
+
+        for _ in range(5):
+            assert dut.clk_out_div_10.value == 1
+            await ClockCycles(dut.clk, 1)
+        
+@cocotb.test()
+async def test_prescaler_div_32(dut):
+    """
+    Check whether 32 prescaler (max) actually divides input clock by 32. 
+    """
+    
+    await init(dut)
+    
+    for i in range(16):
+
+        for _ in range(16):
+            assert dut.clk_out_div_32.value == 0
+            await ClockCycles(dut.clk, 1)
+
+        for _ in range(16):
+            assert dut.clk_out_div_32.value == 1
+            await ClockCycles(dut.clk, 1)
         
