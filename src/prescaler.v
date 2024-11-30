@@ -4,8 +4,8 @@ module prescaler #(parameter DIV_FACTOR = 4) (
     output reg clk_out     // Prescaled clock output
 );
 
-    // Use a small counter (max 3 bits for DIV_FACTOR <= 16)
-    reg [2:0] div_counter;  
+    // Use a small counter (max 3 bits for DIV_FACTOR <= 32)
+    reg [3:0] div_counter;  
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin

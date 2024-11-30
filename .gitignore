@@ -15,8 +15,8 @@ tt/*
 *.svg
 *.gtkw
 
-test/**/.old
-test/**/sim_build
-test/**/__pycache__
-test/**/*.xml
-test/**/*.vcd
+module_test/**/.old
+module_test/**/sim_build
+module_test/**/__pycache__
+module_test/**/*.xml
+module_test/**/*.vcd
