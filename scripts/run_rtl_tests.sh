@@ -10,4 +10,4 @@ cp -f runs/wokwi/final/pnl/$TOP_MODULE.pnl.v test/gate_level_netlist.v
 
 # Run rtl test
 cd test
-make -B GATES=yes
+make clean && make -B GATES=yes
