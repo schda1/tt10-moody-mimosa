@@ -11,6 +11,8 @@ project:
 
   source_files:
     - "project.v"
+    - "prescaler.v"
+    - "edge_triggered_counter.v"
 
 pinout:
   # Inputs
