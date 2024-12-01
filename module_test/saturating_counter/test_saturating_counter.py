@@ -15,6 +15,7 @@ async def init(dut):
     # Reset
     dut.inc.value = 0
     dut.dec.value = 0
+    dut.setval.value = 0
 
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 10)
@@ -25,7 +26,7 @@ async def init(dut):
 @cocotb.test()
 async def test_sat_counter_init(dut):
     """
-    Check whether 4 prescaler actually divides input clock by 4. 
+    Check initial values 
     """
     
     await init(dut)
@@ -38,7 +39,7 @@ async def test_sat_counter_init(dut):
 @cocotb.test()
 async def test_sat_counter_reset(dut):
     """
-    Check whether 4 prescaler actually divides input clock by 4. 
+    Check whether reset sets value to correct value
     """
     
     await init(dut)
@@ -79,3 +80,18 @@ async def test_sat_counter_2bit(dut):
         
         await ClockCycles(dut.clk, 1)
         assert dut.value_2bit.value == exp
+
+@cocotb.test()
+async def ttest_sat_counter_setval(dut):
+    """
+    Check whether predefined value can be set
+    """
+    
+    await init(dut)
+
+    dut.setval.value = 1
+    await ClockCycles(dut.clk, 2)
+
+    assert dut.value_2bit.value == 1
+    assert dut.value_8bit.value == 200
+    assert dut.value_16bit.value == 1000
