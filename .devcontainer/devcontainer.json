@@ -14,7 +14,14 @@
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash"
       },
-      "extensions": ["mshr-h.veriloghdl", "surfer-project.surfer"]
+      "extensions": [
+        "mshr-h.veriloghdl",
+        "surfer-project.surfer", 
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "mhutchie.git-graph",
+        "donjayamanne.githistory"
+      ]
     }
   },
   "features": {
