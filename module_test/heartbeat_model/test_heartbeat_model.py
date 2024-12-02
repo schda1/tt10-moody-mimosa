@@ -8,7 +8,7 @@ from cocotb.triggers import Timer
 async def init(dut):
     dut._log.info("Start")
     dut.emotion.value = 0
-    dut.sleeping.value = 0
+    dut.asleep.value = 0
     dut.heartbeat.value = 0
     await Timer(1, units='ns')
 
@@ -42,6 +42,6 @@ async def test_truth_table(dut):
 
     for row in read_truth_table():
         dut.emotion.value = row['Emotion']
-        dut.sleeping.value = row['Sleep']
+        dut.asleep.value = row['Sleep']
         await Timer(1, units='ns')
         assert dut.heartbeat.value == row['Heartbeat']
