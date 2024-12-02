@@ -12,13 +12,13 @@ module tb_heartbeat_model ();
 
   // Wire up the inputs and outputs:
   reg [7:0] emotion;
-  reg sleeping;
+  reg asleep;
   wire [1:0] heartbeat;
 
   // Instantiate heartbeat_model classifier module 
   heartbeat_model dut (
       .emotion (emotion),   
-      .sleeping (sleeping),
+      .asleep (asleep),
       .heartbeat (heartbeat)
   );
 
