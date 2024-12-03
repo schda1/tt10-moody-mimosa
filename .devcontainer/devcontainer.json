@@ -32,5 +32,6 @@
       "dockerDashComposeVersion": "none"
     }
   },
-  "postStartCommand": "/ttsetup/copy_tt_support_tools.sh"
+
+  // "postStartCommand": "/ttsetup/copy_tt_support_tools.sh"
 }
