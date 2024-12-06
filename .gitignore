@@ -20,3 +20,14 @@ module_test/**/sim_build
 module_test/**/__pycache__
 module_test/**/*.xml
 module_test/**/*.vcd
+
+fpga/**/*.jou
+fpga/**/*.log
+fpga/**/*.log
+fpga/**/*.txt
+fpga/**/*.bit
+fpga/**/*.bin
+fpga/build
+fpga/**/*.xpr
+
+fpga/.Xil
