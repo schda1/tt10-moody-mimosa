@@ -24,19 +24,30 @@ async def init(dut):
     await ClockCycles(dut.clk, 1)
 
 @cocotb.test()
-async def test_sat_counter_reset(dut):
+async def test_dyn_clock_div_reset(dut):
     """
     Check whether reset sets value to correct value
     """
     await init(dut)
 
-    dut.x_4bit.value = 8
-    await ClockCycles(dut.clk, 3)
-    assert dut.clk_out_4bit.value != 0
-
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 2)
     assert dut.clk_out_4bit.value == 0
+
+@cocotb.test()
+async def test_dyn_clock_div_free_running(dut):
+    """
+    Check whether reset sets value to correct value
+    """
+    await init(dut)
+
+    for x in range(6):
+        dut.x_4bit.value = 8
+        await ClockCycles(dut.clk, 2)
+
+        dut.x_4bit.value = x
+        await ClockCycles(dut.clk, 16)
+
 
 @cocotb.test()
 async def test_no_divider(dut):
@@ -50,11 +61,11 @@ async def test_no_divider(dut):
     for i in range(10):
         await RisingEdge(dut.clk)
         await Timer(1, units='ns')
-        assert dut.clk_out_4bit.value == dut.clk.value
+        assert dut.clk_out_4bit.value == 0
 
-        await FallingEdge(dut.clk)
+        await RisingEdge(dut.clk)
         await Timer(1, units='ns')
-        assert dut.clk_out_4bit.value == dut.clk.value
+        assert dut.clk_out_4bit.value == 1
     
 @cocotb.test()
 async def test_divide_by_2(dut):
@@ -64,17 +75,16 @@ async def test_divide_by_2(dut):
     await init(dut)
 
     dut.x_4bit.value = 1
-    await FallingEdge(dut.clk)
 
     for i in range(10):
 
         for low in range(2):
-            await Edge(dut.clk)
+            await RisingEdge(dut.clk)
             await Timer(1, units='ns')
             assert dut.clk_out_4bit.value == 0
         
         for high in range(2):
-            await Edge(dut.clk)
+            await RisingEdge(dut.clk)
             await Timer(1, units='ns')
             assert dut.clk_out_4bit.value == 1
 
@@ -87,18 +97,17 @@ async def test_divide_by_4(dut):
 
     dut.x_4bit.value = 3
     await ClockCycles(dut.clk, 1)
-    await Edge(dut.clk)
 
     for i in range(10):
 
         # Four edges LOW
         for low in range(4):
-            await Edge(dut.clk)
+            await RisingEdge(dut.clk)
             await Timer(1, units='ns')
             assert dut.clk_out_4bit.value == 0
         
         # Four edges HIGH
         for high in range(4):
-            await Edge(dut.clk)
+            await RisingEdge(dut.clk)
             await Timer(1, units='ns')
             assert dut.clk_out_4bit.value == 1

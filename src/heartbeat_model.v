@@ -1,9 +1,9 @@
 `default_nettype none
 
 module heartbeat_model (
-    input [7:0] emotion,    // 8-bit input for encoded emotion
-    input asleep,           // 1-bit input indicating sleep state
-    output [1:0] heartbeat  // 2-bit output for encoded heartbeat
+    input wire [7:0] emotion,    // 8-bit input for encoded emotion
+    input wire asleep,           // 1-bit input indicating sleep state
+    output wire [1:0] heartbeat  // 2-bit output for encoded heartbeat
 );
 
     // Heartbeat = 3:       Sleeping, any emotion
