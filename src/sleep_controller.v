@@ -6,7 +6,9 @@ module sleep_controller (
     output reg asleep,
     output reg fell_asleep,
     output reg en_inc,
-    output reg en_dec
+    output reg en_dec, 
+    output reg st_dec,
+    output reg pl_inc
 );
 
     // State encoding
@@ -20,6 +22,8 @@ module sleep_controller (
             fell_asleep <= 1'b0;
             en_inc <= 1'b0;
             en_dec <= 1'b0;
+            st_dec <= 1'b0;
+            pl_inc <= 1'b0;
         end else begin
             fell_asleep <= 1'b0;
 
@@ -28,6 +32,8 @@ module sleep_controller (
                     asleep <= 1'b0;
                     en_inc <= 1'b0;
                     en_dec <= 1'b1;
+                    st_dec <= 1'b0;
+                    pl_inc <= 1'b0;
 
                     if (energy_indicator[1] == 0 && !stress_indicator[1]) begin
                         state <= ASLEEP;
@@ -39,6 +45,8 @@ module sleep_controller (
                     asleep <= 1'b1;
                     en_inc <= 1'b1;
                     en_dec <= 1'b0;
+                    st_dec <= 1'b1; // Stress reduces while asleep
+                    pl_inc <= 1'b1; // Mood improves while asleep
 
                     if (energy_indicator == 2'b11 || stress_indicator[1] == 1) begin
                         state <= AWAKE;

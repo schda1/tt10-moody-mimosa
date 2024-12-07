@@ -31,10 +31,10 @@ async def test_sat_counter_init(dut):
     
     await init(dut)
 
-    # Check that initial value is 2^N/2
+    # Check that initial value is 1 or value specified
     assert dut.value_2bit.value == 2
-    assert dut.value_8bit.value == 128
-    assert dut.value_16bit.value == 32768
+    assert dut.value_8bit.value == 2
+    assert dut.value_16bit.value == 2
 
 @cocotb.test()
 async def test_sat_counter_reset(dut):
@@ -49,16 +49,16 @@ async def test_sat_counter_reset(dut):
 
     # Check that value is not 2^N/2
     assert dut.value_2bit.value != 2
-    assert dut.value_8bit.value != 128
-    assert dut.value_16bit.value != 32768
+    assert dut.value_8bit.value != 2
+    assert dut.value_16bit.value != 2
 
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 2)
 
     # Check that value is 2^N/2
     assert dut.value_2bit.value == 2
-    assert dut.value_8bit.value == 128
-    assert dut.value_16bit.value == 32768
+    assert dut.value_8bit.value == 2
+    assert dut.value_16bit.value == 2
 
 @cocotb.test()
 async def test_sat_counter_2bit(dut):

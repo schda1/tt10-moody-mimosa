@@ -24,7 +24,7 @@ module au_moody_mimosa (
     assign ui_in_model = { ui_in[7:1], clk_prescaled};
 
     // Instantiate the actual moody mimosa module
-    moody_mimosa mimosa (
+    tt_um_moody_mimosa mimosa (
         .ui_in(ui_in_model),              
         .uo_out(uo_out),         
         .uio_in(uio_in),

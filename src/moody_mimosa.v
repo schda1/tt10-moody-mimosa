@@ -28,12 +28,20 @@ module tt_um_moody_mimosa (
     wire [1:0] pleasure_indicator; 
     wire pleasure_inc;
     wire pleasure_dec;
-
+ 
     wire setval;
     wire asleep;
     wire fell_asleep;
-
+    wire sleep_ctrl_en_inc;
+    wire sleep_ctrl_en_dec;
+    wire sleep_ctrl_st_inc;
+    wire sleep_ctrl_st_dec;
+    wire sleep_ctrl_pl_inc;
+    wire sleep_ctrl_pl_dec;
+    
     assign setval  = 0;
+    assign sleep_ctrl_pl_dec = 0;
+    assign sleep_ctrl_st_inc = 0;
 
     sleep_controller sleep_ctrl (
         .clk(ui_in[0]),
@@ -42,11 +50,20 @@ module tt_um_moody_mimosa (
         .stress_indicator(stress_indicator), 
         .asleep(asleep), 
         .fell_asleep(fell_asleep),
-        .en_inc(energy_inc),
-        .en_dec(energy_dec)
+        .en_inc(sleep_ctrl_en_inc),
+        .en_dec(sleep_ctrl_en_dec),
+        .st_dec(sleep_ctrl_st_dec),
+        .pl_inc(sleep_ctrl_pl_inc)
     );
+    
+    energy_regulator energy_reg (
+        .sleep_controller_inc(sleep_ctrl_en_inc),
+        .sleep_controller_dec(sleep_ctrl_en_dec),
+        .energy_inc(energy_inc),
+        .energy_dec(energy_dec)
+    );  
 
-    saturating_counter #(.N(7), .SET_VAL(64)) energy_counter (
+    saturating_counter #(.N(7), .SET_VAL(64), .DEFAULT_VAL(96)) energy_counter (
         .clk(ui_in[0]),
         .rst_n(rst_n), 
         .inc(energy_inc),
@@ -60,7 +77,15 @@ module tt_um_moody_mimosa (
         .out_bits(energy_indicator)
     );
 
-    saturating_counter #(.N(7), .SET_VAL(64)) stress_counter (
+    stress_regulator stress_regul (
+        .sleep_controller_inc(sleep_ctrl_st_inc),
+        .sleep_controller_dec(sleep_ctrl_st_dec),
+        .stimuli(ui_in[7:1]),
+        .stress_inc(stress_inc),
+        .stress_dec(stress_dec)
+    );  
+
+    saturating_counter #(.N(7), .SET_VAL(64), .DEFAULT_VAL(0)) stress_counter (
         .clk(ui_in[0]),
         .rst_n(rst_n), 
         .inc(stress_inc),
@@ -74,7 +99,15 @@ module tt_um_moody_mimosa (
         .out_bits(stress_indicator)
     );
 
-    saturating_counter #(.N(7), .SET_VAL(64)) pleasure_counter (
+    pleasure_regulator pleasure_regul (
+        .sleep_controller_inc(sleep_ctrl_pl_inc),
+        .sleep_controller_dec(sleep_ctrl_pl_dec),
+        .stimuli(ui_in[7:1]),
+        .pleasure_inc(pleasure_inc),
+        .pleasure_dec(pleasure_dec)
+    );  
+
+    saturating_counter #(.N(7), .SET_VAL(64), .DEFAULT_VAL(64)) pleasure_counter (
         .clk(ui_in[0]),
         .rst_n(rst_n), 
         .inc(pleasure_inc),
@@ -85,12 +118,12 @@ module tt_um_moody_mimosa (
 
     range_classifier #(.N(7)) pleasure_classifier (
         .number(pleasure), 
-        .out_bits(pleasure_classifier)
+        .out_bits(pleasure_indicator)
     );
     
     // Output assignments
     assign uo_out = {asleep, energy};
-    assign uio_out = 0;                // Unused outputs set to 0
-    assign uio_oe  = 0;                // Unused, all set to input (inactive)
+    assign uio_out = {ui_in[2], ui_in[1], pleasure_indicator, stress_indicator, energy_indicator};              
+    assign uio_oe  = 0; 
 
 endmodule
