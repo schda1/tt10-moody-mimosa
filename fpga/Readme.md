@@ -102,3 +102,15 @@ the output-enabled signals are not implemented.
 | uio_out[6] | K5   | A.24      | L15           |
 | uio_out[7] | E6   | A.23      | L16           |
 
+## Debug, Output 
+
+| Name       | Pin  | Connector | Io Board name |
+| ---------- | ---- | --------- | ------------- |
+| uio_out[0] | G2   | A.21      | L17           |
+| uio_out[1] | G1   | A.20      | L18           |
+| uio_out[2] | H2   | A.18      | L19           |
+| uio_out[3] | H1   | A.17      | L20           |
+| uio_out[4] | K1   | A.15      | L21           |
+| uio_out[5] | J1   | A.14      | L22           |
+| uio_out[6] | L3   | A.12      | L23           |
+| uio_out[7] | L2   | A.11      | L24           |

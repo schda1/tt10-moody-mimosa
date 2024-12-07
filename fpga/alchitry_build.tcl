@@ -8,6 +8,7 @@ add_files -fileset constrs_1 src/au.xdc
 
 # Set the top module and settings
 set_property top au_moody_mimosa [current_fileset]
+set_property verilog_define FPGA_TARGET [current_fileset]
 set_property STEPS.WRITE_BITSTREAM.ARGS.BIN_FILE true [get_runs impl_1]
 
 # Build bitstream

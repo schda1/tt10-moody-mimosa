@@ -139,6 +139,31 @@ set_property IOSTANDARD LVCMOS33 [get_ports {uio_out[6]}]
 set_property PACKAGE_PIN E6 [get_ports {uio_out[7]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {uio_out[7]}]
 
+# Debug port 
+set_property PACKAGE_PIN G2 [get_ports {debug_out[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {debug_out[0]}]
+
+set_property PACKAGE_PIN G1 [get_ports {debug_out[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {debug_out[1]}]
+
+set_property PACKAGE_PIN H2 [get_ports {debug_out[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {debug_out[2]}]
+
+set_property PACKAGE_PIN H1 [get_ports {debug_out[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {debug_out[3]}]
+
+set_property PACKAGE_PIN K1 [get_ports {debug_out[4]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {debug_out[4]}]
+
+set_property PACKAGE_PIN J1 [get_ports {debug_out[5]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {debug_out[5]}]
+
+set_property PACKAGE_PIN L3 [get_ports {debug_out[6]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {debug_out[6]}]
+
+set_property PACKAGE_PIN L2 [get_ports {debug_out[7]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {debug_out[7]}]
+
 # serial names are flipped in the schematic (named for the FTDI chip)
 set_property PACKAGE_PIN P16 [get_ports {usb_tx}]
 set_property IOSTANDARD LVCMOS33 [get_ports {usb_tx}]
