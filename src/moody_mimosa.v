@@ -14,6 +14,12 @@ module tt_um_moody_mimosa (
     `endif
 );
 
+    localparam AWAKE   = 2'b00, 
+               ASLEEP  = 2'b01,
+               DYING   = 2'b10, 
+               DEAD    = 2'b11;
+
+
     // List all unused inputs to prevent warnings
     wire _unused = &{ena, clk, 1'b0};
 
@@ -155,13 +161,22 @@ module tt_um_moody_mimosa (
         .heartbeat(heartbeat)
     );
 
+    // Final assignments
     assign uo_out = emotion;
-    assign uio_out = {state, pleasure_indicator, stress_indicator, energy_indicator};              
-    assign uio_oe  = 0; 
+    assign uio_oe = 8'b1111_1111; 
+    assign uio_out[0] = (state == DEAD) ? 1'b0 : (state == ASLEEP);
+    assign uio_out[1] = (state == DEAD) ? 1'b0 : (state == DYING);
+    assign uio_out[2] = (state == DEAD) ? 1'b0 : clk_model;
+
+    // Debug assignments 
+    assign uio_out[3] = (state == DEAD) ? 1'b0 : ui_in[0];
+    assign uio_out[4] = (state == DEAD) ? 1'b0 : stress_inc;
+    assign uio_out[5] = (state == DEAD) ? 1'b0 : stress_dec;
+    assign uio_out[7:6] = (state == DEAD) ? 2'b00 : ui_in[2:1];    
 
     `ifdef FPGA_TARGET
     // assign debug = energy;
-    assign debug = {ui_in[0], clk_model, 2'b0, stress_dec, stress_inc, ui_in[2:1]};
+    assign debug = {2'b00, pleasure_indicator, stress_indicator, energy_indicator};
     `endif    
 
 endmodule

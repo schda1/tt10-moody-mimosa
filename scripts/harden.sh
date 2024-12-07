@@ -21,7 +21,8 @@ python /ttsetup/tt-support-tools/tt_tool.py --harden --openlane2
 python /ttsetup/tt-support-tools/tt_tool.py --print-warnings --openlane2
 
 # Create overview of gds rendered layout as png
-rm -f gds_renderer.png gds_renderer_preview.svg
+rm -f gds_renderer_preview.svg
+rm -f gds_renderer.png
 python /ttsetup/tt-support-tools/tt_tool.py --create-png --openlane2
 
 # Copy gate level netlist to test folder
