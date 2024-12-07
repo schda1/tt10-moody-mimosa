@@ -7,12 +7,15 @@ project:
   language:     "Verilog"                  
   clock_hz:     1000000                    
   tiles:        "1x1"         
-  top_module:   "tt_um_example"
+  top_module:   "tt_um_moody_mimosa"
 
   source_files:
-    - "project.v"
+    - "moody_mimosa.v"
+    - "sleep_controller.v"
     - "prescaler.v"
     - "edge_triggered_counter.v"
+    - "saturating_counter.v"
+    - "range_classifier.v"
 
 pinout:
   # Inputs
