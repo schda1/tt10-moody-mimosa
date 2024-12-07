@@ -14,7 +14,7 @@ PROJECT_SOURCES += sleep_controller.v
 PROJECT_SOURCES += energy_regulator.v
 PROJECT_SOURCES += stress_regulator.v
 PROJECT_SOURCES += pleasure_regulator.v
-
+PROJECT_SOURCES += emotional_model.v
 
 ifneq ($(GATES),yes)
 

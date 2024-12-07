@@ -38,7 +38,12 @@ module tt_um_moody_mimosa (
     wire sleep_ctrl_st_dec;
     wire sleep_ctrl_pl_inc;
     wire sleep_ctrl_pl_dec;
+
+    wire [1:0] state;
+
+    wire [7:0] emotion;
     
+    assign state = 1;
     assign setval  = 0;
     assign sleep_ctrl_pl_dec = 0;
     assign sleep_ctrl_st_inc = 0;
@@ -120,9 +125,17 @@ module tt_um_moody_mimosa (
         .number(pleasure), 
         .out_bits(pleasure_indicator)
     );
+
+    emotional_model emotions (
+        .energy(energy_indicator),
+        .stress(stress_indicator), 
+        .pleasure(pleasure_indicator),
+        .physical_state(state), 
+        .emotion(emotion)
+    );
     
     // Output assignments
-    assign uo_out = {asleep, energy};
+    assign uo_out = emotion;
     assign uio_out = {ui_in[2], ui_in[1], pleasure_indicator, stress_indicator, energy_indicator};              
     assign uio_oe  = 0; 
 
