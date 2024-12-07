@@ -28,7 +28,7 @@ module emotional_model (
     wire [5:0] x = {en_shifted, st_shifted, pl_shifted};
 
     // Logic for the emotion output (derived with pyeda and espresso)
-    assign emotion[7] = awake & (  x[1] &  x[3] &  x[5]) | (x[0] & x[3]);
+    assign emotion[7] = awake & (( x[1] &  x[3] &  x[5]) | (x[0] & x[3]));
     assign emotion[6] = awake & ( ~x[1] &  x[2] &  x[5]);
     assign emotion[5] = awake & ( ~x[0] & ~x[1] &  x[3]);
     assign emotion[4] = awake & ( ~x[3] & ~x[4] & ~x[5]);
