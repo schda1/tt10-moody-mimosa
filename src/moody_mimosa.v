@@ -42,6 +42,9 @@ module tt_um_moody_mimosa (
     wire sleep_ctrl_pl_inc;
     wire sleep_ctrl_pl_dec;
 
+    wire clk_model;
+    wire [1:0] heartbeat;
+
     wire [1:0] state;
 
     wire [7:0] emotion;
@@ -50,8 +53,16 @@ module tt_um_moody_mimosa (
     assign sleep_ctrl_pl_dec = 0;
     assign sleep_ctrl_st_inc = 0;
 
+
+    dynamic_clock_divider #(.N(2)) heartbeat_divider (
+        .clk(ui_in[0]), 
+        .rst_n(rst_n),
+        .x(heartbeat),
+        .clk_out(clk_model)
+    );
+
     sleep_controller sleep_ctrl (
-        .clk(ui_in[0]),
+        .clk(clk_model),
         .rst_n(rst_n),
         .energy_indicator(energy_indicator), 
         .stress_indicator(stress_indicator), 
@@ -71,7 +82,7 @@ module tt_um_moody_mimosa (
     );  
 
     saturating_counter #(.N(7), .SET_VAL(64), .DEFAULT_VAL(96)) energy_counter (
-        .clk(ui_in[0]),
+        .clk(clk_model),
         .rst_n(rst_n), 
         .inc(energy_inc),
         .dec(energy_dec),
@@ -93,7 +104,7 @@ module tt_um_moody_mimosa (
     );  
 
     saturating_counter #(.N(7), .SET_VAL(64), .DEFAULT_VAL(0)) stress_counter (
-        .clk(ui_in[0]),
+        .clk(clk_model),
         .rst_n(rst_n), 
         .inc(stress_inc),
         .dec(stress_dec),
@@ -115,7 +126,7 @@ module tt_um_moody_mimosa (
     );  
 
     saturating_counter #(.N(7), .SET_VAL(64), .DEFAULT_VAL(64)) pleasure_counter (
-        .clk(ui_in[0]),
+        .clk(clk_model),
         .rst_n(rst_n), 
         .inc(pleasure_inc),
         .dec(pleasure_dec),
@@ -135,9 +146,14 @@ module tt_um_moody_mimosa (
         .physical_state(state), 
         .emotion(emotion)
     );
-    
-    // Output assignments
 
+    heartbeat_model heartbeat_model_inst (
+        .emotion(emotion),
+        .asleep(asleep), 
+        .heartbeat(heartbeat)
+    );
+
+    // Output assignments
     assign state[0] = ~asleep;
     assign state[1] = 0;
 
@@ -146,7 +162,8 @@ module tt_um_moody_mimosa (
     assign uio_oe  = 0; 
 
     `ifdef FPGA_TARGET
-    assign debug = energy;
+    // assign debug = energy;
+    assign debug = {ui_in[0], 3'b0, stress_dec, stress_inc, ui_in[2:1]};
     `endif    
 
 endmodule

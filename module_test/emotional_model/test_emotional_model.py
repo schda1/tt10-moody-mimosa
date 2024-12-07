@@ -14,6 +14,7 @@ async def init(dut):
     dut.stress.value = 0
     dut.pleasure.value = 0
     dut.emotion.value = 0
+    dut.physical_state.value = 1
     await Timer(1, units='ns')
 
 def read_truth_table():
@@ -41,11 +42,13 @@ def read_truth_table():
     return rows
   
 @cocotb.test()
-async def test_list(dut):
+async def test_emotions_not_awake(dut):
     """
     Test all relevant cases according to the given truth table
     """
     await init(dut)
+    dut.physical_state.value = 1
+
    
     for row in read_truth_table():
         dut.energy.value = row['Energy']
@@ -54,3 +57,22 @@ async def test_list(dut):
 
         await Timer(1, units='ns')
         assert dut.emotion.value == row['Emotion']
+
+@cocotb.test()
+async def test_emotions_if_not_awake(dut):
+    """
+    Test that no emotion if state is not 'AWAKE'
+    """
+    await init(dut)
+
+    for state in [0, 2, 3]:
+
+        dut.physical_state.value = state
+   
+        for row in read_truth_table():
+            dut.energy.value = row['Energy']
+            dut.stress.value = row['Stress']
+            dut.pleasure.value = row['Pleasure']
+
+            await Timer(1, units='ns')
+            assert dut.emotion.value == 0

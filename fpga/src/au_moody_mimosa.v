@@ -16,8 +16,8 @@ module au_moody_mimosa (
     wire ena;      
     wire clk_prescaled;
 
-    // Create model clock, 100 MHz prescaled by 2**26
-    static_clock_divider #(.N(26)) model_clk_divider (
+    // Create model clock, 100 MHz prescaled by 2**24 (6 Hz)
+    static_clock_divider #(.N(24)) model_clk_divider (
         .clk(clk),                  
         .rst_n(rst_n),                
         .clk_out(clk_prescaled)     

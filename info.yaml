@@ -20,6 +20,8 @@ project:
     - "stress_regulator.v"
     - "pleasure_regulator.v"
     - "emotional_model.v"
+    - "heartbeat_model.v"
+    - "dynamic_clock_divider.v"
 
 pinout:
   # Inputs

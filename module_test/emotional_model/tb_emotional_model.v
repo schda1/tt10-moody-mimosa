@@ -14,6 +14,7 @@ module tb_emotional_model ();
   reg [1:0] energy;
   reg [1:0] stress;
   reg [1:0] pleasure;
+  reg [1:0] physical_state;
   wire [7:0] emotion;
 
   // Instantiate emotional_model classifier module 
@@ -21,7 +22,8 @@ module tb_emotional_model ();
       .energy (energy),   
       .stress (stress),
       .pleasure (pleasure),   
-      .emotion (emotion)
+      .emotion (emotion),
+      .physical_state (physical_state)
   );
 
 endmodule

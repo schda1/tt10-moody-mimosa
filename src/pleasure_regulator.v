@@ -10,6 +10,6 @@ module pleasure_regulator (
 
     // Currently no complex decision
     assign pleasure_inc = stimuli[1] ? 1'b1 : sleep_controller_inc;
-    assign pleasure_dec = stimuli[0] ? 1'b1 : sleep_controller_dec;
+    assign pleasure_dec = stimuli[1] ? 1'b0 : sleep_controller_dec;
 
 endmodule
