@@ -16,6 +16,9 @@ project:
     - "edge_triggered_counter.v"
     - "saturating_counter.v"
     - "range_classifier.v"
+    - "energy_regulator.v"
+    - "stress_regulator.v"
+    - "pleasure_regulator.v"
 
 pinout:
   # Inputs

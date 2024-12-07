@@ -16,15 +16,32 @@ module tt_um_moody_mimosa (
 
     wire [6:0] energy;
     wire [1:0] energy_indicator;
+    wire energy_inc;
+    wire energy_dec;
+
+    wire [6:0] stress;
     wire [1:0] stress_indicator;
+    wire stress_inc;
+    wire stress_dec;
+
+    wire [6:0] pleasure;
+    wire [1:0] pleasure_indicator; 
+    wire pleasure_inc;
+    wire pleasure_dec;
+ 
     wire setval;
     wire asleep;
     wire fell_asleep;
-    wire en_inc;
-    wire en_dec;
-
-    assign stress_indicator = 0;
+    wire sleep_ctrl_en_inc;
+    wire sleep_ctrl_en_dec;
+    wire sleep_ctrl_st_inc;
+    wire sleep_ctrl_st_dec;
+    wire sleep_ctrl_pl_inc;
+    wire sleep_ctrl_pl_dec;
+    
     assign setval  = 0;
+    assign sleep_ctrl_pl_dec = 0;
+    assign sleep_ctrl_st_inc = 0;
 
     sleep_controller sleep_ctrl (
         .clk(ui_in[0]),
@@ -33,15 +50,24 @@ module tt_um_moody_mimosa (
         .stress_indicator(stress_indicator), 
         .asleep(asleep), 
         .fell_asleep(fell_asleep),
-        .en_inc(en_inc),
-        .en_dec(en_dec)
+        .en_inc(sleep_ctrl_en_inc),
+        .en_dec(sleep_ctrl_en_dec),
+        .st_dec(sleep_ctrl_st_dec),
+        .pl_inc(sleep_ctrl_pl_inc)
     );
+    
+    energy_regulator energy_reg (
+        .sleep_controller_inc(sleep_ctrl_en_inc),
+        .sleep_controller_dec(sleep_ctrl_en_dec),
+        .energy_inc(energy_inc),
+        .energy_dec(energy_dec)
+    );  
 
-    saturating_counter #(.N(7), .SET_VAL(64)) energy_cnt (
+    saturating_counter #(.N(7), .SET_VAL(64), .DEFAULT_VAL(96)) energy_counter (
         .clk(ui_in[0]),
         .rst_n(rst_n), 
-        .inc(en_inc),
-        .dec(en_dec),
+        .inc(energy_inc),
+        .dec(energy_dec),
         .setval(setval), 
         .value(energy)
     );
@@ -50,10 +76,54 @@ module tt_um_moody_mimosa (
         .number(energy), 
         .out_bits(energy_indicator)
     );
+
+    stress_regulator stress_regul (
+        .sleep_controller_inc(sleep_ctrl_st_inc),
+        .sleep_controller_dec(sleep_ctrl_st_dec),
+        .stimuli(ui_in[7:1]),
+        .stress_inc(stress_inc),
+        .stress_dec(stress_dec)
+    );  
+
+    saturating_counter #(.N(7), .SET_VAL(64), .DEFAULT_VAL(0)) stress_counter (
+        .clk(ui_in[0]),
+        .rst_n(rst_n), 
+        .inc(stress_inc),
+        .dec(stress_dec),
+        .setval(setval), 
+        .value(stress)
+    );
+
+    range_classifier #(.N(7)) stress_classifier (
+        .number(stress), 
+        .out_bits(stress_indicator)
+    );
+
+    pleasure_regulator pleasure_regul (
+        .sleep_controller_inc(sleep_ctrl_pl_inc),
+        .sleep_controller_dec(sleep_ctrl_pl_dec),
+        .stimuli(ui_in[7:1]),
+        .pleasure_inc(pleasure_inc),
+        .pleasure_dec(pleasure_dec)
+    );  
+
+    saturating_counter #(.N(7), .SET_VAL(64), .DEFAULT_VAL(64)) pleasure_counter (
+        .clk(ui_in[0]),
+        .rst_n(rst_n), 
+        .inc(pleasure_inc),
+        .dec(pleasure_dec),
+        .setval(setval), 
+        .value(pleasure)
+    );
+
+    range_classifier #(.N(7)) pleasure_classifier (
+        .number(pleasure), 
+        .out_bits(pleasure_indicator)
+    );
     
     // Output assignments
     assign uo_out = {asleep, energy};
-    assign uio_out = {2'b00, asleep, fell_asleep, en_inc, en_dec, energy_indicator};                // Unused outputs set to 0
-    assign uio_oe  = 0;                // Unused, all set to input (inactive)
+    assign uio_out = {ui_in[2], ui_in[1], pleasure_indicator, stress_indicator, energy_indicator};              
+    assign uio_oe  = 0; 
 
 endmodule

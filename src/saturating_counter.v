@@ -1,6 +1,6 @@
 `default_nettype none
 
-module saturating_counter #(parameter N = 8, parameter SET_VAL = 0) (
+module saturating_counter #(parameter N = 8, parameter SET_VAL = 0, parameter DEFAULT_VAL = 2) (
     input wire clk,              // Clock input
     input wire rst_n,            // Reset input
     input wire inc,              // Increment signal
@@ -11,7 +11,7 @@ module saturating_counter #(parameter N = 8, parameter SET_VAL = 0) (
 
     always @(posedge clk) begin
         if (!rst_n) begin
-            value <= {1'b1, {N-1{1'b0}}};
+            value <= DEFAULT_VAL;
         end else if (setval) begin
             value <= SET_VAL;
         end else begin
