@@ -1,23 +1,41 @@
-# Background
+# FPGA Target
 
-The digital design can be built for a FPGA as well. Although the intrinsic 
-build process is completely different, usual FPGA tool chains support verilog. For
-this project, we build the design for a Artix-7 (xc7a35tftg256-1) FPGA 
-by AMD (Xilinx). This is the FPGA chipset placed on the Alchitry Au board. 
-This allows us to test the design on actual hardware before ordering the ASIC.
+In order to test the digital design on hardware prior to ordering the asic, 
+it can be built for a FPGA board as well. Although implementing a design is 
+fundamentally different for a FPGA and an ASIC, the FPGA tool-chains
+support verilog and all the magic happens behind the scene.
+
+For this project, we build the design for an Artix-7 (xc7a35tftg256-1) FPGA 
+by AMD (Xilinx). This is the FPGA chipset placed on the [Alchitry Au board](https://alchitry.com/boards/au/), as shown below.
+
+![Alchitry Au FPGA board](https://cdn.sparkfun.com/assets/parts/1/5/4/0/1/16527-Alchitry_Au_FPGA_Development_Board__Xilinx_Artix_7_-02.jpg)
 
 In order to build the bitstream for this FPGA, you need the Vivado toolchain. 
-The installation process is described [here](Link). You can either install 
-it on your local machine or in the docker container. Note that you have to 
-create an account and log in to download the Vivado IDE and tools, and that
-the installation requires 50-100 GB. 
+The installation process is described [here](Link). With some tweaks, you could
+add the vivado build environment to the docker container. However, you have
+to create an AMD account and download the Vivado IDE and tools from their 
+website. The installation is heavy (50-100GB). You also need a loader to actually load the created bitstream either into the RAM or FLASH. Alchitry
+provides a [Alchitry loader](https://alchitry.com/news/alchitry-loader-v2/)
+to simplify your life. 
 
-Once you've built the bitstream, you need to load it to the FPGA board. For 
-alchitry, a loader tool exists and it can be downloaded [here].
+![Alchitry Au FPGA board](https://cdn.alchitry.com/labs-v2/loader-alpha.png)
 
-In principle, you could design in the Vivado IDE and navigate within the GUI. 
-In this project, the build process is managed by a tcl (tool command language)
-script and can be fully automated. 
+In principle, you could develop the fpg application in the Vivado IDE 
+and navigate within the GUI. In this project, the build process is 
+managed by a tcl (tool command language) script and can be fully automated. 
+By creating a dedicated docker container with all the vivado tools 
+installed, you could thus create the bitstream with a Github Action. 
+For larger designs, this would make your life much easier as synthesis
+may take a very long time.
+
+From the host machine or docker container, where your vivado tools 
+are installed, run the following command: 
+
+```
+vivado -mode batch -source alchitry_build.tcl
+``` 
+
+
 
 # Pinout
 
@@ -27,6 +45,9 @@ of the Alchitry Io board with plenty of leds, buttons and dip switches on
 board. More information about the pin assignment is contained in the 
 schematic of the [Alchitry Au](https://cdn.alchitry.com/docs/alchitry_au_sch.pdf) 
 and the [Alchitry Io](https://cdn.alchitry.com/docs/alchitry_io_sch.pdf) board.
+
+Detail: Since we do not need bidirectional pins in the moody mimosa project, 
+the output-enabled signals are not implemented.
 
 ## Inputs 
 
