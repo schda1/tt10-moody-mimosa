@@ -5,7 +5,7 @@ import cocotb
 import re
 from cocotb.triggers import Timer
 
-synonyms = {"LOW": 0, "OK": 1, "HIGH": 2, "HAPPY": 1, "COMFORTABLE": 2, "EXCITED": 4,
+synonyms = {"LOW": 0, "OK": 1, "HIGH": 3, "HAPPY": 1, "COMFORTABLE": 2, "EXCITED": 4,
             "BORED": 8, "TIRED": 16, "ANGRY": 32, "NERVOUS": 64, "STRESSED": 128}
 
 async def init(dut):

@@ -19,6 +19,7 @@ project:
     - "energy_regulator.v"
     - "stress_regulator.v"
     - "pleasure_regulator.v"
+    - "emotional_model.v"
 
 pinout:
   # Inputs
