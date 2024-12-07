@@ -33,7 +33,6 @@ module tt_um_moody_mimosa (
     wire pleasure_dec;
  
     wire setval;
-    wire asleep;
     wire fell_asleep;
     wire state_ctrl_en_inc;
     wire state_ctrl_en_dec;
@@ -42,6 +41,7 @@ module tt_um_moody_mimosa (
     wire state_ctrl_pl_inc;
     wire state_ctrl_pl_dec;
 
+    wire dead; 
     wire clk_model;
     wire [1:0] heartbeat;
 
@@ -53,6 +53,7 @@ module tt_um_moody_mimosa (
     assign state_ctrl_pl_dec = 0;
     assign state_ctrl_st_inc = 0;
 
+    assign dead = (energy == 7'b0000000) ? 1'b1 : 1'b0;
 
     dynamic_clock_divider #(.N(2)) heartbeat_divider (
         .clk(ui_in[0]), 
@@ -66,7 +67,8 @@ module tt_um_moody_mimosa (
         .rst_n(rst_n),
         .energy_indicator(energy_indicator), 
         .stress_indicator(stress_indicator), 
-        .asleep(asleep), 
+        .dead(dead),
+        .state_out(state), 
         .fell_asleep(fell_asleep),
         .en_inc(state_ctrl_en_inc),
         .en_dec(state_ctrl_en_dec),
@@ -149,13 +151,9 @@ module tt_um_moody_mimosa (
 
     heartbeat_model heartbeat_model_inst (
         .emotion(emotion),
-        .asleep(asleep), 
+        .state(state), 
         .heartbeat(heartbeat)
     );
-
-    // Output assignments
-    assign state[0] = ~asleep;
-    assign state[1] = 0;
 
     assign uo_out = emotion;
     assign uio_out = {state, pleasure_indicator, stress_indicator, energy_indicator};              
@@ -163,7 +161,7 @@ module tt_um_moody_mimosa (
 
     `ifdef FPGA_TARGET
     // assign debug = energy;
-    assign debug = {ui_in[0], 3'b0, stress_dec, stress_inc, ui_in[2:1]};
+    assign debug = {ui_in[0], clk_model, 2'b0, stress_dec, stress_inc, ui_in[2:1]};
     `endif    
 
 endmodule

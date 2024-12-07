@@ -14,7 +14,7 @@ module emotional_model (
     wire [1:0] pl_shifted;
 
     // Only emotions during sleep
-    assign awake = (physical_state[0] & ~physical_state[1]);
+    assign awake = (~physical_state[0] & ~physical_state[1]);
 
     // Simplication: Only use 3 not 4 key values (LOW=0, OK=1,2, HIGH=3)
     assign en_shifted[1] = energy[1] & energy[0];

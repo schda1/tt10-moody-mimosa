@@ -99,8 +99,8 @@ the output-enabled signals are not implemented.
 | uio_out[3] | A2   | B.5       | L12           |
 | uio_out[4] | E2   | B.3       | L13           |
 | uio_out[5] | D1   | B.2       | L14           |
-| uio_out[6] | K5   | A.24      | L15           |
-| uio_out[7] | E6   | A.23      | L16           |
+| uio_out[6] | E6   | A.24      | L15           |
+| uio_out[7] | K5   | A.23      | L16           |
 
 ## Debug, Output 
 
