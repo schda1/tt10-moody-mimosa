@@ -11,16 +11,16 @@ module tb_stress_regulator ();
   end
 
   // Wire up the inputs and outputs:
-  reg sleep_controller_inc;
-  reg sleep_controller_dec;
+  reg state_controller_inc;
+  reg state_controller_dec;
   reg [6:0] stimuli;
   wire stress_inc;
   wire stress_dec;
 
   // Instantiate stess_regulator classifier module 
   stress_regulator dut (
-      .sleep_controller_inc (sleep_controller_inc),   
-      .sleep_controller_dec (sleep_controller_dec),
+      .state_controller_inc (state_controller_inc),   
+      .state_controller_dec (state_controller_dec),
       .stimuli (stimuli),
       .stress_inc (stress_inc),
       .stress_dec (stress_dec)

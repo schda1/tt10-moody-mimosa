@@ -11,7 +11,7 @@ project:
 
   source_files:
     - "moody_mimosa.v"
-    - "sleep_controller.v"
+    - "physical_state_controller.v"
     - "prescaler.v"
     - "edge_triggered_counter.v"
     - "saturating_counter.v"

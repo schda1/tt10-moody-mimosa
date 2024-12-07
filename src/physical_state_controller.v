@@ -1,4 +1,4 @@
-module sleep_controller (
+module physical_state_controller (
     input wire clk,
     input wire rst_n,
     input wire [1:0] energy_indicator,

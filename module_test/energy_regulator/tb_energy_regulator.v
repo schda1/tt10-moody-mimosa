@@ -11,15 +11,15 @@ module tb_energy_regulator ();
   end
 
   // Wire up the inputs and outputs:
-  reg sleep_controller_inc;
-  reg sleep_controller_dec;
+  reg state_controller_inc;
+  reg state_controller_dec;
   reg energy_inc;
   reg energy_dec;
 
   // Instantiate energy_regulator classifier module 
   energy_regulator dut (
-      .sleep_controller_inc (sleep_controller_inc),   
-      .sleep_controller_dec (sleep_controller_dec),
+      .state_controller_inc (state_controller_inc),   
+      .state_controller_dec (state_controller_dec),
       .energy_inc (energy_inc),
       .energy_dec (energy_dec)
   );

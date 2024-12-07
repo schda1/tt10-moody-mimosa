@@ -35,12 +35,12 @@ module tt_um_moody_mimosa (
     wire setval;
     wire asleep;
     wire fell_asleep;
-    wire sleep_ctrl_en_inc;
-    wire sleep_ctrl_en_dec;
-    wire sleep_ctrl_st_inc;
-    wire sleep_ctrl_st_dec;
-    wire sleep_ctrl_pl_inc;
-    wire sleep_ctrl_pl_dec;
+    wire state_ctrl_en_inc;
+    wire state_ctrl_en_dec;
+    wire state_ctrl_st_inc;
+    wire state_ctrl_st_dec;
+    wire state_ctrl_pl_inc;
+    wire state_ctrl_pl_dec;
 
     wire clk_model;
     wire [1:0] heartbeat;
@@ -50,8 +50,8 @@ module tt_um_moody_mimosa (
     wire [7:0] emotion;
     
     assign setval  = 0;
-    assign sleep_ctrl_pl_dec = 0;
-    assign sleep_ctrl_st_inc = 0;
+    assign state_ctrl_pl_dec = 0;
+    assign state_ctrl_st_inc = 0;
 
 
     dynamic_clock_divider #(.N(2)) heartbeat_divider (
@@ -61,22 +61,22 @@ module tt_um_moody_mimosa (
         .clk_out(clk_model)
     );
 
-    sleep_controller sleep_ctrl (
+    physical_state_controller state_ctrl (
         .clk(clk_model),
         .rst_n(rst_n),
         .energy_indicator(energy_indicator), 
         .stress_indicator(stress_indicator), 
         .asleep(asleep), 
         .fell_asleep(fell_asleep),
-        .en_inc(sleep_ctrl_en_inc),
-        .en_dec(sleep_ctrl_en_dec),
-        .st_dec(sleep_ctrl_st_dec),
-        .pl_inc(sleep_ctrl_pl_inc)
+        .en_inc(state_ctrl_en_inc),
+        .en_dec(state_ctrl_en_dec),
+        .st_dec(state_ctrl_st_dec),
+        .pl_inc(state_ctrl_pl_inc)
     );
     
     energy_regulator energy_reg (
-        .sleep_controller_inc(sleep_ctrl_en_inc),
-        .sleep_controller_dec(sleep_ctrl_en_dec),
+        .state_controller_inc(state_ctrl_en_inc),
+        .state_controller_dec(state_ctrl_en_dec),
         .energy_inc(energy_inc),
         .energy_dec(energy_dec)
     );  
@@ -96,8 +96,8 @@ module tt_um_moody_mimosa (
     );
 
     stress_regulator stress_regul (
-        .sleep_controller_inc(sleep_ctrl_st_inc),
-        .sleep_controller_dec(sleep_ctrl_st_dec),
+        .state_controller_inc(state_ctrl_st_inc),
+        .state_controller_dec(state_ctrl_st_dec),
         .stimuli(ui_in[7:1]),
         .stress_inc(stress_inc),
         .stress_dec(stress_dec)
@@ -118,8 +118,8 @@ module tt_um_moody_mimosa (
     );
 
     pleasure_regulator pleasure_regul (
-        .sleep_controller_inc(sleep_ctrl_pl_inc),
-        .sleep_controller_dec(sleep_ctrl_pl_dec),
+        .state_controller_inc(state_ctrl_pl_inc),
+        .state_controller_dec(state_ctrl_pl_dec),
         .stimuli(ui_in[7:1]),
         .pleasure_inc(pleasure_inc),
         .pleasure_dec(pleasure_dec)
