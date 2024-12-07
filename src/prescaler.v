@@ -4,20 +4,20 @@ module prescaler #(parameter DIV_FACTOR = 4) (
     output reg clk_out     // Prescaled clock output
 );
 
-    // Use a small counter (max 3 bits for DIV_FACTOR <= 32)
-    reg [3:0] div_counter;  
+    localparam HALF_DIV = DIV_FACTOR >> 1; 
+
+    reg [$clog2(HALF_DIV)+1:0] div_counter;
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             div_counter <= 0;
-            clk_out <= 0;  // Reset output clock to 0
+            clk_out <= 0;
         end else begin
-            // Count up to half the division factor (DIV_FACTOR / 2)
-            if (div_counter == (DIV_FACTOR / 2 - 1)) begin
-                div_counter <= 0;    // Reset after half-period
-                clk_out <= ~clk_out; // Toggle the output clock
+            if (div_counter == HALF_DIV - 1) begin
+                div_counter <= 0;
+                clk_out <= ~clk_out;
             end else begin
-                div_counter <= div_counter + 1;  // Increment counter
+                div_counter <= div_counter + 1;
             end
         end
     end

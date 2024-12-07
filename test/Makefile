@@ -5,21 +5,25 @@
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = project.v
+PROJECT_SOURCES = moody_mimosa.v
 PROJECT_SOURCES += prescaler.v
 PROJECT_SOURCES += edge_triggered_counter.v
+PROJECT_SOURCES += range_classifier.v
+PROJECT_SOURCES += saturating_counter.v
+PROJECT_SOURCES += sleep_controller.v
+
 
 ifneq ($(GATES),yes)
 
 # RTL simulation:
-SIM_BUILD				= sim_build/rtl
+SIM_BUILD		 = sim_build/rtl
 VERILOG_SOURCES += $(addprefix $(SRC_DIR)/,$(PROJECT_SOURCES))
-COMPILE_ARGS 		+= -I$(SRC_DIR)
+COMPILE_ARGS    += -I$(SRC_DIR)
 
 else
 
 # Gate level simulation:
-SIM_BUILD				= sim_build/gl
+SIM_BUILD		 = sim_build/gl
 COMPILE_ARGS    += -DGL_TEST
 COMPILE_ARGS    += -DFUNCTIONAL
 COMPILE_ARGS    += -DUSE_POWER_PINS
