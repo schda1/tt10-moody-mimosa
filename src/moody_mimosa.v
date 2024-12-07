@@ -16,14 +16,23 @@ module tt_um_moody_mimosa (
 
     wire [6:0] energy;
     wire [1:0] energy_indicator;
+    wire energy_inc;
+    wire energy_dec;
+
+    wire [6:0] stress;
     wire [1:0] stress_indicator;
+    wire stress_inc;
+    wire stress_dec;
+
+    wire [6:0] pleasure;
+    wire [1:0] pleasure_indicator; 
+    wire pleasure_inc;
+    wire pleasure_dec;
+
     wire setval;
     wire asleep;
     wire fell_asleep;
-    wire en_inc;
-    wire en_dec;
 
-    assign stress_indicator = 0;
     assign setval  = 0;
 
     sleep_controller sleep_ctrl (
@@ -33,15 +42,15 @@ module tt_um_moody_mimosa (
         .stress_indicator(stress_indicator), 
         .asleep(asleep), 
         .fell_asleep(fell_asleep),
-        .en_inc(en_inc),
-        .en_dec(en_dec)
+        .en_inc(energy_inc),
+        .en_dec(energy_dec)
     );
 
-    saturating_counter #(.N(7), .SET_VAL(64)) energy_cnt (
+    saturating_counter #(.N(7), .SET_VAL(64)) energy_counter (
         .clk(ui_in[0]),
         .rst_n(rst_n), 
-        .inc(en_inc),
-        .dec(en_dec),
+        .inc(energy_inc),
+        .dec(energy_dec),
         .setval(setval), 
         .value(energy)
     );
@@ -50,10 +59,38 @@ module tt_um_moody_mimosa (
         .number(energy), 
         .out_bits(energy_indicator)
     );
+
+    saturating_counter #(.N(7), .SET_VAL(64)) stress_counter (
+        .clk(ui_in[0]),
+        .rst_n(rst_n), 
+        .inc(stress_inc),
+        .dec(stress_dec),
+        .setval(setval), 
+        .value(stress)
+    );
+
+    range_classifier #(.N(7)) stress_classifier (
+        .number(stress), 
+        .out_bits(stress_indicator)
+    );
+
+    saturating_counter #(.N(7), .SET_VAL(64)) pleasure_counter (
+        .clk(ui_in[0]),
+        .rst_n(rst_n), 
+        .inc(pleasure_inc),
+        .dec(pleasure_dec),
+        .setval(setval), 
+        .value(pleasure)
+    );
+
+    range_classifier #(.N(7)) pleasure_classifier (
+        .number(pleasure), 
+        .out_bits(pleasure_classifier)
+    );
     
     // Output assignments
     assign uo_out = {asleep, energy};
-    assign uio_out = {2'b00, asleep, fell_asleep, en_inc, en_dec, energy_indicator};                // Unused outputs set to 0
+    assign uio_out = 0;                // Unused outputs set to 0
     assign uio_oe  = 0;                // Unused, all set to input (inactive)
 
 endmodule
