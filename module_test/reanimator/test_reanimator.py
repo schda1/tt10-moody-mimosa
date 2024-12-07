@@ -42,14 +42,26 @@ async def test_reanimator_dying(dut):
         assert dut.reanimated.value == 0
     
     # Start with reanimation
-    dut.stimulus.value = 1
-
     for _ in range(5):
+        dut.stimulus.value = 0
+        await ClockCycles(dut.clk, 1)
+        assert dut.reanimated.value == 0
+
+        # Rising edge, still not reanimated
+        dut.stimulus.value = 1
         await ClockCycles(dut.clk, 1)
         assert dut.reanimated.value == 0
 
     for _ in range(5):
+        dut.stimulus.value = 0
         await ClockCycles(dut.clk, 1)
+        print(dut.reanimated.value)
+        assert dut.reanimated.value == 1
+
+        # Rising edge, reanimated
+        dut.stimulus.value = 1
+        await ClockCycles(dut.clk, 1)
+        print(dut.reanimated.value)
         assert dut.reanimated.value == 1
 
 @cocotb.test()

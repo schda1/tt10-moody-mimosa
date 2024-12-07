@@ -10,20 +10,31 @@ module reanimator #(
 );
 
     wire [COUNTER_WIDTH-1:0] counter_value;
+    reg stimulus_d;
+    wire stimulus_rising_edge; 
 
-    saturating_counter #(
-        .N(COUNTER_WIDTH),
-        .SET_VAL(0), 
-        .DEFAULT_VAL(0)
-    ) counter_inst (
+    // Synchronize the stimulus signal with the clock
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            stimulus_d <= 0;
+        end else begin
+            stimulus_d <= stimulus;
+        end
+    end
+
+    // Detect rising edge of the stimulus (0 to 1 transition)
+    assign stimulus_rising_edge = stimulus && !stimulus_d;
+
+    saturating_counter #(.N(COUNTER_WIDTH), .SET_VAL(0), .DEFAULT_VAL(0)) counter_inst (
         .clk(clk),
         .rst_n(rst_n),
-        .inc(state == 2 && stimulus),
+        .inc(stimulus_rising_edge && state == 2),
         .dec(1'b0),                   
-        .setval(state == 0 || state == 1),
+        .setval(state == 0 || state == 1 || state == 3), 
         .value(counter_value)
     );
 
+    // Determine if reanimated based on the counter value and state
     always @(*) begin
         reanimated = (state == 2 && counter_value > COUNTER_LIMIT);
     end
