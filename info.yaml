@@ -10,8 +10,8 @@ project:
   top_module:   "tt_um_moody_mimosa"
 
   source_files:
-    - "moody_mimosa.v"
-    - "sleep_controller.v"
+    - "tt_um_moody_mimosa.v"
+    - "physical_state_controller.v"
     - "prescaler.v"
     - "edge_triggered_counter.v"
     - "saturating_counter.v"

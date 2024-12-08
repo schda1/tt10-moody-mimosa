@@ -4,7 +4,8 @@
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../../src
-PROJECT_SOURCES = sleep_controller.v
+PROJECT_SOURCES = reanimator.v
+PROJECT_SOURCES += saturating_counter.v
 
 # RTL simulation:
 SIM_BUILD		= sim_build/rtl
@@ -12,11 +13,11 @@ VERILOG_SOURCES += $(addprefix $(SRC_DIR)/,$(PROJECT_SOURCES))
 COMPILE_ARGS    += -I$(SRC_DIR)
 
 # Include the testbench sources:
-VERILOG_SOURCES += $(PWD)/tb_sleep_controller.v
-TOPLEVEL = tb_sleep_controller
+VERILOG_SOURCES += $(PWD)/tb_reanimator.v
+TOPLEVEL = tb_reanimator
 
 # MODULE is the basename of the Python test file
-MODULE = test_sleep_controller
+MODULE = test_reanimator
 
 # Include cocotb's make rules to take care of the simulator setup
 include $(shell cocotb-config --makefiles)/Makefile.sim

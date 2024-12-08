@@ -1,5 +1,3 @@
-`default_nettype none
-
 module tt_um_moody_mimosa (
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
@@ -13,6 +11,12 @@ module tt_um_moody_mimosa (
     , output wire [7:0] debug   // Additional debug port for FPGA
     `endif
 );
+
+    localparam AWAKE   = 2'b00, 
+               ASLEEP  = 2'b01,
+               DYING   = 2'b10, 
+               DEAD    = 2'b11;
+
 
     // List all unused inputs to prevent warnings
     wire _unused = &{ena, clk, 1'b0};
@@ -33,15 +37,15 @@ module tt_um_moody_mimosa (
     wire pleasure_dec;
  
     wire setval;
-    wire asleep;
     wire fell_asleep;
-    wire sleep_ctrl_en_inc;
-    wire sleep_ctrl_en_dec;
-    wire sleep_ctrl_st_inc;
-    wire sleep_ctrl_st_dec;
-    wire sleep_ctrl_pl_inc;
-    wire sleep_ctrl_pl_dec;
+    wire state_ctrl_en_inc;
+    wire state_ctrl_en_dec;
+    wire state_ctrl_st_inc;
+    wire state_ctrl_st_dec;
+    wire state_ctrl_pl_inc;
+    wire state_ctrl_pl_dec;
 
+    wire dead; 
     wire clk_model;
     wire [1:0] heartbeat;
 
@@ -50,9 +54,10 @@ module tt_um_moody_mimosa (
     wire [7:0] emotion;
     
     assign setval  = 0;
-    assign sleep_ctrl_pl_dec = 0;
-    assign sleep_ctrl_st_inc = 0;
+    assign state_ctrl_pl_dec = 0;
+    assign state_ctrl_st_inc = 0;
 
+    assign dead = (energy == 7'b0000000) ? 1'b1 : 1'b0;
 
     dynamic_clock_divider #(.N(2)) heartbeat_divider (
         .clk(ui_in[0]), 
@@ -61,22 +66,23 @@ module tt_um_moody_mimosa (
         .clk_out(clk_model)
     );
 
-    sleep_controller sleep_ctrl (
+    physical_state_controller state_ctrl (
         .clk(clk_model),
         .rst_n(rst_n),
         .energy_indicator(energy_indicator), 
         .stress_indicator(stress_indicator), 
-        .asleep(asleep), 
+        .dead(dead),
+        .state_out(state), 
         .fell_asleep(fell_asleep),
-        .en_inc(sleep_ctrl_en_inc),
-        .en_dec(sleep_ctrl_en_dec),
-        .st_dec(sleep_ctrl_st_dec),
-        .pl_inc(sleep_ctrl_pl_inc)
+        .en_inc(state_ctrl_en_inc),
+        .en_dec(state_ctrl_en_dec),
+        .st_dec(state_ctrl_st_dec),
+        .pl_inc(state_ctrl_pl_inc)
     );
     
     energy_regulator energy_reg (
-        .sleep_controller_inc(sleep_ctrl_en_inc),
-        .sleep_controller_dec(sleep_ctrl_en_dec),
+        .state_controller_inc(state_ctrl_en_inc),
+        .state_controller_dec(state_ctrl_en_dec),
         .energy_inc(energy_inc),
         .energy_dec(energy_dec)
     );  
@@ -96,8 +102,8 @@ module tt_um_moody_mimosa (
     );
 
     stress_regulator stress_regul (
-        .sleep_controller_inc(sleep_ctrl_st_inc),
-        .sleep_controller_dec(sleep_ctrl_st_dec),
+        .state_controller_inc(state_ctrl_st_inc),
+        .state_controller_dec(state_ctrl_st_dec),
         .stimuli(ui_in[7:1]),
         .stress_inc(stress_inc),
         .stress_dec(stress_dec)
@@ -118,8 +124,8 @@ module tt_um_moody_mimosa (
     );
 
     pleasure_regulator pleasure_regul (
-        .sleep_controller_inc(sleep_ctrl_pl_inc),
-        .sleep_controller_dec(sleep_ctrl_pl_dec),
+        .state_controller_inc(state_ctrl_pl_inc),
+        .state_controller_dec(state_ctrl_pl_dec),
         .stimuli(ui_in[7:1]),
         .pleasure_inc(pleasure_inc),
         .pleasure_dec(pleasure_dec)
@@ -149,21 +155,26 @@ module tt_um_moody_mimosa (
 
     heartbeat_model heartbeat_model_inst (
         .emotion(emotion),
-        .asleep(asleep), 
+        .state(state), 
         .heartbeat(heartbeat)
     );
 
-    // Output assignments
-    assign state[0] = ~asleep;
-    assign state[1] = 0;
-
+    // Final assignments
     assign uo_out = emotion;
-    assign uio_out = {state, pleasure_indicator, stress_indicator, energy_indicator};              
-    assign uio_oe  = 0; 
+    assign uio_oe = 8'b1111_1111; 
+    assign uio_out[0] = (state == DEAD) ? 1'b0 : (state == ASLEEP);
+    assign uio_out[1] = (state == DEAD) ? 1'b0 : (state == DYING);
+    assign uio_out[2] = (state == DEAD) ? 1'b0 : clk_model;
+
+    // Debug assignments 
+    assign uio_out[3] = (state == DEAD) ? 1'b0 : ui_in[0];
+    assign uio_out[4] = (state == DEAD) ? 1'b0 : stress_inc;
+    assign uio_out[5] = (state == DEAD) ? 1'b0 : stress_dec;
+    assign uio_out[7:6] = (state == DEAD) ? 2'b00 : ui_in[2:1];    
 
     `ifdef FPGA_TARGET
     // assign debug = energy;
-    assign debug = {ui_in[0], 3'b0, stress_dec, stress_inc, ui_in[2:1]};
+    assign debug = {2'b00, pleasure_indicator, stress_indicator, energy_indicator};
     `endif    
 
 endmodule

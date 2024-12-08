@@ -5,12 +5,12 @@
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = moody_mimosa.v
+PROJECT_SOURCES = tt_um_moody_mimosa.v
 PROJECT_SOURCES += prescaler.v
 PROJECT_SOURCES += edge_triggered_counter.v
 PROJECT_SOURCES += range_classifier.v
 PROJECT_SOURCES += saturating_counter.v
-PROJECT_SOURCES += sleep_controller.v
+PROJECT_SOURCES += physical_state_controller.v
 PROJECT_SOURCES += energy_regulator.v
 PROJECT_SOURCES += stress_regulator.v
 PROJECT_SOURCES += pleasure_regulator.v

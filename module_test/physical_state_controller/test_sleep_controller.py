@@ -22,7 +22,7 @@ async def init(dut):
     await ClockCycles(dut.clk, 1)
 
 @cocotb.test()
-async def test_sleep_controller_reset(dut):
+async def test_physical_state_controller_reset(dut):
 
     await init(dut)
 
@@ -35,7 +35,7 @@ async def test_sleep_controller_reset(dut):
     assert dut.en_dec.value == 0
 
 @cocotb.test()
-async def test_sleep_controller_stay_awake(dut):
+async def test_physical_state_controller_stay_awake(dut):
     """
     Staying awake, not yet tired.
     """
@@ -54,7 +54,7 @@ async def test_sleep_controller_stay_awake(dut):
     assert dut.en_dec.value == 1
 
 @cocotb.test()
-async def test_sleep_controller_fall_asleep(dut):
+async def test_physical_state_controller_fall_asleep(dut):
     """
     Fall asleep, too tired.
     """
@@ -77,7 +77,7 @@ async def test_sleep_controller_fall_asleep(dut):
     assert dut.en_dec.value == 0
 
 @cocotb.test()
-async def test_sleep_controller_stay_awake_stressed(dut):
+async def test_physical_state_controller_stay_awake_stressed(dut):
     """
     Stay awake, tired but too stressed
     """
@@ -96,7 +96,7 @@ async def test_sleep_controller_stay_awake_stressed(dut):
     assert dut.en_dec.value == 1
 
 @cocotb.test()
-async def test_sleep_controller_wake_up_recovered(dut):
+async def test_physical_state_controller_wake_up_recovered(dut):
     """
     Wake up, felling great
     """
@@ -124,7 +124,7 @@ async def test_sleep_controller_wake_up_recovered(dut):
     assert dut.asleep.value == 0   
 
 @cocotb.test()
-async def test_sleep_controller_wake_up_stressed(dut):
+async def test_physical_state_controller_wake_up_stressed(dut):
     """
     Wake up, stress too high
     """

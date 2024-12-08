@@ -1,12 +1,12 @@
 `default_nettype none
 `timescale 1ns / 1ps
 
-module tb_sleep_controller ();
+module tb_physical_state_controller ();
 
   // Dump the signals to a VCD file
   initial begin
-    $dumpfile("tb_sleep_controller.vcd");
-    $dumpvars(0, tb_sleep_controller);
+    $dumpfile("tb_physical_state_controller.vcd");
+    $dumpvars(0, tb_physical_state_controller);
     #1;
   end
 
@@ -21,8 +21,8 @@ module tb_sleep_controller ();
   wire en_inc;
   wire en_dec;
   
-  // Instantiate sleep_controller module
-  sleep_controller dut_sleep_controller (
+  // Instantiate physical_state_controller module
+  physical_state_controller dut_physical_state_controller (
       .clk (clk),   
       .rst_n (rst_n), 
       .energy_indicator (energy_indicator), 
