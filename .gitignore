@@ -34,3 +34,5 @@ fpga/build
 fpga/**/*.xpr
 
 fpga/.Xil
+
+**/.old
