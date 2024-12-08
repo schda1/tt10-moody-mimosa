@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel
+from PyQt6.QtWidgets import QApplication, QWidget, QLabel
 
 def main():
     # Create an application instance
@@ -7,7 +7,7 @@ def main():
 
     # Create a QWidget (a simple window)
     window = QWidget()
-    window.setWindowTitle('PyQt5 Window')
+    window.setWindowTitle('PyQt6 Window')
 
     # Create a QLabel widget (to display text)
     label = QLabel('Ok, works!', parent=window)
@@ -18,7 +18,7 @@ def main():
     window.show()
 
     # Start the application's event loop
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 if __name__ == '__main__':
     main()
