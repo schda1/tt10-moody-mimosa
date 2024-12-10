@@ -9,7 +9,8 @@ module saturating_counter #(parameter N = 8, parameter SET_VAL = 0, parameter DE
     output reg [N-1:0] value     // N-bit value output
 );
 
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_n) begin
+
         if (!rst_n) begin
             value <= DEFAULT_VAL;
         end else if (setval) begin

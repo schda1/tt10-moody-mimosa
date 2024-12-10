@@ -10,6 +10,11 @@ module tt_um_moody_mimosa (
     `ifdef FPGA_TARGET
     , output wire [7:0] debug   // Additional debug port for FPGA
     `endif
+    `ifdef PY_VERILATOR
+    , output wire [6:0] dbg_energy
+    , output wire [6:0] dbg_stress
+    , output wire [6:0] dbg_pleasure
+    `endif
 );
 
     localparam AWAKE   = 2'b00, 
@@ -109,7 +114,7 @@ module tt_um_moody_mimosa (
         .stress_dec(stress_dec)
     );  
 
-    saturating_counter #(.N(7), .SET_VAL(64), .DEFAULT_VAL(0)) stress_counter (
+    saturating_counter #(.N(7), .SET_VAL(64), .DEFAULT_VAL(40)) stress_counter (
         .clk(clk_model),
         .rst_n(rst_n), 
         .inc(stress_inc),
@@ -176,5 +181,11 @@ module tt_um_moody_mimosa (
     // assign debug = energy;
     assign debug = {2'b00, pleasure_indicator, stress_indicator, energy_indicator};
     `endif    
+
+    `ifdef PY_VERILATOR
+    assign dbg_energy = energy;
+    assign dbg_stress = stress;
+    assign dbg_pleasure = pleasure;
+    `endif
 
 endmodule

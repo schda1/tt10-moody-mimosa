@@ -21,8 +21,8 @@ module_test/**/__pycache__
 module_test/**/*.xml
 module_test/**/*.vcd
 
-test/obj_dir
-simulation/obj_dir
+**/obj_dir
+**/__pycache__
 
 fpga/**/*.jou
 fpga/**/*.log
@@ -34,3 +34,5 @@ fpga/build
 fpga/**/*.xpr
 
 fpga/.Xil
+
+**/.old
