@@ -10,6 +10,7 @@ class PlotData:
         self.stress: np.ndarray = np.zeros(start_len)
         self.pleasure: np.ndarray = np.zeros(start_len)
         self.emotion: np.ndarray = np.zeros(start_len)
+        self.nourishment : np.ndarray = np.zeros(start_len)
         self.position: int = 0
         self.size: int = start_len
 
@@ -21,6 +22,7 @@ class PlotData:
             self.stress = np.resize(self.stress, self.size)
             self.pleasure = np.resize(self.pleasure, self.size)
             self.emotion = np.resize(self.emotion, self.size)
+            self.nourishment = np.resize(self.nourishment, self.size)
 
         # Add output to plot data
         id = self.position
@@ -28,5 +30,6 @@ class PlotData:
         self.energy[id] = output.energy
         self.stress[id] = output.stress
         self.pleasure[id] = output.pleasure
+        self.nourishment[id] = output.nourishment
         self.emotion[id] = -1 if output.emotion == 0 else np.log2(output.emotion)
         self.position += 1

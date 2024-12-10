@@ -25,6 +25,7 @@ class ModelOutput:
     energy: int = 0
     stress: int = 0
     pleasure: int = 0
+    nourishment: int = 0
     emotion: int = 0
     heartbeat: int = 0
 
@@ -78,7 +79,8 @@ class MoodyMimosaSimulator:
                              emotion = int(self.sim.io.uo_out), 
                              energy = int(self.sim.io.dbg_energy), 
                              stress = int(self.sim.io.dbg_stress), 
-                             pleasure = int(self.sim.io.dbg_pleasure))
+                             pleasure = int(self.sim.io.dbg_pleasure), 
+                             nourishment=int(self.sim.io.dbg_nourishment))
         
         return output
     

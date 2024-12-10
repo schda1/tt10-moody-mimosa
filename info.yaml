@@ -22,6 +22,7 @@ project:
     - "emotional_model.v"
     - "heartbeat_model.v"
     - "dynamic_clock_divider.v"
+    - "nourishment_regulator.v"
 
 pinout:
   # Inputs

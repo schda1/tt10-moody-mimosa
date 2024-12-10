@@ -9,7 +9,8 @@ module sim_moody_mimosa (
     input  wire       rst_n,
     output wire [6:0] dbg_energy,
     output wire [6:0] dbg_stress,
-    output wire [6:0] dbg_pleasure
+    output wire [6:0] dbg_pleasure,
+    output wire [6:0] dbg_nourishment
 );
 
     wire [7:0] ui_in_model;
@@ -36,7 +37,8 @@ module sim_moody_mimosa (
         .rst_n(rst_n),
         .dbg_energy(dbg_energy),
         .dbg_stress(dbg_stress),
-        .dbg_pleasure(dbg_pleasure)
+        .dbg_pleasure(dbg_pleasure),
+        .dbg_nourishment(dbg_nourishment)
     );
 
 endmodule

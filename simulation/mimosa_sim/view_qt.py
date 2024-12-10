@@ -48,8 +48,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.ax[1, 0].tick_params(axis='both', labelsize=8)
         self.ax[1, 0].set_xlabel("Time steps", fontsize=9)
 
-        self.ax[1, 1].plot(self.plot_data.emotion[:id], label="Emotion", color="orange", linewidth=1.5)
-        self.ax[1, 1].set_ylabel("Emotion", fontsize=9)
+        self.ax[1, 1].plot(self.plot_data.nourishment[:id], label="Nourishment", color="orange", linewidth=1.5)
+        self.ax[1, 1].set_ylabel("Nourishment", fontsize=9)
         self.ax[1, 1].tick_params(axis='both', labelsize=8)
         self.ax[1, 1].set_xlabel("Time steps", fontsize=9)
 
@@ -58,8 +58,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             ax.set_ylim([0, 128])
             ax.grid(True, linestyle='--', linewidth=0.5)
             ax.legend(fontsize=8)
-
-        self.ax[1, 1].set_ylim([0, 10])
 
         self.figure.tight_layout()
         self.canvas.draw()

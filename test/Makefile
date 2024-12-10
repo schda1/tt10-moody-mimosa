@@ -17,6 +17,7 @@ PROJECT_SOURCES += pleasure_regulator.v
 PROJECT_SOURCES += emotional_model.v
 PROJECT_SOURCES += heartbeat_model.v
 PROJECT_SOURCES += dynamic_clock_divider.v
+PROJECT_SOURCES += nourishment_regulator.v
 
 ifneq ($(GATES),yes)
 

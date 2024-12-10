@@ -14,6 +14,7 @@ module tt_um_moody_mimosa (
     , output wire [6:0] dbg_energy
     , output wire [6:0] dbg_stress
     , output wire [6:0] dbg_pleasure
+    , output wire [6:0] dbg_nourishment
     `endif
 );
 
@@ -40,6 +41,11 @@ module tt_um_moody_mimosa (
     wire [1:0] pleasure_indicator; 
     wire pleasure_inc;
     wire pleasure_dec;
+
+    wire [6:0] nourishment;
+    wire [1:0] nourishment_indicator;
+    wire nourishment_inc;
+    wire nourishment_dec;
  
     wire setval;
     wire fell_asleep;
@@ -85,6 +91,7 @@ module tt_um_moody_mimosa (
         .pl_inc(state_ctrl_pl_inc)
     );
     
+    // Energy
     energy_regulator energy_reg (
         .state_controller_inc(state_ctrl_en_inc),
         .state_controller_dec(state_ctrl_en_dec),
@@ -106,6 +113,7 @@ module tt_um_moody_mimosa (
         .out_bits(energy_indicator)
     );
 
+    // Stress
     stress_regulator stress_regul (
         .state_controller_inc(state_ctrl_st_inc),
         .state_controller_dec(state_ctrl_st_dec),
@@ -128,6 +136,7 @@ module tt_um_moody_mimosa (
         .out_bits(stress_indicator)
     );
 
+    // Pleasure
     pleasure_regulator pleasure_regul (
         .state_controller_inc(state_ctrl_pl_inc),
         .state_controller_dec(state_ctrl_pl_dec),
@@ -150,6 +159,29 @@ module tt_um_moody_mimosa (
         .out_bits(pleasure_indicator)
     );
 
+    // Nourishment    
+    nourishment_regulator nourishment_reg (
+        .state_controller_inc(state_ctrl_en_inc),
+        .state_controller_dec(state_ctrl_en_dec),
+        .nourishment_inc(nourishment_inc),
+        .nourishment_dec(nourishment_dec)
+    );  
+
+    saturating_counter #(.N(7), .SET_VAL(64), .DEFAULT_VAL(96)) nourishment_counter (
+        .clk(clk_model),
+        .rst_n(rst_n), 
+        .inc(nourishment_inc),
+        .dec(nourishment_dec),
+        .setval(setval), 
+        .value(nourishment)
+    );
+
+    range_classifier #(.N(7)) nourishment_classifier (
+        .number(nourishment), 
+        .out_bits(nourishment_indicator)
+    );
+
+    // Emotions
     emotional_model emotions (
         .energy(energy_indicator),
         .stress(stress_indicator), 
@@ -158,6 +190,7 @@ module tt_um_moody_mimosa (
         .emotion(emotion)
     );
 
+    // Heartbeat
     heartbeat_model heartbeat_model_inst (
         .emotion(emotion),
         .state(state), 
@@ -186,6 +219,7 @@ module tt_um_moody_mimosa (
     assign dbg_energy = energy;
     assign dbg_stress = stress;
     assign dbg_pleasure = pleasure;
+    assign dbg_nourishment = nourishment;
     `endif
 
 endmodule
