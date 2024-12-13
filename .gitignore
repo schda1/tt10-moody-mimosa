@@ -36,3 +36,4 @@ fpga/**/*.xpr
 fpga/.Xil
 
 **/.old
+**/tmp
