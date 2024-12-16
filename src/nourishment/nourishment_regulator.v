@@ -29,16 +29,14 @@ module nourishment_regulator (
     output wire setval
 );
 
-localparam ASLEEP = 2'b00;  
+    localparam ASLEEP = 2'b00;  
 
-wire feed;
-assign feed = stimuli[4];
-assign setval = 0;
+    wire feed;
+    assign feed = stimuli[4];
+    assign setval = 0;
 
-assign inc = (sleep_state != ASLEEP) && feed;
-assign dec = (sleep_state == ASLEEP) || ((sleep_state != ASLEEP) && (~feed));
-assign fast = (sleep_state != ASLEEP) && feed;
-
-wire _unused = &{action, stimuli[15:5], stimuli[3:0], nourishment_level, 1'b0};
+    assign inc = (sleep_state != ASLEEP) && feed;
+    assign dec = (sleep_state == ASLEEP) || ((sleep_state != ASLEEP) && (~feed));
+    assign fast = (sleep_state != ASLEEP) && feed;
 
 endmodule

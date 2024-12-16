@@ -15,10 +15,7 @@ module nt_glutamate_system (
     `endif
 );
 
-    wire inc;
-    wire dec;
-    wire fast;
-    wire setval;
+    wire inc, dec, fast, setval;
     wire [6:0] glutamate;
 
     assign setval = 0;
@@ -57,7 +54,5 @@ module nt_glutamate_system (
     `ifdef PY_VERILATOR
     assign dbg_glutamate = glutamate;
     `endif
-
-    wire _unused = &{glutamate[4:0], 1'b0};
     
 endmodule

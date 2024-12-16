@@ -18,6 +18,7 @@ module vital_energy_system (
 
     assign vital_energy_level = vital_energy[6:5];
 
+    /* Vital energy regulation */
     vital_energy_regulator vital_energy_reg (
         .neurotransmitter_level(neurotransmitter_level),
         .stimuli(stimuli), 
@@ -29,13 +30,13 @@ module vital_energy_system (
         .setval(setval)
     );
 
-    /* energy resource */
+    /* Vital energy resource */
     nt_neurotransmitter_level #(
         .N(7), 
         .SET_VAL(64), 
         .DEFAULT_VAL(96),
         .FAST_STEP(3)
-    ) glucose_resource (
+    ) vital_energy_resource (
         .clk(clk),
         .rst_n(rst_n), 
         .inc(inc),
@@ -48,7 +49,5 @@ module vital_energy_system (
     `ifdef PY_VERILATOR
     assign dbg_vital_energy = vital_energy;
     `endif
-
-    wire _unused = &{vital_energy[4:0], 1'b0};
     
 endmodule

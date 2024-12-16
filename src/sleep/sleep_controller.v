@@ -15,9 +15,8 @@ module sleep_controller (
     localparam ASLEEP = 2'b00;
 
     wire [1:0] NE, CORT, ACH, DOP, GABA, GLUT, INS, SER;
-    wire hungry;
+    wire hungry, hot, loud, bright;
     wire tickle, play_with, talk_to;
-    wire hot, loud, bright;
 
     /* Neurotransmitter levels */
     assign ACH  = neurotransmitter_level[1:0];
@@ -47,10 +46,10 @@ module sleep_controller (
             case (sleep_state)
                 AWAKE: begin
                     /* Sleep in */
-                    if ((vital_energy_level == 2'b00) && 
+                    if ((vital_energy_level == 2'b00    ) && 
                         (NE   == 2'b00 || NE   == 2'b01 ) &&
                         (CORT == 2'b00 || CORT == 2'b01 ) &&
-                        (!tickle && !play_with && !talk_to && !hot && !loud && !hungry)
+                        (!tickle && !play_with && !talk_to && !hot && !bright && !loud && !hungry)
                         ) 
                     begin
                         sleep_state <= ASLEEP;
@@ -58,9 +57,10 @@ module sleep_controller (
                 end
                 ASLEEP: begin
                     /* Wake up */
-                    if ((vital_energy_level == 2'b11) || 
-                        ( NE   == 2'b11 ) || ( CORT == 2'b11 ) ||
-                        (tickle || play_with || talk_to || hot || loud || hungry)
+                    if ((vital_energy_level == 2'b11    ) || 
+                        (NE   == 2'b10 || NE   == 2'b11 ) || 
+                        (CORT == 2'b10 || CORT == 2'b11 ) ||
+                        (tickle || play_with || talk_to || hot || bright || loud || hungry)
                         )
                     begin
                         sleep_state <= AWAKE;
@@ -70,7 +70,5 @@ module sleep_controller (
             endcase
         end
     end
-
-    wire _unused = &{action, stimuli[15:12], stimuli[9], stimuli[7], stimuli[5:4], stimuli[3], ACH, DOP, GABA, GLUT, INS, SER, 1'b0};
 
 endmodule

@@ -15,10 +15,7 @@ module nt_insulin_system (
     `endif  
 );
 
-    wire inc;
-    wire dec;
-    wire fast;
-    wire setval;
+    wire inc, dec, fast, setval;
     wire [6:0] insulin;
 
     assign setval = 0;
@@ -58,6 +55,4 @@ module nt_insulin_system (
     assign dbg_insulin = insulin;
     `endif
 
-    wire _unused = &{insulin[4:0], 1'b0};
-    
 endmodule

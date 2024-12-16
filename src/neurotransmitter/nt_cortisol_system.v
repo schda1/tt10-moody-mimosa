@@ -16,10 +16,7 @@ module nt_cortisol_system (
     `endif
 );
 
-    wire inc;
-    wire dec;
-    wire fast;
-    wire setval;
+    wire inc, dec, fast, setval;
     wire [6:0] cortisol;
 
     assign setval = 0;
@@ -58,7 +55,5 @@ module nt_cortisol_system (
     `ifdef PY_VERILATOR
     assign dbg_cortisol = cortisol;
     `endif
-
-    wire _unused = &{cortisol[4:0], 1'b0};
     
 endmodule

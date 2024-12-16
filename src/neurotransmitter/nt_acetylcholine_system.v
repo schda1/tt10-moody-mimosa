@@ -16,10 +16,7 @@ module nt_acetylcholine_system (
     `endif
 );
 
-    wire inc;
-    wire dec;
-    wire fast;
-    wire setval;
+    wire inc, dec, fast, setval;
     wire [6:0] acetylcholine;
 
     assign setval = 0;
@@ -58,7 +55,5 @@ module nt_acetylcholine_system (
     `ifdef PY_VERILATOR
     assign dbg_acetylcholine = acetylcholine;
     `endif
-
-    wire _unused = &{acetylcholine[4:0], 1'b0};
     
 endmodule

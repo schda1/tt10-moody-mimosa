@@ -15,10 +15,7 @@ module nt_gaba_system (
     `endif
 );
 
-    wire inc;
-    wire dec;
-    wire fast;
-    wire setval;
+    wire inc, dec, fast, setval;
     wire [6:0] gaba;
 
     assign setval = 0;
@@ -57,7 +54,5 @@ module nt_gaba_system (
     `ifdef PY_VERILATOR
     assign dbg_gaba = gaba;
     `endif
-
-    wire _unused = &{gaba[4:0], 1'b0};
     
 endmodule

@@ -15,10 +15,7 @@ module nt_norepinephrine_system (
     `endif
 );
 
-    wire inc;
-    wire dec;
-    wire fast;
-    wire setval;
+    wire inc, dec, fast, setval;
     wire [6:0] norepinephrine;
 
     assign norepinephrine[6] = 0;
@@ -59,6 +56,4 @@ module nt_norepinephrine_system (
     assign dbg_norepinephrine = norepinephrine;
     `endif
 
-    wire _unused = &{norepinephrine[6], norepinephrine[3:0], 1'b0};
-    
 endmodule

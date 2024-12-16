@@ -15,10 +15,7 @@ module nt_dopamine_system (
     `endif
 );
 
-    wire inc;
-    wire dec;
-    wire fast;
-    wire setval;
+    wire inc, dec, fast, setval;
     wire [6:0] dopamine;
 
     assign setval = 0;
@@ -57,7 +54,5 @@ module nt_dopamine_system (
     `ifdef PY_VERILATOR
     assign dbg_dopamine = dopamine;
     `endif
-
-    wire _unused = &{dopamine[4:0], 1'b0};
     
 endmodule
