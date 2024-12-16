@@ -38,7 +38,7 @@ module nt_cortisol_system (
     nt_neurotransmitter_level #(
         .N(7), 
         .SET_VAL(64), 
-        .DEFAULT_VAL(96),
+        .DEFAULT_VAL(0),
         .FAST_STEP(3)
     ) cortisol_resource (
         .clk(clk),

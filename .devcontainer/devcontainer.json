@@ -20,6 +20,7 @@
         "mshr-h.veriloghdl",
         "surfer-project.surfer", 
         "ms-python.python",
+        "ms-python.black-formatter",
         "ms-toolsai.jupyter",
         "mhutchie.git-graph",
         "donjayamanne.githistory"

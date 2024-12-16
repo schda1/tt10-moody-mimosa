@@ -6,6 +6,7 @@ from mimosa_sim.bit_util import read_bit
 from ui.ui_main_app import Ui_MainWindow
 from plot_data import PlotData
 
+
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
@@ -18,9 +19,36 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.plotFrame.setLayout(layout)
 
         # Create a matplotlib figure and canvas
-        self.figure, self.ax = plt.subplots(nrows=2, ncols=2, figsize=(10, 4))
+        self.figure, self.ax = plt.subplots(nrows=3, ncols=3, figsize=(11, 5))
+        self.ax = self.ax.flatten()
+        self.init_plot()
+
         self.canvas = FigureCanvas(self.figure)
         self.plotFrame.layout().addWidget(self.canvas)
+
+    def init_plot(self):
+        # Initialize plots
+        self.ax[0].plot([], [], label="Acetylcholine", color="blue", linewidth=1.5)
+        self.ax[0].plot([], [], label="Glutamate", color="red", linewidth=1.5)
+        self.ax[1].plot([], [], label="Dopamine", color="blue", linewidth=1.5)
+        self.ax[1].plot([], [], label="Serotonin", color="red", linewidth=1.5)
+        self.ax[2].plot([], [], label="Norepinephrine", color="blue", linewidth=1.5)
+        self.ax[2].plot([], [], label="Cortisol", color="red", linewidth=1.5)
+        self.ax[3].plot([], [], label="Gaba", color="blue", linewidth=1.5)
+        self.ax[4].plot([], [], label="Insulin", color="blue", linewidth=1.5)
+        self.ax[5].plot([], [], label="Nourishment", color="blue", linewidth=1.5)
+        self.ax[6].plot([], [], label="Vital energy", color="blue", linewidth=1.5)
+
+        self.ax[7].plot([], [], label="Hunger", color="blue", linewidth=1.5)
+
+        for ax in self.ax.flatten():
+            ax.tick_params(axis="both", labelsize=6)
+            ax.grid(True, linestyle="--", linewidth=0.5)
+            ax.set_xlim([0, self.plot_data.size])
+            ax.legend(fontsize=6)
+
+        self.figure.tight_layout()
+        self.figure.subplots_adjust(hspace=0.4, wspace=0.3)
 
     def update_plot(self, output: ModelOutput):
         """
@@ -29,39 +57,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         id = self.plot_data.position
         size = self.plot_data.size
 
-        # Update plots
-        self.figure.subplots_adjust(hspace=0.4, wspace=0.3)
+        # Update the data for each nt dynamically
+        self.ax[0].lines[0].set_data(range(id), self.plot_data.data["nt_acetylcholine"][:id])
+        self.ax[0].lines[1].set_data(range(id), self.plot_data.data["nt_glutamate"][:id])
+        self.ax[1].lines[0].set_data(range(id), self.plot_data.data["nt_dopamine"][:id])
+        self.ax[1].lines[1].set_data(range(id), self.plot_data.data["nt_serotonin"][:id])
+        self.ax[2].lines[0].set_data(range(id), self.plot_data.data["nt_norepinephrine"][:id])
+        self.ax[2].lines[1].set_data(range(id), self.plot_data.data["nt_cortisol"][:id])
+        self.ax[3].lines[0].set_data(range(id), self.plot_data.data["nt_gaba"][:id])
+        self.ax[4].lines[0].set_data(range(id), self.plot_data.data["nt_insulin"][:id])
+        self.ax[5].lines[0].set_data(range(id), self.plot_data.data["nourishment"][:id])
+        self.ax[6].lines[0].set_data(range(id), self.plot_data.data["vital_energy"][:id])
 
-        for ax in self.ax.flatten():
-            ax.clear()
-
-        self.ax[0, 0].plot(self.plot_data.energy[:id], label="Energy", color="blue", linewidth=1.5)
-        self.ax[0, 0].set_ylabel("Energy", fontsize=9)
-        self.ax[0, 0].tick_params(axis='both', labelsize=8)
-
-        self.ax[0, 1].plot(self.plot_data.stress[:id], label="Stress", color="red", linewidth=1.5)
-        self.ax[0, 1].set_ylabel("Stress", fontsize=9)
-        self.ax[0, 1].tick_params(axis='both', labelsize=8)
-
-        self.ax[1, 0].plot(self.plot_data.pleasure[:id], label="Pleasure", color="green", linewidth=1.5)
-        self.ax[1, 0].set_ylabel("Pleasure", fontsize=9)
-        self.ax[1, 0].tick_params(axis='both', labelsize=8)
-        self.ax[1, 0].set_xlabel("Time steps", fontsize=9)
-
-        self.ax[1, 1].plot(self.plot_data.emotion[:id], label="Emotion", color="orange", linewidth=1.5)
-        self.ax[1, 1].set_ylabel("Emotion", fontsize=9)
-        self.ax[1, 1].tick_params(axis='both', labelsize=8)
-        self.ax[1, 1].set_xlabel("Time steps", fontsize=9)
+        self.ax[7].lines[0].set_data(
+            range(id),
+            read_bit(self.plot_data.data["stimuli"][:id], 11),
+        )
 
         for ax in self.ax.flatten():
             ax.set_xlim([0, size])
             ax.set_ylim([0, 128])
-            ax.grid(True, linestyle='--', linewidth=0.5)
-            ax.legend(fontsize=8)
 
-        self.ax[1, 1].set_ylim([0, 10])
-
-        self.figure.tight_layout()
         self.canvas.draw()
 
     def update_indicators(self, output: ModelOutput):
@@ -69,20 +85,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Update the indicators for emotion, state and heartbeat
         """
         # Update emotion
-        self.led_em_happy.setChecked(read_bit(output.emotion,0))
-        self.led_em_comfortable.setChecked(read_bit(output.emotion,1))
-        self.led_em_excited.setChecked(read_bit(output.emotion,2))
-        self.led_em_bored.setChecked(read_bit(output.emotion,3))
-        self.led_em_tired.setChecked(read_bit(output.emotion,4))
-        self.led_em_angry.setChecked(read_bit(output.emotion,5))
-        self.led_em_nervous.setChecked(read_bit(output.emotion,6))
-        self.led_em_stressed.setChecked(read_bit(output.emotion,7))
-        
-        # Update hearbeat and state
-        self.led_heartbeat.setChecked(output.heartbeat)
-        self.led_st_awake.setChecked(output.emotion > 0)
-        self.led_st_asleep.setChecked(output.asleep)
-        self.led_st_dying.setChecked(output.dying)
+        # self.led_em_happy.setChecked(read_bit(output.emotion,0))
+        # self.led_em_comfortable.setChecked(read_bit(output.emotion,1))
+        # self.led_em_excited.setChecked(read_bit(output.emotion,2))
+        # self.led_em_bored.setChecked(read_bit(output.emotion,3))
+        # self.led_em_tired.setChecked(read_bit(output.emotion,4))
+        # self.led_em_angry.setChecked(read_bit(output.emotion,5))
+        # self.led_em_nervous.setChecked(read_bit(output.emotion,6))
+        # self.led_em_stressed.setChecked(read_bit(output.emotion,7))
 
-        is_dead = output.emotion == 0 and output.asleep == 0 and output.dying == 0
-        self.led_st_dead.setChecked(is_dead)
+        # Update hearbeat and state
+        # self.led_heartbeat.setChecked(output.heartbeat)
+        # self.led_st_awake.setChecked(output.emotion > 0)
+        self.led_st_asleep.setChecked(output.sleep_state == 0)
+        # self.led_st_dying.setChecked(output.dying)
+
+        # is_dead = output.emotion == 0 and output.asleep == 0 and output.dying == 0
+        # self.led_st_dead.setChecked(is_dead)

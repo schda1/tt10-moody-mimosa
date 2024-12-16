@@ -32,8 +32,12 @@ project:
     - "action/action_regulator.v"
     - "emotion/emotion_regulator.v"
     - "heartbeat/heartbeat_regulator.v"
+    - "nourishment/nourishment_system.v"
     - "nourishment/nourishment_regulator.v"
-    - "sleep/sleep_regulator.v"
+    - "sleep/sleep_controller.v"
+    - "sleep/vital_energy_system.v"
+    - "sleep/vital_energy_regulator.v"
+    - "sleep/sleep_controller.v"
     - "utility/dynamic_clock_divider.v"
 
 pinout:

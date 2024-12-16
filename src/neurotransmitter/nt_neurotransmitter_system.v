@@ -40,7 +40,7 @@ module nt_neurotransmitter_system (
         .sleep_state(sleep_state), 
         .acetylcholine_level(acetylcholine_level)
         `ifdef PY_VERILATOR
-        , .dbg_acetylcholin(dbg_acetylcholin)
+        , .dbg_acetylcholine(dbg_acetylcholine)
         `endif
     );
 

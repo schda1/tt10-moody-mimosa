@@ -1,15 +1,29 @@
 module sim_moody_mimosa (
-    input  wire [7:0] ui_in,
-    output wire [7:0] uo_out,
-    input  wire [7:0] uio_in,
-    output wire [7:0] uio_out,
-    output wire [7:0] uio_oe,
-    input  wire       ena,
-    input  wire       clk,
-    input  wire       rst_n,
-    output wire [6:0] dbg_energy,
-    output wire [6:0] dbg_stress,
-    output wire [6:0] dbg_pleasure
+    input  wire [7:0]  ui_in,
+    output wire [7:0]  uo_out,
+    input  wire [7:0]  uio_in,
+    output wire [7:0]  uio_out,
+    output wire [7:0]  uio_oe,
+    input  wire        ena,
+    input  wire        clk,
+    input  wire        rst_n,
+    /* Debug information */
+    output wire [6:0]  dbg_acetylcholine,
+    output wire [6:0]  dbg_cortisol,
+    output wire [6:0]  dbg_dopamine,
+    output wire [6:0]  dbg_gaba,
+    output wire [6:0]  dbg_glutamate,
+    output wire [6:0]  dbg_insulin,
+    output wire [6:0]  dbg_norepinephrine,
+    output wire [6:0]  dbg_serotonin,
+    output wire [15:0] dbg_stimuli,
+    output wire [15:0] dbg_neurotransmitter_level,
+    output wire [7:0]  dbg_emotional_state, 
+    output wire [7:0]  dbg_action,
+    output wire [1:0]  dbg_sleep_state,
+    output wire [1:0]  dbg_heartbeat,
+    output wire [6:0]  dbg_nourishment,
+    output wire [6:0]  dbg_vital_energy
 );
 
     wire [7:0] ui_in_model;
@@ -34,9 +48,22 @@ module sim_moody_mimosa (
         .ena(ena),
         .clk(clk),
         .rst_n(rst_n),
-        .dbg_energy(dbg_energy),
-        .dbg_stress(dbg_stress),
-        .dbg_pleasure(dbg_pleasure)
+        .dbg_acetylcholine (dbg_acetylcholine),
+        .dbg_cortisol (dbg_cortisol),
+        .dbg_dopamine (dbg_dopamine),
+        .dbg_gaba (dbg_gaba),
+        .dbg_glutamate (dbg_glutamate),
+        .dbg_insulin (dbg_insulin),
+        .dbg_norepinephrine (dbg_norepinephrine),
+        .dbg_serotonin (dbg_serotonin),
+        .dbg_stimuli (dbg_stimuli),
+        .dbg_neurotransmitter_level (dbg_neurotransmitter_level),
+        .dbg_emotional_state (dbg_emotional_state),
+        .dbg_action (dbg_action),
+        .dbg_sleep_state (dbg_sleep_state),
+        .dbg_heartbeat (dbg_heartbeat),
+        .dbg_nourishment (dbg_nourishment),
+        .dbg_vital_energy (dbg_vital_energy)
     );
 
 endmodule

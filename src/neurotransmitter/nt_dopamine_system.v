@@ -38,7 +38,7 @@ module nt_dopamine_system (
     nt_neurotransmitter_level #(
         .N(7), 
         .SET_VAL(64), 
-        .DEFAULT_VAL(96),
+        .DEFAULT_VAL(64),
         .FAST_STEP(3)
     ) dopamine_resource (
         .clk(clk),

@@ -38,7 +38,7 @@ module nt_acetylcholine_system (
     nt_neurotransmitter_level #(
         .N(7), 
         .SET_VAL(64), 
-        .DEFAULT_VAL(96),
+        .DEFAULT_VAL(16),
         .FAST_STEP(3)
     ) acetylcholine_resource (
         .clk(clk),

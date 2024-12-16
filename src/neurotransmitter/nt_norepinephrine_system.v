@@ -38,7 +38,7 @@ module nt_norepinephrine_system (
     nt_neurotransmitter_level #(
         .N(7), 
         .SET_VAL(64), 
-        .DEFAULT_VAL(96),
+        .DEFAULT_VAL(0),
         .FAST_STEP(3)
     ) norepinephrine_resource (
         .clk(clk),

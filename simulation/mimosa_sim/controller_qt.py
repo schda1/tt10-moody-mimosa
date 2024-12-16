@@ -1,15 +1,18 @@
 from PyQt6.QtCore import QTimer
 from mimosa_sim.model import ModelInput
+from pprint import pprint
+
 
 class SimulatorController:
     """
-    Handles the communication between the MoodyMimosaSimulator (model) 
+    Handles the communication between the MoodyMimosaSimulator (model)
     and the MainWindow (view).
     """
+
     def __init__(self, model, view, delta_t=500):
         self.model = model
         self.view = view
-        self.delta_t = delta_t  
+        self.delta_t = delta_t
 
         # Timer for periodic updates
         self.timer = QTimer()
@@ -31,10 +34,10 @@ class SimulatorController:
         the corresponding inputs
         """
 
-        model_input = ModelInput(
-            inc_stress=0,
-            inc_pleasure=0
-        )
+        model_input = ModelInput()
+        model_input.tickle = self.view.button_tickle.isChecked()
+        model_input.feed = self.view.button_feed.isChecked()
+        model_input.tickle = self.view.button_tickle.isChecked()
 
         # Perform a simulation tick
         output = self.model.tick(model_input)

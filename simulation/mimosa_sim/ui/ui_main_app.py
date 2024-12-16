@@ -26,13 +26,15 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addWidget(self.label, 0, 0, 1, 1)
         self.led_heartbeat = QtWidgets.QPushButton(parent=self.gridLayoutWidget_2)
         self.led_heartbeat.setMaximumSize(QtCore.QSize(50, 25))
-        self.led_heartbeat.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(34,177,76); /* Background color when checked */\n"
-"}")
+        self.led_heartbeat.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(34,177,76); /* Background color when checked */\n"
+            "}"
+        )
         self.led_heartbeat.setText("")
         self.led_heartbeat.setCheckable(True)
         self.led_heartbeat.setChecked(False)
@@ -49,52 +51,60 @@ class Ui_MainWindow(object):
         self.gridLayout_3.addWidget(self.label_3, 0, 0, 1, 1)
         self.led_em_happy = QtWidgets.QPushButton(parent=self.gridLayoutWidget_3)
         self.led_em_happy.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.led_em_happy.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(34,177,76); /* Background color when checked */\n"
-"}")
+        self.led_em_happy.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(34,177,76); /* Background color when checked */\n"
+            "}"
+        )
         self.led_em_happy.setText("")
         self.led_em_happy.setCheckable(True)
         self.led_em_happy.setChecked(False)
         self.led_em_happy.setObjectName("led_em_happy")
         self.gridLayout_3.addWidget(self.led_em_happy, 0, 1, 1, 1)
         self.led_em_angry = QtWidgets.QPushButton(parent=self.gridLayoutWidget_3)
-        self.led_em_angry.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(240,104,6); /* Background color when checked */\n"
-"}")
+        self.led_em_angry.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(240,104,6); /* Background color when checked */\n"
+            "}"
+        )
         self.led_em_angry.setText("")
         self.led_em_angry.setCheckable(True)
         self.led_em_angry.setChecked(False)
         self.led_em_angry.setObjectName("led_em_angry")
         self.gridLayout_3.addWidget(self.led_em_angry, 5, 1, 1, 1)
         self.led_em_nervous = QtWidgets.QPushButton(parent=self.gridLayoutWidget_3)
-        self.led_em_nervous.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(240,104,6); /* Background color when checked */\n"
-"}")
+        self.led_em_nervous.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(240,104,6); /* Background color when checked */\n"
+            "}"
+        )
         self.led_em_nervous.setText("")
         self.led_em_nervous.setCheckable(True)
         self.led_em_nervous.setChecked(False)
         self.led_em_nervous.setObjectName("led_em_nervous")
         self.gridLayout_3.addWidget(self.led_em_nervous, 6, 1, 1, 1)
         self.led_em_bored = QtWidgets.QPushButton(parent=self.gridLayoutWidget_3)
-        self.led_em_bored.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(252,232,9); /* Background color when checked */\n"
-"}")
+        self.led_em_bored.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(252,232,9); /* Background color when checked */\n"
+            "}"
+        )
         self.led_em_bored.setText("")
         self.led_em_bored.setCheckable(True)
         self.led_em_bored.setChecked(False)
@@ -107,39 +117,45 @@ class Ui_MainWindow(object):
         self.label_5.setObjectName("label_5")
         self.gridLayout_3.addWidget(self.label_5, 3, 0, 1, 1)
         self.led_em_excited = QtWidgets.QPushButton(parent=self.gridLayoutWidget_3)
-        self.led_em_excited.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(34,177,76); /* Background color when checked */\n"
-"}")
+        self.led_em_excited.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(34,177,76); /* Background color when checked */\n"
+            "}"
+        )
         self.led_em_excited.setText("")
         self.led_em_excited.setCheckable(True)
         self.led_em_excited.setChecked(False)
         self.led_em_excited.setObjectName("led_em_excited")
         self.gridLayout_3.addWidget(self.led_em_excited, 2, 1, 1, 1)
         self.led_em_tired = QtWidgets.QPushButton(parent=self.gridLayoutWidget_3)
-        self.led_em_tired.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(252,232,9); /* Background color when checked */\n"
-"}")
+        self.led_em_tired.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(252,232,9); /* Background color when checked */\n"
+            "}"
+        )
         self.led_em_tired.setText("")
         self.led_em_tired.setCheckable(True)
         self.led_em_tired.setChecked(False)
         self.led_em_tired.setObjectName("led_em_tired")
         self.gridLayout_3.addWidget(self.led_em_tired, 4, 1, 1, 1)
         self.led_em_comfortable = QtWidgets.QPushButton(parent=self.gridLayoutWidget_3)
-        self.led_em_comfortable.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(34,177,76); /* Background color when checked */\n"
-"}")
+        self.led_em_comfortable.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(34,177,76); /* Background color when checked */\n"
+            "}"
+        )
         self.led_em_comfortable.setText("")
         self.led_em_comfortable.setCheckable(True)
         self.led_em_comfortable.setChecked(False)
@@ -161,13 +177,15 @@ class Ui_MainWindow(object):
         self.label_9.setObjectName("label_9")
         self.gridLayout_3.addWidget(self.label_9, 7, 0, 1, 1)
         self.led_em_stressed = QtWidgets.QPushButton(parent=self.gridLayoutWidget_3)
-        self.led_em_stressed.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(240,104,6); /* Background color when checked */\n"
-"}")
+        self.led_em_stressed.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(240,104,6); /* Background color when checked */\n"
+            "}"
+        )
         self.led_em_stressed.setText("")
         self.led_em_stressed.setCheckable(True)
         self.led_em_stressed.setChecked(False)
@@ -186,13 +204,15 @@ class Ui_MainWindow(object):
         self.label_13.setObjectName("label_13")
         self.gridLayout_5.addWidget(self.label_13, 2, 0, 1, 1)
         self.led_st_asleep = QtWidgets.QPushButton(parent=self.gridLayoutWidget_4)
-        self.led_st_asleep.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(30,165,240); /* Background color when checked */\n"
-"}")
+        self.led_st_asleep.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(30,165,240); /* Background color when checked */\n"
+            "}"
+        )
         self.led_st_asleep.setText("")
         self.led_st_asleep.setCheckable(True)
         self.led_st_asleep.setChecked(False)
@@ -200,13 +220,15 @@ class Ui_MainWindow(object):
         self.gridLayout_5.addWidget(self.led_st_asleep, 1, 1, 1, 1)
         self.led_st_awake = QtWidgets.QPushButton(parent=self.gridLayoutWidget_4)
         self.led_st_awake.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.led_st_awake.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(30,165,240); /* Background color when checked */\n"
-"}")
+        self.led_st_awake.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(30,165,240); /* Background color when checked */\n"
+            "}"
+        )
         self.led_st_awake.setText("")
         self.led_st_awake.setCheckable(True)
         self.led_st_awake.setChecked(False)
@@ -216,26 +238,30 @@ class Ui_MainWindow(object):
         self.label_11.setObjectName("label_11")
         self.gridLayout_5.addWidget(self.label_11, 0, 0, 1, 1)
         self.led_st_dying = QtWidgets.QPushButton(parent=self.gridLayoutWidget_4)
-        self.led_st_dying.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(230,8,3) /* Background color when checked */\n"
-"}")
+        self.led_st_dying.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(230,8,3) /* Background color when checked */\n"
+            "}"
+        )
         self.led_st_dying.setText("")
         self.led_st_dying.setCheckable(True)
         self.led_st_dying.setChecked(False)
         self.led_st_dying.setObjectName("led_st_dying")
         self.gridLayout_5.addWidget(self.led_st_dying, 2, 1, 1, 1)
         self.led_st_dead = QtWidgets.QPushButton(parent=self.gridLayoutWidget_4)
-        self.led_st_dead.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(117,3,1) /* Background color when checked */\n"
-"}")
+        self.led_st_dead.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(117,3,1) /* Background color when checked */\n"
+            "}"
+        )
         self.led_st_dead.setText("")
         self.led_st_dead.setCheckable(True)
         self.led_st_dead.setChecked(False)
@@ -257,91 +283,105 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.button_tickle = QtWidgets.QPushButton(parent=self.verticalLayoutWidget)
         self.button_tickle.setMaximumSize(QtCore.QSize(100, 25))
-        self.button_tickle.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(34,177,76); /* Background color when checked */\n"
-"}")
+        self.button_tickle.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(34,177,76); /* Background color when checked */\n"
+            "}"
+        )
         self.button_tickle.setCheckable(True)
         self.button_tickle.setChecked(False)
         self.button_tickle.setObjectName("button_tickle")
         self.verticalLayout.addWidget(self.button_tickle)
         self.button_feed = QtWidgets.QPushButton(parent=self.verticalLayoutWidget)
         self.button_feed.setMaximumSize(QtCore.QSize(100, 25))
-        self.button_feed.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(34,177,76); /* Background color when checked */\n"
-"}")
+        self.button_feed.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(34,177,76); /* Background color when checked */\n"
+            "}"
+        )
         self.button_feed.setCheckable(True)
         self.button_feed.setChecked(False)
         self.button_feed.setObjectName("button_feed")
         self.verticalLayout.addWidget(self.button_feed)
         self.button_too_hot = QtWidgets.QPushButton(parent=self.verticalLayoutWidget)
         self.button_too_hot.setMaximumSize(QtCore.QSize(100, 25))
-        self.button_too_hot.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(34,177,76); /* Background color when checked */\n"
-"}")
+        self.button_too_hot.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(34,177,76); /* Background color when checked */\n"
+            "}"
+        )
         self.button_too_hot.setCheckable(True)
         self.button_too_hot.setChecked(False)
         self.button_too_hot.setObjectName("button_too_hot")
         self.verticalLayout.addWidget(self.button_too_hot)
         self.button_too_loud = QtWidgets.QPushButton(parent=self.verticalLayoutWidget)
         self.button_too_loud.setMaximumSize(QtCore.QSize(100, 25))
-        self.button_too_loud.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(34,177,76); /* Background color when checked */\n"
-"}")
+        self.button_too_loud.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(34,177,76); /* Background color when checked */\n"
+            "}"
+        )
         self.button_too_loud.setCheckable(True)
         self.button_too_loud.setChecked(False)
         self.button_too_loud.setObjectName("button_too_loud")
         self.verticalLayout.addWidget(self.button_too_loud)
         self.button_too_calm = QtWidgets.QPushButton(parent=self.verticalLayoutWidget)
         self.button_too_calm.setMaximumSize(QtCore.QSize(100, 25))
-        self.button_too_calm.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(34,177,76); /* Background color when checked */\n"
-"}")
+        self.button_too_calm.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(34,177,76); /* Background color when checked */\n"
+            "}"
+        )
         self.button_too_calm.setCheckable(True)
         self.button_too_calm.setChecked(False)
         self.button_too_calm.setObjectName("button_too_calm")
         self.verticalLayout.addWidget(self.button_too_calm)
         self.button_too_bright = QtWidgets.QPushButton(parent=self.verticalLayoutWidget)
         self.button_too_bright.setMaximumSize(QtCore.QSize(100, 25))
-        self.button_too_bright.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(34,177,76); /* Background color when checked */\n"
-"}")
+        self.button_too_bright.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(34,177,76); /* Background color when checked */\n"
+            "}"
+        )
         self.button_too_bright.setCheckable(True)
         self.button_too_bright.setChecked(False)
         self.button_too_bright.setObjectName("button_too_bright")
         self.verticalLayout.addWidget(self.button_too_bright)
         self.button_reanimate = QtWidgets.QPushButton(parent=self.verticalLayoutWidget)
         self.button_reanimate.setMaximumSize(QtCore.QSize(100, 25))
-        self.button_reanimate.setStyleSheet("QPushButton {\n"
-"    background-color: white; /* Normal background color */\n"
-"}\n"
-"\n"
-"QPushButton:checked {\n"
-"    background-color: rgb(34,177,76); /* Background color when checked */\n"
-"}")
+        self.button_reanimate.setStyleSheet(
+            "QPushButton {\n"
+            "    background-color: white; /* Normal background color */\n"
+            "}\n"
+            "\n"
+            "QPushButton:checked {\n"
+            "    background-color: rgb(34,177,76); /* Background color when checked */\n"
+            "}"
+        )
         self.button_reanimate.setCheckable(True)
         self.button_reanimate.setChecked(False)
         self.button_reanimate.setObjectName("button_reanimate")

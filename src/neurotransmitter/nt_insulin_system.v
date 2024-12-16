@@ -38,7 +38,7 @@ module nt_insulin_system (
     nt_neurotransmitter_level #(
         .N(7), 
         .SET_VAL(64), 
-        .DEFAULT_VAL(96),
+        .DEFAULT_VAL(64),
         .FAST_STEP(3)
     ) insulin_resource (
         .clk(clk),
