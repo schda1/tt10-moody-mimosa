@@ -1,3 +1,4 @@
+/* verilator lint_off UNUSEDSIGNAL */
 `default_nettype none
 
 module heartbeat_regulator (
@@ -9,5 +10,7 @@ module heartbeat_regulator (
 );
 
 assign heartbeat = 0;
+
+wire _unused = &{sleep_state, neurotransmitter_level, stimuli, emotional_state, 1'b0};
 
 endmodule

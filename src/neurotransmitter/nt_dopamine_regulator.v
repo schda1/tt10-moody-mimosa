@@ -1,3 +1,5 @@
+/* verilator lint_off UNUSEDSIGNAL */
+
 `default_nettype none
 
 /**
@@ -111,8 +113,8 @@ assign ext_red = (sleep_state != ASLEEP) &&
                  ((loud || hot) || ((~tired) && (bright || talk_to || play_with)));
 
 // Truth table (reducing dominant)
-assign inc = (!int_red && !ext_red);
-assign dec = (!ext_enh && int_red && !ext_red) || (!int_enh && !int_red && ext_red) || (int_red && ext_red);
+assign inc = (!int_red && !ext_red) && (CORT != 2'b11);
+assign dec = (!ext_enh && int_red && !ext_red) || (!int_enh && !int_red && ext_red) || (int_red && ext_red) || (CORT == 2'b11);
 assign fast = (int_red && ext_red) || (int_enh && ext_enh && !int_red && !ext_red);
 
 endmodule

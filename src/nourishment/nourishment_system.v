@@ -1,3 +1,4 @@
+/* verilator lint_off UNUSEDSIGNAL */
 `default_nettype none
 
 module nourishment_system (
@@ -50,5 +51,7 @@ module nourishment_system (
     `ifdef PY_VERILATOR
     assign dbg_nourishment = glucose;
     `endif
+
+    wire _unused = &{sleep_state, glucose[4:0], 1'b0};
     
 endmodule

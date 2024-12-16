@@ -1,3 +1,4 @@
+/* verilator lint_off UNUSEDSIGNAL */
 `default_nettype none
 
 module nt_neurotransmitter_system (

@@ -1,3 +1,4 @@
+/* verilator lint_off UNUSEDSIGNAL */
 `default_nettype none
 
 module emotion_regulator (
@@ -26,5 +27,7 @@ assign emotional_state[4] = (GLUT == 2'b11);
 assign emotional_state[5] = (INS == 2'b11);
 assign emotional_state[6] = (NE == 2'b11);
 assign emotional_state[7] = (SER == 2'b11);
+
+wire _unused = &{sleep_state, 1'b0};
 
 endmodule

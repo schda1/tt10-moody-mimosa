@@ -1,3 +1,4 @@
+/* verilator lint_off UNUSEDSIGNAL */
 `default_nettype none
 
 module action_regulator (
@@ -8,5 +9,7 @@ module action_regulator (
 );
 
 assign action = 0;
+
+wire _unused = &{stimuli, emotional_state, sleep_state, 1'b0};
 
 endmodule

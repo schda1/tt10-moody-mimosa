@@ -1,3 +1,4 @@
+/* verilator lint_off UNUSEDSIGNAL */
 `default_nettype none
 
 module nt_glutamate_system (
@@ -56,5 +57,7 @@ module nt_glutamate_system (
     `ifdef PY_VERILATOR
     assign dbg_glutamate = glutamate;
     `endif
+
+    wire _unused = &{glutamate[4:0], 1'b0};
     
 endmodule

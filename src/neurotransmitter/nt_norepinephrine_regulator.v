@@ -1,5 +1,5 @@
+/* verilator lint_off UNUSEDSIGNAL */
 `default_nettype none
-
 
 /**  
  *  Background about norepinephrine:

@@ -1,3 +1,4 @@
+/* verilator lint_off UNUSEDSIGNAL */
 `default_nettype none
 
 module nt_norepinephrine_system (
@@ -20,6 +21,7 @@ module nt_norepinephrine_system (
     wire setval;
     wire [6:0] norepinephrine;
 
+    assign norepinephrine[6] = 0;
     assign setval = 0;
 
     /* Regulator for the norepinephrine level */
@@ -36,8 +38,8 @@ module nt_norepinephrine_system (
 
     /* norepinephrine resource */
     nt_neurotransmitter_level #(
-        .N(7), 
-        .SET_VAL(64), 
+        .N(6), 
+        .SET_VAL(32), 
         .DEFAULT_VAL(0),
         .FAST_STEP(3)
     ) norepinephrine_resource (
@@ -47,14 +49,16 @@ module nt_norepinephrine_system (
         .dec(dec),
         .fast(fast),
         .setval(setval), 
-        .value(norepinephrine)
+        .value(norepinephrine[5:0])
     );
 
     /* norepinephrine level, downscaled (2-bit) */
-    assign norepinephrine_level = norepinephrine[6:5];
+    assign norepinephrine_level = norepinephrine[5:4];
 
     `ifdef PY_VERILATOR
     assign dbg_norepinephrine = norepinephrine;
     `endif
+
+    wire _unused = &{norepinephrine[6], norepinephrine[3:0], 1'b0};
     
 endmodule

@@ -34,7 +34,6 @@ project:
     - "heartbeat/heartbeat_regulator.v"
     - "nourishment/nourishment_system.v"
     - "nourishment/nourishment_regulator.v"
-    - "sleep/sleep_controller.v"
     - "sleep/vital_energy_system.v"
     - "sleep/vital_energy_regulator.v"
     - "sleep/sleep_controller.v"

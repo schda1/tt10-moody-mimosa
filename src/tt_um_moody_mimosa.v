@@ -112,7 +112,7 @@ module tt_um_moody_mimosa (
         .emotional_state (emotional_state)
     );
 
-    vital_energy_system vital_energy (
+    vital_energy_system vital_energy_sys (
         .clk (clk_model),
         .rst_n (rst_n),
         .neurotransmitter_level (neurotransmitter_level_out),
@@ -157,13 +157,13 @@ module tt_um_moody_mimosa (
 
     heartbeat_regulator heartbeat_ (
         .sleep_state (sleep_state),
-        .neurotransmitter_level (),
+        .neurotransmitter_level (neurotransmitter_level_out),
         .stimuli (stimuli), 
         .emotional_state (emotional_state),
         .heartbeat (heartbeat)
     );
 
-    wire _unused = &{ena, clk, rst_n, 1'b0};
+    wire _unused = &{ena, clk, rst_n, ui_in[0], uio_in[7:4], 1'b0};
 
     `ifdef PY_VERILATOR
     assign dbg_stimuli = stimuli;

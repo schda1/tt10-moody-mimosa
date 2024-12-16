@@ -1,3 +1,4 @@
+/* verilator lint_off UNUSEDSIGNAL */
 `default_nettype none
 
 module nt_insulin_system (
@@ -56,5 +57,7 @@ module nt_insulin_system (
     `ifdef PY_VERILATOR
     assign dbg_insulin = insulin;
     `endif
+
+    wire _unused = &{insulin[4:0], 1'b0};
     
 endmodule

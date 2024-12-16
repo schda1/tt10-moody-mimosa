@@ -1,3 +1,4 @@
+/* verilator lint_off UNUSEDSIGNAL */
 `default_nettype none
 
 module vital_energy_system (
@@ -13,7 +14,6 @@ module vital_energy_system (
     `endif
 );
     wire inc, dec, fast, setval;
-    wire [1:0] nourishment_level;
     wire [6:0] vital_energy;
 
     assign vital_energy_level = vital_energy[6:5];
@@ -48,5 +48,7 @@ module vital_energy_system (
     `ifdef PY_VERILATOR
     assign dbg_vital_energy = vital_energy;
     `endif
+
+    wire _unused = &{vital_energy[4:0], 1'b0};
     
 endmodule

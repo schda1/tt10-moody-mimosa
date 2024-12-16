@@ -1,3 +1,4 @@
+/* verilator lint_off UNUSEDSIGNAL */
 `default_nettype none
 
 /** 
@@ -21,6 +22,7 @@ module vital_energy_regulator (
 ); 
 
 localparam ASLEEP = 2'b00;  
+
 
 wire play_with;
 wire [1:0] ACH, DOP, GABA, GLUT, INS, SER, CORT, NE;
@@ -51,4 +53,9 @@ assign fast = ((sleep_state == ASLEEP) &&
                (CORT == 2'b10 ) ||
                (SER  == 2'b00 ) ||
                (play_with     ));
+
+assign setval = 0;
+
+wire _unused = &{action, stimuli[15:2], stimuli[0], ACH, DOP, GABA, GLUT, 1'b0};
+
 endmodule

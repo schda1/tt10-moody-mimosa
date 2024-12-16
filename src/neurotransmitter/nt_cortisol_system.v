@@ -1,3 +1,5 @@
+/* verilator lint_off UNUSEDSIGNAL */
+
 `default_nettype none
 
 module nt_cortisol_system (
@@ -39,7 +41,7 @@ module nt_cortisol_system (
         .N(7), 
         .SET_VAL(64), 
         .DEFAULT_VAL(0),
-        .FAST_STEP(3)
+        .FAST_STEP(2)
     ) cortisol_resource (
         .clk(clk),
         .rst_n(rst_n), 
@@ -56,5 +58,7 @@ module nt_cortisol_system (
     `ifdef PY_VERILATOR
     assign dbg_cortisol = cortisol;
     `endif
+
+    wire _unused = &{cortisol[4:0], 1'b0};
     
 endmodule

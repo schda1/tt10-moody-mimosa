@@ -1,3 +1,4 @@
+/* verilator lint_off UNUSEDSIGNAL */
 `default_nettype none
 
 module nt_serotonin_system (
@@ -56,5 +57,7 @@ module nt_serotonin_system (
     `ifdef PY_VERILATOR
     assign dbg_serotonin = serotonin;
     `endif
+
+    wire _unused = &{serotonin[4:0], 1'b0};
     
 endmodule

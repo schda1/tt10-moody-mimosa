@@ -1,3 +1,4 @@
+/* verilator lint_off UNUSEDSIGNAL */
 `default_nettype none
 
 module sleep_controller (
@@ -15,7 +16,7 @@ module sleep_controller (
 
     wire [1:0] NE, CORT, ACH, DOP, GABA, GLUT, INS, SER;
     wire hungry;
-    wire tickle, play_with, talk_to, calm_down;
+    wire tickle, play_with, talk_to;
     wire hot, loud, bright;
 
     /* Neurotransmitter levels */
@@ -32,7 +33,6 @@ module sleep_controller (
     assign tickle = stimuli[0];
     assign play_with = stimuli[1];
     assign talk_to = stimuli[2];
-    assign calm_down = stimuli[3];
     assign hot = stimuli[6];
     assign loud = stimuli[8];
     assign bright = stimuli[10];
@@ -50,7 +50,7 @@ module sleep_controller (
                     if ((vital_energy_level == 2'b00) && 
                         (NE   == 2'b00 || NE   == 2'b01 ) &&
                         (CORT == 2'b00 || CORT == 2'b01 ) &&
-                        (~tickle && ~play_with && ~talk_to && ~hot && ~bright && ~loud && ~hungry)
+                        (!tickle && !play_with && !talk_to && !hot && !loud && !hungry)
                         ) 
                     begin
                         sleep_state <= ASLEEP;
@@ -59,9 +59,8 @@ module sleep_controller (
                 ASLEEP: begin
                     /* Wake up */
                     if ((vital_energy_level == 2'b11) || 
-                        (NE   == 2'b10 || NE   == 2'b11 ) &&
-                        (CORT == 2'b10 || CORT == 2'b11 ) &&
-                        (tickle || play_with || talk_to || hot || bright || loud || hungry)
+                        ( NE   == 2'b11 ) || ( CORT == 2'b11 ) ||
+                        (tickle || play_with || talk_to || hot || loud || hungry)
                         )
                     begin
                         sleep_state <= AWAKE;
@@ -71,5 +70,7 @@ module sleep_controller (
             endcase
         end
     end
+
+    wire _unused = &{action, stimuli[15:12], stimuli[9], stimuli[7], stimuli[5:4], stimuli[3], ACH, DOP, GABA, GLUT, INS, SER, 1'b0};
 
 endmodule

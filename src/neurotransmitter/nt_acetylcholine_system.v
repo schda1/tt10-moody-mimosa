@@ -1,3 +1,5 @@
+/* verilator lint_off UNUSEDSIGNAL */
+
 `default_nettype none
 
 module nt_acetylcholine_system (
@@ -56,5 +58,7 @@ module nt_acetylcholine_system (
     `ifdef PY_VERILATOR
     assign dbg_acetylcholine = acetylcholine;
     `endif
+
+    wire _unused = &{acetylcholine[4:0], 1'b0};
     
 endmodule
