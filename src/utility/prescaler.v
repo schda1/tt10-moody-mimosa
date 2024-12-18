@@ -4,7 +4,7 @@ module prescaler #(parameter DIV_FACTOR = 4) (
     output reg clk_out     // Prescaled clock output
 );
 
-    localparam HALF_DIV = DIV_FACTOR >> 1; 
+    localparam HALF_DIV = DIV_FACTOR >> 1;
 
     reg [$clog2(HALF_DIV)+1:0] div_counter;
 
@@ -21,5 +21,5 @@ module prescaler #(parameter DIV_FACTOR = 4) (
             end
         end
     end
-    
+
 endmodule

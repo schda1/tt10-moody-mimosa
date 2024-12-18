@@ -20,12 +20,9 @@ class NeurotransmitterLevels:
     associated with the mimosa
     """
 
-    acetylcholine: int = 0
     cortisol: int = 0
     dopamine: int = 0
     gaba: int = 0
-    glutamate: int = 0
-    insulin: int = 0
     norepinephrine: int = 0
     serotonin: int = 0
 
@@ -110,12 +107,9 @@ class MoodyMimosaSimulator:
 
         # Prepare output data
         neurotransmitter = NeurotransmitterLevels(
-            acetylcholine=int(self.sim.io.dbg_acetylcholine),
             cortisol=int(self.sim.io.dbg_cortisol),
             dopamine=int(self.sim.io.dbg_dopamine),
             gaba=int(self.sim.io.dbg_gaba),
-            glutamate=int(self.sim.io.dbg_glutamate),
-            insulin=int(self.sim.io.dbg_insulin),
             norepinephrine=int(self.sim.io.dbg_norepinephrine),
             serotonin=int(self.sim.io.dbg_serotonin),
         )

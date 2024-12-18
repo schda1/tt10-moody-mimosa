@@ -8,8 +8,8 @@ module action_regulator (
     input wire clk,
     input wire rst_n,
     input wire [15:0] stimuli,
-    input wire [7:0] emotional_state, 
-    input wire sleep_state, 
+    input wire [7:0] emotional_state,
+    input wire sleep_state,
     input wire [1:0] vital_energy_level,
     input wire sleep_in_signal,
     input wire wake_up_signal,
@@ -17,19 +17,19 @@ module action_regulator (
 );
 
     /* Define states */
-    localparam SLEEP          = 8'b00000001;
-    localparam EAT            = 8'b00000010;
-    localparam PLAY           = 8'b00000100;
-    localparam SMILE          = 8'b00001000;
-    localparam BABBLE         = 8'b00010000;
-    localparam KICK_LEGS      = 8'b00100000;
-    localparam IDLE           = 8'b01000000;
-    localparam CRY            = 8'b10000000;
+    localparam SLEEP      = 8'b00000001;
+    localparam EAT        = 8'b00000010;
+    localparam PLAY       = 8'b00000100;
+    localparam SMILE      = 8'b00001000;
+    localparam BABBLE     = 8'b00010000;
+    localparam KICK_LEGS  = 8'b00100000;
+    localparam IDLE       = 8'b01000000;
+    localparam CRY        = 8'b10000000;
 
     reg [7:0] next_action;
 
     /* External stimuli */
-    wire tickle, play_with, talk_to, calm_down, feed, hungry, tired;    
+    wire tickle, play_with, talk_to, calm_down, feed, hungry, tired;
     assign tickle    = stimuli[0];
     assign play_with = stimuli[1];
     assign talk_to   = stimuli[2];
@@ -83,7 +83,7 @@ module action_regulator (
             next_action = CRY;
         end else if (apathetic) begin
             next_action = IDLE;
-        
+
         end else begin
             case (action)
                 /* 0 SLEEP */
@@ -107,7 +107,7 @@ module action_regulator (
                     end else if (tired) begin
                         next_action = IDLE;
                     end else begin
-                        next_action = PLAY;    
+                        next_action = PLAY;
                     end
                 end
                 /* 3 SMILE */
@@ -144,7 +144,7 @@ module action_regulator (
                 end
 
                 default: begin
-                    next_action = IDLE; 
+                    next_action = IDLE;
                 end
             endcase
         end

@@ -1,26 +1,24 @@
+`default_nettype none
 `ifndef PY_SIM
 /* verilator lint_off UNUSEDSIGNAL */
 `endif
 
-`default_nettype none
-
 /**
- * Background about dopamine: 
- * Dopamine is a neurotransmitter that plays a central role in reward, 
- * motivation, and pleasure. It regulates mood, attention, learning, and 
- * motor control. High dopamine levels are associated with feelings of euphoria 
- * and drive, while low levels can lead to apathy, depression, or motor impairments. 
- * Dopamine also influences the brain's stress response by modulating other 
- * neurotransmitters like serotonin and GABA. Its balance is critical for emotional 
+ * Background about dopamine:
+ * Dopamine is a neurotransmitter that plays a central role in reward,
+ * motivation, and pleasure. It regulates mood, attention, learning, and
+ * motor control. High dopamine levels are associated with feelings of euphoria
+ * and drive, while low levels can lead to apathy, depression, or motor impairments.
+ * Dopamine also influences the brain's stress response by modulating other
+ * neurotransmitters like serotonin and GABA. Its balance is critical for emotional
  * well-being, decision-making, and physical coordination.
- * 
+ *
  * Internal, enhancing:
  * - Low Cortisol, NE, gaba, insulin
- * - High ACH, Glutamate
  * - Tired
  * - Hunger
  *
- * Internal, reducing: 
+ * Internal, reducing:
  * - High cortisol, NE, serotonin, gaba, insulin
  * - Overfeeding
  * - Sleep
@@ -37,51 +35,55 @@
  */
 
 module nt_dopamine_regulator (
-    input wire [15:0] neurotransmitter_level,   
+    input wire [9:0] neurotransmitter_level,
     input wire [7:0] emotional_state,
     input wire [15:0] stimuli,
-    input wire [7:0] action, 
+    input wire [7:0] action,
     input wire sleep_state,
     output wire inc,
     output wire dec,
     output wire fast
 );
 
-    localparam ASLEEP = 1'b0;  
+    localparam ASLEEP = 1'b0;
     wire int_enh, ext_enh, int_red, ext_red;
 
-    wire [1:0] ACH, DOP, GABA, GLUT, INS, SER, CORT, NE;
-    wire stessed, hungry, overfed, tired;
-    wire tickle, play_with, talk_to, calm_down;
-    wire cool, hot, loud, dark, bright, quiet;
-
     /* Neurotransmitter levels */
-    assign ACH  = neurotransmitter_level[1:0];
-    assign CORT = neurotransmitter_level[3:2];
-    assign DOP  = neurotransmitter_level[5:4];
-    assign GABA = neurotransmitter_level[7:6];
-    assign GLUT = neurotransmitter_level[9:8];
-    assign INS  = neurotransmitter_level[11:10];
-    assign NE   = neurotransmitter_level[13:12];
-    assign SER  = neurotransmitter_level[15:14];
+    wire [1:0] DOP, GABA, SER, CORT, NE;
+    assign CORT = neurotransmitter_level[1:0];
+    assign DOP  = neurotransmitter_level[3:2];
+    assign GABA = neurotransmitter_level[5:4];
+    assign NE   = neurotransmitter_level[7:6];
+    assign SER  = neurotransmitter_level[9:8];
 
-    /* Emotional states */ 
-    assign stessed = emotional_state[1];
+    /* Actions */
+    wire sleep, eat, play, smile, babble, kick_legs, idle, cry;
+    assign sleep     = action[0];
+    assign eat       = action[1];
+    assign play      = action[2];
+    assign smile     = action[3];
+    assign babble    = action[4];
+    assign kick_legs = action[5];
+    assign idle      = action[6];
+    assign cry       = action[7];
 
     /* Stimuli */
-    assign tickle = stimuli[0];
+    wire hungry, starving, tired;
+    wire tickle, play_with, talk_to, calm_down;
+    wire cool, hot, loud, dark, bright, quiet;
+    assign tickle    = stimuli[0];
     assign play_with = stimuli[1];
-    assign talk_to = stimuli[2];
+    assign talk_to   = stimuli[2];
     assign calm_down = stimuli[3];
-    assign cool = stimuli[5];
-    assign hot = stimuli[6];
-    assign quiet = stimuli[7];
-    assign loud = stimuli[8];
-    assign dark = stimuli[9];
-    assign bright = stimuli[10];
-    assign hungry = stimuli[11];
-    assign overfed = stimuli[12];
-    assign tired = stimuli[13];
+    assign cool      = stimuli[5];
+    assign hot       = stimuli[6];
+    assign quiet     = stimuli[7];
+    assign loud      = stimuli[8];
+    assign dark      = stimuli[9];
+    assign bright    = stimuli[10];
+    assign hungry    = stimuli[11];
+    assign starving  = stimuli[12];
+    assign tired     = stimuli[13];
 
     assign int_enh = (sleep_state != ASLEEP) &&
                      (( tired || hungry ) ||
@@ -90,28 +92,22 @@ module nt_dopamine_regulator (
                       ( NE   == 2'b00   ) ||
                       ( NE   == 2'b01   ) ||
                       ( GABA == 2'b00   ) ||
-                      ( GABA == 2'b01   ) ||
-                      ( INS  == 2'b00   ) ||
-                      ( ACH  == 2'b11   ) ||
-                      ( GLUT == 2'b11   )
+                      ( GABA == 2'b01   )
                      );
 
     assign int_red = (sleep_state == ASLEEP) ||
-                     (( overfed        ) ||
+                     (( starving        ) ||
                       ( tired && hungry) ||
                       ( CORT == 2'b11  ) ||
                       ( NE   == 2'b11  ) ||
                       ( SER  == 2'b11  ) ||
-                      ( GABA == 2'b11  ) ||
-                      ( INS  == 2'b11  ) ||
-                      ( ACH  == 2'b00  ) ||
-                      ( GLUT == 2'b00  )
+                      ( GABA == 2'b11  )
                      );
 
     assign ext_enh = (sleep_state != ASLEEP) &&
                      ((bright || cool) || ((~tired) && (talk_to || play_with)));
 
-    assign ext_red = (sleep_state != ASLEEP) && 
+    assign ext_red = (sleep_state != ASLEEP) &&
                      ((loud || hot) || ((~tired) && (bright || talk_to || play_with)));
 
     // Truth table (reducing dominant)

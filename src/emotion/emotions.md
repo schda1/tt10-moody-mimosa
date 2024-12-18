@@ -1,4 +1,4 @@
-# 
+#
 
 |           | NE  | Cortisol | Dopamine | Serotonin | Gaba | Insulin | Glutamate | ACH | Vital energy |
 |---------  |-----|----------|----------|-----------|------|---------|-----------|-----| ------------ |

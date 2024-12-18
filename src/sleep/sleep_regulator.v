@@ -4,7 +4,7 @@
 `default_nettype none
 
 module sleep_regulator (
-    input wire [15:0] neurotransmitter_level,
+    input wire [9:0] neurotransmitter_level,
     input wire [15:0] stimuli,
     input wire [7:0] action,
     input wire [1:0] vital_energy_level,
@@ -13,19 +13,16 @@ module sleep_regulator (
     output wire sleep_in_signal
 );
 
-    wire [1:0] NE, CORT, ACH, DOP, GABA, GLUT, INS, SER;
+    wire [1:0] NE, CORT, DOP, GABA, SER;
     wire hungry, hot, loud, bright;
     wire tickle, play_with, talk_to;
 
     /* Neurotransmitter levels */
-    assign ACH  = neurotransmitter_level[1:0];
-    assign CORT = neurotransmitter_level[3:2];
-    assign DOP  = neurotransmitter_level[5:4];
-    assign GABA = neurotransmitter_level[7:6];
-    assign GLUT = neurotransmitter_level[9:8];
-    assign INS  = neurotransmitter_level[11:10];
-    assign NE   = neurotransmitter_level[13:12];
-    assign SER  = neurotransmitter_level[15:14];
+    assign CORT = neurotransmitter_level[1:0];
+    assign DOP  = neurotransmitter_level[3:2];
+    assign GABA = neurotransmitter_level[5:4];
+    assign NE   = neurotransmitter_level[7:6];
+    assign SER  = neurotransmitter_level[9:8];
 
     /* Stimuli */
     assign tickle = stimuli[0];
@@ -37,15 +34,15 @@ module sleep_regulator (
     assign hungry = stimuli[11];
 
     assign sleep_in_signal = (vital_energy_zero              ) ||
-                             ((vital_energy_level == 2'b00    ) && 
+                             ((vital_energy_level == 2'b00    ) &&
                               (NE   == 2'b00 || NE   == 2'b01 ) &&
                               (CORT == 2'b00 || CORT == 2'b01 ) &&
                               (!tickle && !play_with && !talk_to && !hot && !bright && !loud && !hungry)
                              );
 
-    assign wake_up_signal =  (vital_energy_level == 2'b11    ) || 
-                             (vital_energy_level != 2'b00    ) && 
-                             ((NE   == 2'b10 || NE   == 2'b11 ) || 
+    assign wake_up_signal =  (vital_energy_level == 2'b11    ) ||
+                             (vital_energy_level != 2'b00    ) &&
+                             ((NE   == 2'b10 || NE   == 2'b11 ) ||
                               (CORT == 2'b10 || CORT == 2'b11 ) ||
                               (tickle || play_with || talk_to || hot || bright || loud || hungry)
                              );

@@ -1,7 +1,7 @@
+`default_nettype none
 `ifndef PY_SIM
 /* verilator lint_off UNUSEDSIGNAL */
 `endif
-`default_nettype none
 
 module nt_neurotransmitter_level #(
     parameter N = 8,             // Bit width
@@ -27,22 +27,22 @@ module nt_neurotransmitter_level #(
             case ({inc, dec})
                 2'b10: begin
                     if (fast) begin
-                        if (value <= {N{1'b1}} - FAST_STEP) 
+                        if (value <= {N{1'b1}} - FAST_STEP)
                             value <= value + FAST_STEP;
                         else
                             value <= {N{1'b1}};
                     end else if (~&value) begin
-                        value <= value + 1; 
+                        value <= value + 1;
                     end
                 end
                 2'b01: begin
                     if (fast) begin
                         if (value >= FAST_STEP)
-                            value <= value - FAST_STEP; 
+                            value <= value - FAST_STEP;
                         else
-                            value <= 0; 
+                            value <= 0;
                     end else if (|value) begin
-                        value <= value - 1; 
+                        value <= value - 1;
                     end
                 end
                 default: ;

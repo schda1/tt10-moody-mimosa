@@ -14,7 +14,7 @@
 | 9    | Dark        |
 | 10   | Bright      |
 | 11   | Hungry      |
-| 12   | Overfed     |
+| 12   | starving     |
 | 13   | Tired       |
 | 14   | -           |
 | 15   | -           |
@@ -25,7 +25,7 @@
 | ---- | ---------- |
 | 0    |            |
 
-# Emotion 
+# Emotion
 
 | Bit  | Function   |
 | ---- | ---------- |

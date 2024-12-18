@@ -28,18 +28,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def init_plot(self):
         # Initialize plots
-        self.ax[0].plot([], [], label="Acetylcholine", color="blue", linewidth=1.5)
-        self.ax[0].plot([], [], label="Glutamate", color="red", linewidth=1.5)
-        self.ax[1].plot([], [], label="Dopamine", color="blue", linewidth=1.5)
-        self.ax[1].plot([], [], label="Serotonin", color="red", linewidth=1.5)
-        self.ax[2].plot([], [], label="Norepinephrine", color="blue", linewidth=1.5)
-        self.ax[2].plot([], [], label="Cortisol", color="red", linewidth=1.5)
-        self.ax[3].plot([], [], label="Gaba", color="blue", linewidth=1.5)
-        self.ax[4].plot([], [], label="Insulin", color="blue", linewidth=1.5)
-        self.ax[5].plot([], [], label="Nourishment", color="blue", linewidth=1.5)
-        self.ax[6].plot([], [], label="Vital energy", color="blue", linewidth=1.5)
-
-        self.ax[7].plot([], [], label="Hunger", color="blue", linewidth=1.5)
+        self.ax[0].plot([], [], label="Dopamine", color="blue", linewidth=1.5)
+        self.ax[0].plot([], [], label="Serotonin", color="red", linewidth=1.5)
+        self.ax[1].plot([], [], label="Norepinephrine", color="blue", linewidth=1.5)
+        self.ax[1].plot([], [], label="Cortisol", color="red", linewidth=1.5)
+        self.ax[2].plot([], [], label="Gaba", color="blue", linewidth=1.5)
+        self.ax[3].plot([], [], label="Nourishment", color="blue", linewidth=1.5)
+        self.ax[4].plot([], [], label="Vital energy", color="blue", linewidth=1.5)
+        self.ax[5].plot([], [], label="Hunger", color="blue", linewidth=1.5)
 
         for ax in self.ax.flatten():
             ax.tick_params(axis="both", labelsize=6)
@@ -58,18 +54,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         size = self.plot_data.size
 
         # Update the data for each nt dynamically
-        self.ax[0].lines[0].set_data(range(id), self.plot_data.data["nt_acetylcholine"][:id])
-        self.ax[0].lines[1].set_data(range(id), self.plot_data.data["nt_glutamate"][:id])
-        self.ax[1].lines[0].set_data(range(id), self.plot_data.data["nt_dopamine"][:id])
-        self.ax[1].lines[1].set_data(range(id), self.plot_data.data["nt_serotonin"][:id])
-        self.ax[2].lines[0].set_data(range(id), self.plot_data.data["nt_norepinephrine"][:id])
-        self.ax[2].lines[1].set_data(range(id), self.plot_data.data["nt_cortisol"][:id])
-        self.ax[3].lines[0].set_data(range(id), self.plot_data.data["nt_gaba"][:id])
-        self.ax[4].lines[0].set_data(range(id), self.plot_data.data["nt_insulin"][:id])
-        self.ax[5].lines[0].set_data(range(id), self.plot_data.data["nourishment"][:id])
-        self.ax[6].lines[0].set_data(range(id), self.plot_data.data["vital_energy"][:id])
+        self.ax[0].lines[0].set_data(range(id), self.plot_data.data["nt_dopamine"][:id])
+        self.ax[0].lines[1].set_data(range(id), self.plot_data.data["nt_serotonin"][:id])
+        self.ax[1].lines[0].set_data(range(id), self.plot_data.data["nt_norepinephrine"][:id])
+        self.ax[1].lines[1].set_data(range(id), self.plot_data.data["nt_cortisol"][:id])
+        self.ax[2].lines[0].set_data(range(id), self.plot_data.data["nt_gaba"][:id])
+        self.ax[3].lines[0].set_data(range(id), self.plot_data.data["nourishment"][:id])
+        self.ax[4].lines[0].set_data(range(id), self.plot_data.data["vital_energy"][:id])
 
-        self.ax[7].lines[0].set_data(
+        self.ax[5].lines[0].set_data(
             range(id),
             read_bit(self.plot_data.data["stimuli"][:id], 11),
         )

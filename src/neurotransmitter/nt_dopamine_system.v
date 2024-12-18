@@ -1,17 +1,17 @@
+`default_nettype none
 `ifndef PY_SIM
 /* verilator lint_off UNUSEDSIGNAL */
 `endif
-`default_nettype none
 
 module nt_dopamine_system (
-    input wire clk, 
+    input wire clk,
     input wire rst_n,
-    input wire [15:0] neurotransmitter_level,
+    input wire [9:0] neurotransmitter_level,
     input wire [7:0] emotional_state,
     input wire [15:0] stimuli,
-    input wire [7:0] action, 
+    input wire [7:0] action,
     input wire sleep_state,
-    output wire [1:0] dopamine_level 
+    output wire [1:0] dopamine_level
     `ifdef PY_SIM
     , output wire [6:0] dbg_dopamine
     `endif
@@ -26,27 +26,27 @@ module nt_dopamine_system (
     nt_dopamine_regulator dopamine_regulator (
         .neurotransmitter_level(neurotransmitter_level),
         .emotional_state(emotional_state),
-        .stimuli(stimuli), 
-        .action(action), 
+        .stimuli(stimuli),
+        .action(action),
         .sleep_state(sleep_state),
         .inc(inc),
-        .dec(dec), 
+        .dec(dec),
         .fast(fast)
     );
 
     /* Dopamine resource */
     nt_neurotransmitter_level #(
-        .N(7), 
-        .SET_VAL(64), 
+        .N(7),
+        .SET_VAL(64),
         .DEFAULT_VAL(64),
         .FAST_STEP(3)
     ) dopamine_resource (
         .clk(clk),
-        .rst_n(rst_n), 
+        .rst_n(rst_n),
         .inc(inc),
         .dec(dec),
         .fast(fast),
-        .setval(setval), 
+        .setval(setval),
         .value(dopamine)
     );
 
@@ -56,5 +56,5 @@ module nt_dopamine_system (
     `ifdef PY_SIM
     assign dbg_dopamine = dopamine;
     `endif
-    
+
 endmodule

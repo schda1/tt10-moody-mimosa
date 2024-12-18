@@ -1,15 +1,15 @@
+`default_nettype none
 `ifndef PY_SIM
 /* verilator lint_off UNUSEDSIGNAL */
 `endif
-`default_nettype none
 
-/** 
- * Model: 
+/**
+ * Model:
  * - If asleep: slow decrease
  * - If awake: fast decrease
  * - If eating: setval (if 00 or 01) + fast increase
  *
- * Truth table: 
+ * Truth table:
  *
  * | Nourishment | Sleep  | Eating  | inc | dec | fast | setval |
  * | ----------- | ------ | ------- | --- | --- | ---- | ------ |
@@ -18,11 +18,11 @@
  * | 0x          | awake  | 1       | 1   | 0   | 1    | 1      |
  * | 1x          | awake  | 1       | 1   | 0   | 1    | 1      |
  *
- */ 
+ */
 
 module nourishment_regulator (
     input wire [15:0] stimuli,
-    input wire [7:0] action, 
+    input wire [7:0] action,
     input wire sleep_state,
     input wire [1:0] nourishment_level,
     output wire inc,
@@ -31,7 +31,7 @@ module nourishment_regulator (
     output wire setval
 );
 
-    localparam ASLEEP = 1'b0;  
+    localparam ASLEEP = 1'b0;
 
     wire feed;
     assign feed = stimuli[4];

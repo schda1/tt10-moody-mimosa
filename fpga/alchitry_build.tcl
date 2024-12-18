@@ -1,5 +1,5 @@
 # Create project
-create_project -force test_project ./build -part xc7a35tftg256-1 
+create_project -force test_project ./build -part xc7a35tftg256-1
 
 # Add source files
 add_files -norecurse ../src
@@ -15,5 +15,5 @@ set_property STEPS.WRITE_BITSTREAM.ARGS.BIN_FILE true [get_runs impl_1]
 launch_runs impl_1 -to_step write_bitstream -jobs 8
 wait_on_runs impl_1
 
-# Copy the bin file from the build folder 
+# Copy the bin file from the build folder
 file copy -force build/test_project.runs/impl_1/au_moody_mimosa.bin .

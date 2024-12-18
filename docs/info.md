@@ -12,8 +12,8 @@ You can also include images in this folder and reference them in the markdown. E
 ### Pinout
 
 
-| Pin      | Name       | Function                          |  
-| -------- | -------    | --------------------------------  | 
+| Pin      | Name       | Function                          |
+| -------- | -------    | --------------------------------  |
 | clk      | clk        | Base clock                        |
 | rst_n    | rst_n      | Reset, active low                 |
 | ui_in[0] | clk_model  | Base clock for model update       |
@@ -25,8 +25,8 @@ You can also include images in this folder and reference them in the markdown. E
 | ui_in[6] | stimulus_6 | -       |
 | ui_in[7] | stimulus_7 | -       |
 
-| Pin       | Name       | Function                |  
-| --------- | -------    | ----------------------- | 
+| Pin       | Name       | Function                |
+| --------- | -------    | ----------------------- |
 | uo_out[0] | emotion_0  | Happy indicator         |
 | uo_out[1] | emotion_1  | Comfortable indicator   |
 | uo_out[2] | emotion_2  | Excited indicator       |
@@ -36,8 +36,8 @@ You can also include images in this folder and reference them in the markdown. E
 | uo_out[6] | emotion_6  | Nervous indicator       |
 | uo_out[6] | emotion_7  | Stressed indicator      |
 
-| Pin        | Dir | Name       | Function          |  
-| ---------- | --- | -------    | ----------------- | 
+| Pin        | Dir | Name       | Function          |
+| ---------- | --- | -------    | ----------------- |
 | uio_out[0] | 1   | asleep     | Asleep indicator  |
 | uio_out[1] | 1   | dead       | Dead indicator    |
 | uio_out[2] | 1   | heartbeat  | hearbeat          |
@@ -105,8 +105,8 @@ The heartbeat depends on the current emotional state. The heartbeat defines how 
 
 ## How to test
 
-There will be some information here. 
+There will be some information here.
 
 ## External hardware
 
-There will be some information here. 
+There will be some information here.
