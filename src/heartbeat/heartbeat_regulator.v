@@ -1,8 +1,10 @@
+`ifndef PY_SIM
 /* verilator lint_off UNUSEDSIGNAL */
+`endif
 `default_nettype none
 
 module heartbeat_regulator (
-    input wire [1:0] sleep_state,
+    input wire sleep_state,
     input wire [15:0] neurotransmitter_level, 
     input wire [15:0] stimuli,
     input wire [7:0] emotional_state,

@@ -6,7 +6,7 @@ project:
   description:  "Moody ASIC reacting to external stimuli"                  
   language:     "Verilog"                  
   clock_hz:     1000000                    
-  tiles:        "1x1"         
+  tiles:        "1x2"         
   top_module:   "tt_um_moody_mimosa"
 
   source_files:
@@ -36,6 +36,7 @@ project:
     - "nourishment/nourishment_regulator.v"
     - "sleep/vital_energy_system.v"
     - "sleep/vital_energy_regulator.v"
+    - "sleep/sleep_regulator.v"
     - "sleep/sleep_controller.v"
     - "utility/dynamic_clock_divider.v"
 

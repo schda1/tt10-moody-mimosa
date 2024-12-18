@@ -1,15 +1,17 @@
+`ifndef PY_SIM
 /* verilator lint_off UNUSEDSIGNAL */
+`endif
 `default_nettype none
 
 module nourishment_system (
     input wire clk,
     input wire rst_n,
-    input wire [1:0] sleep_state,
+    input wire sleep_state,
     input wire [15:0] stimuli,
     input wire [7:0] action, 
     output wire hungry,
     output wire overfed
-    `ifdef PY_VERILATOR
+    `ifdef PY_SIM
     , output wire [6:0] dbg_nourishment      
     `endif
 );
@@ -48,7 +50,7 @@ module nourishment_system (
         .value(glucose)
     );
 
-    `ifdef PY_VERILATOR
+    `ifdef PY_SIM
     assign dbg_nourishment = glucose;
     `endif
     

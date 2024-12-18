@@ -1,4 +1,6 @@
+`ifndef PY_SIM
 /* verilator lint_off UNUSEDSIGNAL */
+`endif
 `default_nettype none
 
 module nt_serotonin_system (
@@ -8,9 +10,9 @@ module nt_serotonin_system (
     input wire [7:0] emotional_state,
     input wire [15:0] stimuli,
     input wire [7:0] action, 
-    input wire [1:0] sleep_state,
+    input wire sleep_state,
     output wire [1:0] serotonin_level
-    `ifdef PY_VERILATOR
+    `ifdef PY_SIM
     , output wire [6:0] dbg_serotonin
     `endif
 );
@@ -51,7 +53,7 @@ module nt_serotonin_system (
     /* serotonin level, downscaled (2-bit) */
     assign serotonin_level = serotonin[6:5];
 
-    `ifdef PY_VERILATOR
+    `ifdef PY_SIM
     assign dbg_serotonin = serotonin;
     `endif
 

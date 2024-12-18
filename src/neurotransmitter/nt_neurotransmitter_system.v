@@ -1,4 +1,6 @@
+`ifndef PY_SIM
 /* verilator lint_off UNUSEDSIGNAL */
+`endif
 `default_nettype none
 
 module nt_neurotransmitter_system (
@@ -7,10 +9,10 @@ module nt_neurotransmitter_system (
     input wire [7:0] emotional_state,
     input wire [15:0] stimuli,
     input wire [7:0] action,
-    input wire [1:0] sleep_state,
+    input wire sleep_state,
     input wire [15:0] neurotransmitter_level_in,
     output wire [15:0] neurotransmitter_level_out
-    `ifdef PY_VERILATOR
+    `ifdef PY_SIM
     , output wire [6:0] dbg_acetylcholine      
     , output wire [6:0] dbg_cortisol
     , output wire [6:0] dbg_dopamine
@@ -40,7 +42,7 @@ module nt_neurotransmitter_system (
         .action(action), 
         .sleep_state(sleep_state), 
         .acetylcholine_level(acetylcholine_level)
-        `ifdef PY_VERILATOR
+        `ifdef PY_SIM
         , .dbg_acetylcholine(dbg_acetylcholine)
         `endif
     );
@@ -54,7 +56,7 @@ module nt_neurotransmitter_system (
         .action(action), 
         .sleep_state(sleep_state), 
         .cortisol_level(cortisol_level)
-        `ifdef PY_VERILATOR
+        `ifdef PY_SIM
         , .dbg_cortisol(dbg_cortisol)
         `endif
     );
@@ -68,7 +70,7 @@ module nt_neurotransmitter_system (
         .action(action), 
         .sleep_state(sleep_state), 
         .dopamine_level(dopamine_level)
-        `ifdef PY_VERILATOR
+        `ifdef PY_SIM
         , .dbg_dopamine(dbg_dopamine)
         `endif
     );
@@ -82,7 +84,7 @@ module nt_neurotransmitter_system (
         .action(action), 
         .sleep_state(sleep_state),
         .gaba_level(gaba_level)
-        `ifdef PY_VERILATOR
+        `ifdef PY_SIM
         , .dbg_gaba(dbg_gaba)
         `endif
     );
@@ -96,7 +98,7 @@ module nt_neurotransmitter_system (
         .action(action), 
         .sleep_state(sleep_state),
         .glutamate_level(glutamate_level)
-        `ifdef PY_VERILATOR
+        `ifdef PY_SIM
         , .dbg_glutamate(dbg_glutamate)
         `endif
     );
@@ -110,7 +112,7 @@ module nt_neurotransmitter_system (
         .action(action), 
         .sleep_state(sleep_state),
         .insulin_level(insulin_level)
-        `ifdef PY_VERILATOR
+        `ifdef PY_SIM
         , .dbg_insulin(dbg_insulin)
         `endif
     );
@@ -124,7 +126,7 @@ module nt_neurotransmitter_system (
         .action(action), 
         .sleep_state(sleep_state),
         .norepinephrine_level(norepinephrine_level)
-        `ifdef PY_VERILATOR
+        `ifdef PY_SIM
         , .dbg_norepinephrine(dbg_norepinephrine)
         `endif
     );
@@ -138,7 +140,7 @@ module nt_neurotransmitter_system (
         .action(action), 
         .sleep_state(sleep_state),
         .serotonin_level(serotonin_level)
-        `ifdef PY_VERILATOR
+        `ifdef PY_SIM
         , .dbg_serotonin(dbg_serotonin)
         `endif
     );

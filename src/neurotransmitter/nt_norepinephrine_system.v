@@ -1,4 +1,6 @@
+`ifndef PY_SIM
 /* verilator lint_off UNUSEDSIGNAL */
+`endif
 `default_nettype none
 
 module nt_norepinephrine_system (
@@ -8,9 +10,9 @@ module nt_norepinephrine_system (
     input wire [7:0] emotional_state,
     input wire [15:0] stimuli,
     input wire [7:0] action, 
-    input wire [1:0] sleep_state,
+    input wire sleep_state,
     output wire [1:0] norepinephrine_level      // Updated norepinephrine level
-    `ifdef PY_VERILATOR
+    `ifdef PY_SIM
     , output wire [6:0] dbg_norepinephrine      // Debug output: norepinephrine value
     `endif
 );
@@ -52,7 +54,7 @@ module nt_norepinephrine_system (
     /* norepinephrine level, downscaled (2-bit) */
     assign norepinephrine_level = norepinephrine[5:4];
 
-    `ifdef PY_VERILATOR
+    `ifdef PY_SIM
     assign dbg_norepinephrine = norepinephrine;
     `endif
 

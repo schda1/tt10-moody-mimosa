@@ -1,4 +1,6 @@
+`ifndef PY_SIM
 /* verilator lint_off UNUSEDSIGNAL */
+`endif
 `default_nettype none
 
 module vital_energy_system (
@@ -7,9 +9,10 @@ module vital_energy_system (
     input wire [15:0] neurotransmitter_level,
     input wire [15:0] stimuli,
     input wire [7:0] action,
-    input wire [1:0] sleep_state,
-    output wire [1:0] vital_energy_level
-    `ifdef PY_VERILATOR
+    input wire sleep_state,
+    output wire [1:0] vital_energy_level,
+    output wire vital_energy_zero
+    `ifdef PY_SIM
     , output wire [6:0] dbg_vital_energy      
     `endif
 );
@@ -17,6 +20,7 @@ module vital_energy_system (
     wire [6:0] vital_energy;
 
     assign vital_energy_level = vital_energy[6:5];
+    assign vital_energy_zero = (vital_energy == 0);
 
     /* Vital energy regulation */
     vital_energy_regulator vital_energy_reg (
@@ -46,7 +50,7 @@ module vital_energy_system (
         .value(vital_energy)
     );
 
-    `ifdef PY_VERILATOR
+    `ifdef PY_SIM
     assign dbg_vital_energy = vital_energy;
     `endif
     

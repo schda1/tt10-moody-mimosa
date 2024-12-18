@@ -85,20 +85,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Update the indicators for emotion, state and heartbeat
         """
         # Update emotion
-        # self.led_em_happy.setChecked(read_bit(output.emotion,0))
-        # self.led_em_comfortable.setChecked(read_bit(output.emotion,1))
-        # self.led_em_excited.setChecked(read_bit(output.emotion,2))
-        # self.led_em_bored.setChecked(read_bit(output.emotion,3))
-        # self.led_em_tired.setChecked(read_bit(output.emotion,4))
-        # self.led_em_angry.setChecked(read_bit(output.emotion,5))
-        # self.led_em_nervous.setChecked(read_bit(output.emotion,6))
-        # self.led_em_stressed.setChecked(read_bit(output.emotion,7))
+        self.led_emo_happy.setChecked(read_bit(output.emotional_state, 0))
+        self.led_emo_excited.setChecked(read_bit(output.emotional_state, 1))
+        self.led_emo_stressed.setChecked(read_bit(output.emotional_state, 2))
+        self.led_emo_nervous.setChecked(read_bit(output.emotional_state, 3))
+        self.led_emo_bored.setChecked(read_bit(output.emotional_state, 4))
+        self.led_emo_angry.setChecked(read_bit(output.emotional_state, 5))
+        self.led_emo_calm.setChecked(read_bit(output.emotional_state, 6))
+        self.led_emo_apathetic.setChecked(read_bit(output.emotional_state, 7))
 
-        # Update hearbeat and state
-        # self.led_heartbeat.setChecked(output.heartbeat)
-        # self.led_st_awake.setChecked(output.emotion > 0)
-        self.led_st_asleep.setChecked(output.sleep_state == 0)
-        # self.led_st_dying.setChecked(output.dying)
-
-        # is_dead = output.emotion == 0 and output.asleep == 0 and output.dying == 0
-        # self.led_st_dead.setChecked(is_dead)
+        # Update action
+        self.led_act_sleep.setChecked(read_bit(output.action, 0))
+        self.led_act_eat.setChecked(read_bit(output.action, 1))
+        self.led_act_play.setChecked(read_bit(output.action, 2))
+        self.led_act_smile.setChecked(read_bit(output.action, 3))
+        self.led_act_babble.setChecked(read_bit(output.action, 4))
+        self.led_act_kick_legs.setChecked(read_bit(output.action, 5))
+        self.led_act_idle.setChecked(read_bit(output.action, 6))
+        self.led_act_cry.setChecked(read_bit(output.action, 7))

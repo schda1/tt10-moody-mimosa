@@ -165,7 +165,7 @@ class MoodyMimosaSimulator:
         sim = pyverilator.PyVerilator.build(
             "sim_moody_mimosa.v",
             verilog_path=sources,
-            verilog_defines=["PY_VERILATOR"],
+            verilog_defines=["PY_SIM"],
             quiet=True,
         )
         return sim

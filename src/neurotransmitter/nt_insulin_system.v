@@ -1,4 +1,6 @@
+`ifndef PY_SIM
 /* verilator lint_off UNUSEDSIGNAL */
+`endif
 `default_nettype none
 
 module nt_insulin_system (
@@ -8,9 +10,9 @@ module nt_insulin_system (
     input wire [7:0] emotional_state,
     input wire [15:0] stimuli,
     input wire [7:0] action, 
-    input wire [1:0] sleep_state,
+    input wire sleep_state,
     output wire [1:0] insulin_level
-    `ifdef PY_VERILATOR
+    `ifdef PY_SIM
     , output wire [6:0] dbg_insulin
     `endif  
 );
@@ -51,7 +53,7 @@ module nt_insulin_system (
     /* insulin level, downscaled (2-bit) */
     assign insulin_level = insulin[6:5];
 
-    `ifdef PY_VERILATOR
+    `ifdef PY_SIM
     assign dbg_insulin = insulin;
     `endif
 

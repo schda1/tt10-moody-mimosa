@@ -1,4 +1,6 @@
+`ifndef PY_SIM
 /* verilator lint_off UNUSEDSIGNAL */
+`endif
 `default_nettype none
 
 /**  
@@ -60,13 +62,13 @@ module nt_serotonin_regulator (
     input wire [7:0] emotional_state,
     input wire [15:0] stimuli,
     input wire [7:0] action, 
-    input wire [1:0] sleep_state,
+    input wire sleep_state,
     output wire inc,
     output wire dec,
     output wire fast
 );
 
-    localparam ASLEEP = 2'b00;  
+    localparam ASLEEP = 1'b0;  
     wire int_enh, ext_enh, int_red, ext_red;
 
     wire [1:0] ACH, DOP, GABA, GLUT, INS, SER, CORT, NE;

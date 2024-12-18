@@ -1,4 +1,6 @@
+`ifndef PY_SIM
 /* verilator lint_off UNUSEDSIGNAL */
+`endif
 `default_nettype none
 
 /** 
@@ -14,14 +16,14 @@ module vital_energy_regulator (
     input wire [15:0] neurotransmitter_level,
     input wire [15:0] stimuli,
     input wire [7:0] action, 
-    input wire [1:0] sleep_state,
+    input wire sleep_state,
     output wire inc,
     output wire dec,
     output wire fast,
     output wire setval
 ); 
 
-    localparam ASLEEP = 2'b00;  
+    localparam ASLEEP = 1'b0;  
 
     wire play_with;
     wire [1:0] ACH, DOP, GABA, GLUT, INS, SER, CORT, NE;
