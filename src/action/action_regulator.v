@@ -9,7 +9,6 @@ module action_regulator (
     input wire rst_n,
     input wire [15:0] stimuli,
     input wire [7:0] emotional_state,
-    input wire sleep_state,
     input wire [1:0] vital_energy_level,
     input wire sleep_in_signal,
     input wire wake_up_signal,
@@ -29,14 +28,19 @@ module action_regulator (
     reg [7:0] next_action;
 
     /* External stimuli */
-    wire tickle, play_with, talk_to, calm_down, feed, hungry, tired;
+    wire starving, tickle, play_with, talk_to, calm_down, feed, hungry, tired;
     assign tickle    = stimuli[0];
     assign play_with = stimuli[1];
     assign talk_to   = stimuli[2];
     assign calm_down = stimuli[3];
     assign feed      = stimuli[4];
     assign hungry    = stimuli[11];
+    assign starving  = stimuli[12];
     assign tired     = stimuli[13];
+
+    /* Sleep */
+    wire is_asleep;
+    assign is_asleep = action[0];
 
     /* Emotions */
     wire happy, excited, stressed, nervous, bored, angry, calm, apathetic;
@@ -51,12 +55,13 @@ module action_regulator (
 
     /* Transition indicators */
     wire ready_to_eat, ready_to_cry, ready_to_smile, ready_to_stop_crying, ready_to_start_babble, ready_to_play;
-    assign ready_to_eat = (happy || calm || angry || nervous || bored) && hungry && feed && !action[1];
-    assign ready_to_play = (happy || calm || excited || bored) && !tired && (play_with) && !action[2];
-    assign ready_to_smile = ((tired && (bored || calm)) || (!tired && nervous)) && (talk_to || tickle || calm_down) && !action[3];
-    assign ready_to_start_babble = (happy || calm || excited || bored) && !tired && (talk_to || tickle) && !action[4];
-    assign ready_to_cry = stressed || hungry || (tired && (nervous || bored || angry)) || (tired && (tickle || play_with || talk_to)) && !action[7];
-    assign ready_to_stop_crying = !hungry && tired && calm_down;
+    assign ready_to_eat = (happy || calm || angry || nervous || bored) && hungry && feed && !action[1] && !is_asleep;
+    assign ready_to_play = (happy || calm || excited || bored) && !tired && play_with && !action[2] && !is_asleep;
+    assign ready_to_smile = ((tired && (bored || calm)) || (!tired && nervous)) && (talk_to || tickle || calm_down) && !action[3] && !is_asleep;
+    assign ready_to_start_babble = (happy || calm || excited || bored) && !tired && (talk_to || tickle) && !action[4] && !is_asleep;
+    assign ready_to_cry = (stressed || starving || (tired && (nervous || bored || angry || hungry)) || (tired && (tickle || play_with || talk_to))) && !action[1] && !action[7] && !is_asleep;
+    assign ready_to_stop_crying = !hungry && tired && calm_down && !is_asleep;
+    
 
     /* Synchronous state transition */
     always @(posedge clk or negedge rst_n) begin
@@ -83,7 +88,6 @@ module action_regulator (
             next_action = CRY;
         end else if (apathetic) begin
             next_action = IDLE;
-
         end else begin
             case (action)
                 /* 0 SLEEP */
@@ -92,7 +96,7 @@ module action_regulator (
                 end
                 /* 1 EAT */
                 EAT: begin
-                    if (vital_energy_level == 2'b10) begin
+                    if (vital_energy_level == 2'b11) begin
                         next_action = SMILE;
                     end else begin
                         next_action = EAT;
@@ -100,11 +104,12 @@ module action_regulator (
                 end
                 /* 2 PLAY */
                 PLAY: begin
-                    if (bored && !tired) begin
-                        next_action = SMILE;
-                    end else if (bored && tired) begin
-                        next_action = KICK_LEGS;
-                    end else if (tired) begin
+                    // if (bored && !tired) begin
+                    //     next_action = SMILE;
+                    // end else if (bored && tired) begin
+                    //     next_action = KICK_LEGS;
+                    // end else 
+                    if (tired) begin
                         next_action = IDLE;
                     end else begin
                         next_action = PLAY;
@@ -112,7 +117,7 @@ module action_regulator (
                 end
                 /* 3 SMILE */
                 SMILE: begin
-                    if (bored || tired || hungry) begin
+                    if (tired || hungry) begin
                         next_action = KICK_LEGS;
                     end else begin
                         next_action = SMILE;
@@ -120,7 +125,7 @@ module action_regulator (
                 end
                 /* 4 BABBLE */
                 BABBLE: begin
-                    if (bored || tired || hungry) begin
+                    if (tired || hungry) begin
                         next_action = KICK_LEGS;
                     end else begin
                         next_action = BABBLE;

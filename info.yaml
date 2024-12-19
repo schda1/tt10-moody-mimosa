@@ -32,6 +32,8 @@ project:
     - "emotion/emotion_regulator.v"
     - "action/action_regulator.v"
     - "utility/dynamic_clock_divider.v"
+    - "illness/illness_regulator.v"
+    - "illness/illness_system.v"
 
 pinout:
   # Inputs

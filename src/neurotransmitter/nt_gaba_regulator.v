@@ -37,13 +37,11 @@ module nt_gaba_regulator (
     input wire [7:0] emotional_state,
     input wire [15:0] stimuli,
     input wire [7:0] action,
-    input wire sleep_state,
     output wire inc,
     output wire dec,
     output wire fast
 );
 
-    localparam ASLEEP = 1'b0;
     wire int_enh, ext_enh, int_red, ext_red;
 
     /* Neurotransmitter levels */
@@ -65,8 +63,12 @@ module nt_gaba_regulator (
     assign idle      = action[6];
     assign cry       = action[7];
 
+    /* Asleep */
+    wire is_asleep; 
+    assign is_asleep = action[0];
+
     /* Stimuli */
-    wire hungry, starving, tired;
+    wire hungry, starving, tired, ill;
     wire tickle, play_with, talk_to, calm_down;
     wire cool, hot, loud, dark, bright, quiet;
     assign tickle    = stimuli[0];
@@ -82,16 +84,20 @@ module nt_gaba_regulator (
     assign hungry    = stimuli[11];
     assign starving  = stimuli[12];
     assign tired     = stimuli[13];
+    assign ill       = stimuli[14];
 
-    assign int_enh = (sleep_state == ASLEEP) ||
+    assign int_enh = (is_asleep) ||
                      (( tired         ) ||
+                      ( smile | eat   ) ||
                       ( SER  == 2'b11 ) ||
                       ( NE   == 2'b00 ) ||
                       ( CORT == 2'b00 )
                      );
 
-    assign int_red = (sleep_state != ASLEEP) &&
-                     (( hungry        ) ||
+    assign int_red = (!is_asleep) &&
+                     (( hungry || ill     ) ||
+                      ( cry || play       ) ||
+                      ( idle || kick_legs ) ||
                       ( NE   == 2'b11 ) ||
                       ( NE   == 2'b10 ) ||
                       ( CORT == 2'b11 ) ||

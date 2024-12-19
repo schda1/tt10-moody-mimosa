@@ -47,13 +47,11 @@ module nt_cortisol_regulator (
     input wire [7:0] emotional_state,
     input wire [15:0] stimuli,
     input wire [7:0] action,
-    input wire sleep_state,
     output wire inc,
     output wire dec,
     output wire fast
 );
 
-    localparam ASLEEP = 1'b0;
     wire int_enh, ext_enh, int_red, ext_red;
 
     /* Neurotransmitter levels */
@@ -75,8 +73,13 @@ module nt_cortisol_regulator (
     assign idle      = action[6];
     assign cry       = action[7];
 
+    /* Asleep */
+    wire is_asleep; 
+    assign is_asleep = action[0];
+
+
     /* Stimuli */
-    wire hungry, starving, tired;
+    wire hungry, starving, tired, ill;
     wire tickle, play_with, talk_to, calm_down;
     wire cool, hot, loud, dark, bright, quiet;
     assign tickle    = stimuli[0];
@@ -92,26 +95,30 @@ module nt_cortisol_regulator (
     assign hungry    = stimuli[11];
     assign starving  = stimuli[12];
     assign tired     = stimuli[13];
+    assign ill       = stimuli[14];
 
-    assign int_enh = (sleep_state != ASLEEP) &&
-                     (( tired || hungry ) ||
-                      ( NE   == 2'b11   ) ||
-                      ( NE   == 2'b10   ) ||
-                      ( GABA == 2'b00   )
+    assign int_enh = (!is_asleep) &&
+                     (( tired && starving ) ||
+                      ( ill               ) ||
+                      ( NE   == 2'b11     ) ||
+                      ( NE   == 2'b10     ) ||
+                      ( GABA == 2'b00     )
                      );
 
-    assign int_red = (sleep_state == ASLEEP) ||
-                     (( SER  == 2'b11 ) ||
-                      ( NE   == 2'b00 )
+    assign int_red = (is_asleep) ||
+                     (( SER  == 2'b11 || SER  == 2'b10 ) ||
+                      ( GABA == 2'b11 || GABA == 2'b10 ) ||
+                      ( NE   == 2'b00 ) ||
+                      ( smile || eat  )
                      );
 
-    assign ext_enh = (sleep_state != ASLEEP) &&
-                     (NE == 2'b11) ||
-                     (loud || hot) ||
-                     (tired && (talk_to || play_with || tickle));
+    assign ext_enh = (NE == 2'b11) || 
+                     ((!is_asleep) &&
+                      ((loud || hot) ||
+                       (tired && (talk_to || play_with || tickle)))
+                     );
 
-    assign ext_red = (sleep_state != ASLEEP) &&
-                     ((~tired) && (calm_down));
+    assign ext_red = (!is_asleep) && (calm_down || talk_to);
 
     // Truth table
     assign inc = (int_enh && !ext_enh && !ext_red) || (!int_enh && ext_enh && !int_red) || (int_enh && ext_enh);

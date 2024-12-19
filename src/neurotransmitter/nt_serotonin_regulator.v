@@ -62,13 +62,11 @@ module nt_serotonin_regulator (
     input wire [7:0] emotional_state,
     input wire [15:0] stimuli,
     input wire [7:0] action,
-    input wire sleep_state,
     output wire inc,
     output wire dec,
     output wire fast
 );
 
-    localparam ASLEEP = 1'b0;
     wire int_enh, ext_enh, int_red, ext_red;
 
     /* Neurotransmitter levels */
@@ -91,7 +89,7 @@ module nt_serotonin_regulator (
     assign cry       = action[7];
 
     /* Stimuli */
-    wire hungry, starving, tired;
+    wire hungry, starving, tired, ill;
     wire tickle, play_with, talk_to, calm_down;
     wire cool, hot, loud, dark, bright, quiet;
     assign tickle    = stimuli[0];
@@ -107,30 +105,38 @@ module nt_serotonin_regulator (
     assign hungry    = stimuli[11];
     assign starving  = stimuli[12];
     assign tired     = stimuli[13];
+    assign ill       = stimuli[14];
 
-    assign int_enh = (sleep_state == ASLEEP) ||
-                     (( hungry        ) ||
-                      ( tired         ) ||
-                      ( DOP  == 2'b00 ) ||
-                      ( GABA == 2'b11 ) ||
-                      ( NE   == 2'b00 ) ||
-                      ( NE   == 2'b01 ) ||
-                      ( CORT == 2'b00 ) ||
-                      ( CORT == 2'b01 )
+    assign int_enh = (sleep) ||
+                     (( smile || babble)  ||
+                      ( play           )  ||
+                      ((SER != 2'b11) && 
+                       (( DOP  == 2'b10 ) ||
+                        ( DOP  == 2'b11 ) ||
+                        ( GABA == 2'b11 ) ||
+                        ( NE   == 2'b00 ) ||
+                        ( NE   == 2'b01 ) ||
+                        ( CORT == 2'b00 ) ||
+                        ( CORT == 2'b01 ))
+                      )
                      );
 
-    assign int_red = (sleep_state != ASLEEP) &&
-                     (( NE   == 2'b11 )  ||
-                      ( CORT == 2'b11 )  ||
-                      ( DOP  == 2'b11 )  ||
-                      ( GABA == 2'b00 )  ||
-                      ( tired         )  ||
-                      ( hungry        )
+    assign int_red = (!sleep) &&
+                     (( NE   == 2'b11 )   ||
+                      ( CORT == 2'b11 )   ||
+                      ((SER != 2'b00) && 
+                       (( DOP  == 2'b00    ) ||
+                        ( DOP  == 2'b01    ) ||
+                        ( GABA == 2'b00    ) ||
+                        ( tired || hungry  ) ||
+                        ( cry || ill       ) ||
+                        ( idle ))
+                      )
                      );
 
-    assign ext_enh = (sleep_state != ASLEEP) && (calm_down);
+    assign ext_enh = (!sleep) && (calm_down);
 
-    assign ext_red = (sleep_state != ASLEEP) &&  ((tired || hungry) && (loud || bright || hot));
+    assign ext_red = (!sleep) && ((tired || hungry || starving) && (loud || bright || hot));
 
     // Truth table (reducing dominant)
     assign inc = (!int_red && !ext_red);

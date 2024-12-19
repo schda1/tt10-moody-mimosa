@@ -40,9 +40,10 @@ class ModelOutput:
     vital_energy: int = 0
     emotional_state: int = 0
     heartbeat: int = 0
-    sleep_state: int = 0
     action: int = 0
     stimuli: int = 0
+    illness: int = 0
+    is_ill: int = 0
 
 
 @dataclass
@@ -110,18 +111,19 @@ class MoodyMimosaSimulator:
             cortisol=int(self.sim.io.dbg_cortisol),
             dopamine=int(self.sim.io.dbg_dopamine),
             gaba=int(self.sim.io.dbg_gaba),
-            norepinephrine=int(self.sim.io.dbg_norepinephrine),
+            norepinephrine=int(self.sim.io.dbg_norepinephrine) * 2,
             serotonin=int(self.sim.io.dbg_serotonin),
         )
 
         output = ModelOutput(
             action=int(self.sim.io.dbg_action),
             emotional_state=int(self.sim.io.dbg_emotional_state),
-            sleep_state=int(self.sim.io.dbg_sleep_state),
             heartbeat=int(self.sim.io.dbg_heartbeat),
             stimuli=int(self.sim.io.dbg_stimuli),
-            nourishment=int(self.sim.io.dbg_nourishment),
-            vital_energy=int(self.sim.io.dbg_vital_energy),
+            nourishment=int(self.sim.io.dbg_nourishment) // 2,
+            vital_energy=int(self.sim.io.dbg_vital_energy) // 2,
+            illness=int(self.sim.io.dbg_illness) // 4,
+            is_ill=read_bit(int(self.sim.io.dbg_stimuli), 14),
             nt=neurotransmitter,
         )
 
@@ -146,6 +148,7 @@ class MoodyMimosaSimulator:
             "nourishment",
             "sleep",
             "utility",
+            "illness",
         ]
 
         base_path = os.path.join(current_dir_path, "..", "..", "src")

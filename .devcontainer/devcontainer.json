@@ -23,7 +23,9 @@
         "ms-python.black-formatter",
         "ms-toolsai.jupyter",
         "mhutchie.git-graph",
-        "donjayamanne.githistory"
+        "donjayamanne.githistory",  
+        "marus25.cortex-debug",
+        "marus25.cortex-debug-dp-stm32l4"
       ]
     }
   },

@@ -26,6 +26,9 @@ RUN apt-get update && \
     libxrender-dev \
     && apt-get clean
 
+# Install arm gcc compiler for stm32 logger application 
+RUN apt-get install -y gcc-arm-none-eabi
+
 # Allow access to X server (from within the container)
 RUN apt-get install -y x11-xserver-utils
 

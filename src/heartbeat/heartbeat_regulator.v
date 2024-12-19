@@ -4,7 +4,7 @@
 `default_nettype none
 
 module heartbeat_regulator (
-    input wire sleep_state,
+    input wire [7:0] action,
     input wire [9:0] neurotransmitter_level,
     input wire [15:0] stimuli,
     input wire [7:0] emotional_state,
@@ -12,7 +12,5 @@ module heartbeat_regulator (
 );
 
 assign heartbeat = 0;
-
-wire _unused = &{sleep_state, neurotransmitter_level, stimuli, emotional_state, 1'b0};
 
 endmodule

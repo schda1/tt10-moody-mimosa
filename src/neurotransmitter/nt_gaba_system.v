@@ -10,7 +10,6 @@ module nt_gaba_system (
     input wire [7:0] emotional_state,
     input wire [15:0] stimuli,
     input wire [7:0] action,
-    input wire sleep_state,
     output wire [1:0] gaba_level
     `ifdef PY_SIM
     , output wire [6:0] dbg_gaba
@@ -28,7 +27,6 @@ module nt_gaba_system (
         .emotional_state(emotional_state),
         .stimuli(stimuli),
         .action(action),
-        .sleep_state(sleep_state),
         .inc(inc),
         .dec(dec),
         .fast(fast)

@@ -36,6 +36,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.ax[3].plot([], [], label="Nourishment", color="blue", linewidth=1.5)
         self.ax[4].plot([], [], label="Vital energy", color="blue", linewidth=1.5)
         self.ax[5].plot([], [], label="Hunger", color="blue", linewidth=1.5)
+        self.ax[6].plot([], [], label="Illness", color="blue", linewidth=1.5)
 
         for ax in self.ax.flatten():
             ax.tick_params(axis="both", labelsize=6)
@@ -61,6 +62,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.ax[2].lines[0].set_data(range(id), self.plot_data.data["nt_gaba"][:id])
         self.ax[3].lines[0].set_data(range(id), self.plot_data.data["nourishment"][:id])
         self.ax[4].lines[0].set_data(range(id), self.plot_data.data["vital_energy"][:id])
+        self.ax[6].lines[0].set_data(range(id), self.plot_data.data["illness"][:id])
 
         self.ax[5].lines[0].set_data(
             range(id),

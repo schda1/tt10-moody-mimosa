@@ -9,17 +9,16 @@ module vital_energy_system (
     input wire [9:0] neurotransmitter_level,
     input wire [15:0] stimuli,
     input wire [7:0] action,
-    input wire sleep_state,
     output wire [1:0] vital_energy_level,
     output wire vital_energy_zero
     `ifdef PY_SIM
-    , output wire [6:0] dbg_vital_energy
+    , output wire [7:0] dbg_vital_energy
     `endif
 );
     wire inc, dec, fast, setval;
-    wire [6:0] vital_energy;
+    wire [7:0] vital_energy;
 
-    assign vital_energy_level = vital_energy[6:5];
+    assign vital_energy_level = vital_energy[7:6];
     assign vital_energy_zero = (vital_energy == 0);
 
     /* Vital energy regulation */
@@ -27,7 +26,6 @@ module vital_energy_system (
         .neurotransmitter_level(neurotransmitter_level),
         .stimuli(stimuli),
         .action(action),
-        .sleep_state(sleep_state),
         .inc(inc),
         .dec(dec),
         .fast(fast),
@@ -36,10 +34,10 @@ module vital_energy_system (
 
     /* Vital energy resource */
     nt_neurotransmitter_level #(
-        .N(7),
+        .N(8),
         .SET_VAL(64),
-        .DEFAULT_VAL(96),
-        .FAST_STEP(3)
+        .DEFAULT_VAL(128),
+        .FAST_STEP(4)
     ) vital_energy_resource (
         .clk(clk),
         .rst_n(rst_n),

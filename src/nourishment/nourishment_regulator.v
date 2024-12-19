@@ -23,7 +23,6 @@
 module nourishment_regulator (
     input wire [15:0] stimuli,
     input wire [7:0] action,
-    input wire sleep_state,
     input wire [1:0] nourishment_level,
     output wire inc,
     output wire dec,
@@ -31,14 +30,13 @@ module nourishment_regulator (
     output wire setval
 );
 
-    localparam ASLEEP = 1'b0;
+    wire sleep, eat, play, smile, babble, kick_legs, idle, cry;
+    assign sleep     = action[0];
+    assign eat       = action[1];
+    assign setval    = 0;
 
-    wire feed;
-    assign feed = stimuli[4];
-    assign setval = 0;
-
-    assign inc = (sleep_state != ASLEEP) && feed;
-    assign dec = (sleep_state == ASLEEP) || ((sleep_state != ASLEEP) && (~feed));
-    assign fast = (sleep_state != ASLEEP) && feed;
+    assign inc = (!sleep) && eat;
+    assign dec = (sleep) || ((!sleep) && (~eat));
+    assign fast = (!sleep) && eat;
 
 endmodule

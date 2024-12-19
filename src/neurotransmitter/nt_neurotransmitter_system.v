@@ -9,7 +9,6 @@ module nt_neurotransmitter_system (
     input wire [7:0] emotional_state,
     input wire [15:0] stimuli,
     input wire [7:0] action,
-    input wire sleep_state,
     input wire [9:0] neurotransmitter_level_in,
     output wire [9:0] neurotransmitter_level_out
     `ifdef PY_SIM
@@ -34,7 +33,6 @@ module nt_neurotransmitter_system (
         .emotional_state(emotional_state),
         .stimuli(stimuli),
         .action(action),
-        .sleep_state(sleep_state),
         .cortisol_level(cortisol_level)
         `ifdef PY_SIM
         , .dbg_cortisol(dbg_cortisol)
@@ -48,7 +46,6 @@ module nt_neurotransmitter_system (
         .emotional_state(emotional_state),
         .stimuli(stimuli),
         .action(action),
-        .sleep_state(sleep_state),
         .dopamine_level(dopamine_level)
         `ifdef PY_SIM
         , .dbg_dopamine(dbg_dopamine)
@@ -62,7 +59,6 @@ module nt_neurotransmitter_system (
         .emotional_state(emotional_state),
         .stimuli(stimuli),
         .action(action),
-        .sleep_state(sleep_state),
         .gaba_level(gaba_level)
         `ifdef PY_SIM
         , .dbg_gaba(dbg_gaba)
@@ -76,7 +72,6 @@ module nt_neurotransmitter_system (
         .emotional_state(emotional_state),
         .stimuli(stimuli),
         .action(action),
-        .sleep_state(sleep_state),
         .norepinephrine_level(norepinephrine_level)
         `ifdef PY_SIM
         , .dbg_norepinephrine(dbg_norepinephrine)
@@ -90,7 +85,6 @@ module nt_neurotransmitter_system (
         .emotional_state(emotional_state),
         .stimuli(stimuli),
         .action(action),
-        .sleep_state(sleep_state),
         .serotonin_level(serotonin_level)
         `ifdef PY_SIM
         , .dbg_serotonin(dbg_serotonin)

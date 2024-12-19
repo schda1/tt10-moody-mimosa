@@ -5,8 +5,9 @@
 `default_nettype none
 
 module emotion_regulator (
-    input wire sleep_state,
+    input wire [7:0] action,
     input wire [9:0] neurotransmitter_level,
+    input wire [15:0] stimuli,
     output wire [7:0] emotional_state
 );
 
@@ -19,9 +20,19 @@ module emotion_regulator (
     assign NE   = neurotransmitter_level[7:6];
     assign SER  = neurotransmitter_level[9:8];
 
+    /* Asleep */
+    wire is_asleep; 
+    assign is_asleep = action[0];
+
+    /* Stimuli */
+    wire hungry, starving, tired;
+    assign hungry    = stimuli[11];
+    assign starving  = stimuli[12];
+    assign tired     = stimuli[13];
+
     /* Happy */
-    assign emotional_state[0] = (!sleep_state) &&
-                                ((NE    == 2'b00 || NE   == 2'b01) &&
+    assign emotional_state[0] = (!is_asleep) &&
+                                ((NE    == 2'b00 || NE   == 2'b01) && 
                                  (CORT  == 2'b00 || CORT == 2'b01) &&
                                  ((SER  == 2'b10 || SER  == 2'b11) ||
                                   (DOP  == 2'b10 || DOP  == 2'b11) ||
@@ -29,37 +40,40 @@ module emotion_regulator (
                                 );
 
     /* Excited */
-    assign emotional_state[1] = (!sleep_state) &&
+    assign emotional_state[1] = (!is_asleep) &&
                                 ((NE    == 2'b10 || NE   == 2'b11) &&
                                  (CORT  == 2'b00 || CORT == 2'b01) &&
-                                 (CORT  == 2'b00 || CORT == 2'b01) &&
-                                 (CORT  == 2'b10 || CORT == 2'b11)
+                                 (DOP   == 2'b10 || DOP  == 2'b11) &&
+                                 (GABA  == 2'b00 || GABA == 2'b01)
                                 );
 
     /* Stressed */
-    assign emotional_state[2] = (!sleep_state) &&
+    assign emotional_state[2] = (!is_asleep) &&
                                 ((NE    == 2'b11) &&
                                  (CORT  == 2'b00 || CORT == 2'b11) &&
                                  ((SER  == 2'b00 || SER  == 2'b01) ||
-                                  (GABA == 2'b00 || GABA == 2'b01))
+                                  (GABA == 2'b00 || GABA == 2'b01)) &&
+                                !(starving && tired)
                                 );
 
     /* Nervous */
-    assign emotional_state[3] = (!sleep_state) &&
+    assign emotional_state[3] = (!is_asleep) &&
                                 ((NE   == 2'b10) &&
-                                 (CORT == 2'b10 || CORT == 2'b11) &&
+                                 (CORT != 2'b00                  ) &&
                                  ((GABA == 2'b00 || GABA == 2'b01) ||
                                   (SER  == 2'b00 || SER  == 2'b01))
                                 );
 
     /* Bored */
-    assign emotional_state[4] = (!sleep_state) &&
-                                ((DOP  == 2'b00 || DOP  == 2'b01) &&
-                                 (SER  == 2'b10 || SER  == 2'b11)
+    assign emotional_state[4] = (!is_asleep) &&
+                                ((NE   == 2'b00 || NE   == 2'b01) &&
+                                 (CORT == 2'b00 || CORT == 2'b01) &&
+                                 ((DOP  == 2'b00 || DOP  == 2'b01) &&
+                                  (SER  == 2'b10 || SER  == 2'b11) || (tired))
                                 );
 
     /* Angry */
-    assign emotional_state[5] = (!sleep_state) &&
+    assign emotional_state[5] = (!is_asleep) &&
                                 ((NE    == 2'b10 || NE   == 2'b11) &&
                                  (CORT  == 2'b00 || CORT == 2'b11) &&
                                  (DOP   == 2'b00 || DOP  == 2'b01) &&
@@ -68,7 +82,7 @@ module emotion_regulator (
                                 );
 
     /* Calm, amused */
-    assign emotional_state[6] = (!sleep_state) &&
+    assign emotional_state[6] = (!is_asleep) &&
                                 ((NE    == 2'b00 || NE   == 2'b01) &&
                                  (CORT  == 2'b00 || CORT == 2'b01) &&
                                  (DOP   == 2'b00 || DOP  == 2'b01) &&
@@ -77,10 +91,11 @@ module emotion_regulator (
                                 );
 
     /* Apathetic */
-    assign emotional_state[7] = (!sleep_state) &&
-                                ((NE    == 2'b00 || NE   == 2'b01) &&
+    assign emotional_state[7] = (!is_asleep) &&
+                                ((NE    == 2'b11 || NE   == 2'b11) &&
                                  (CORT  == 2'b11) &&
-                                 (SER   == 2'b00)
+                                 (SER   == 2'b00) && 
+                                 (starving && tired)
                                 );
 
 endmodule

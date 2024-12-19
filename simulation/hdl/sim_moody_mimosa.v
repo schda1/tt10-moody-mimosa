@@ -18,9 +18,9 @@ module sim_moody_mimosa (
     output wire [7:0]  dbg_emotional_state,
     output wire [7:0]  dbg_action,
     output wire [1:0]  dbg_heartbeat,
-    output wire [6:0]  dbg_nourishment,
-    output wire [6:0]  dbg_vital_energy,
-    output wire dbg_sleep_state
+    output wire [7:0]  dbg_nourishment,
+    output wire [7:0]  dbg_vital_energy,
+    output wire [8:0]  dbg_illness
 );
 
     wire [7:0] ui_in_model;
@@ -54,10 +54,10 @@ module sim_moody_mimosa (
         .dbg_neurotransmitter_level (dbg_neurotransmitter_level),
         .dbg_emotional_state (dbg_emotional_state),
         .dbg_action (dbg_action),
-        .dbg_sleep_state (dbg_sleep_state),
         .dbg_heartbeat (dbg_heartbeat),
         .dbg_nourishment (dbg_nourishment),
-        .dbg_vital_energy (dbg_vital_energy)
+        .dbg_vital_energy (dbg_vital_energy), 
+        .dbg_illness (dbg_illness)
     );
 
 endmodule

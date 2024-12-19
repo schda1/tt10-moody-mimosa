@@ -21,26 +21,21 @@ module tt_um_moody_mimosa (
     , output wire [7:0]  dbg_emotional_state
     , output wire [7:0]  dbg_action
     , output wire [1:0]  dbg_heartbeat
-    , output wire [6:0]  dbg_nourishment
-    , output wire [6:0]  dbg_vital_energy
-    , output wire dbg_sleep_state
+    , output wire [7:0]  dbg_nourishment
+    , output wire [7:0]  dbg_vital_energy
+    , output wire [8:0]  dbg_illness
     `endif
 );
 
     assign uio_oe = 8'b1111_1100;
 
-    wire clk_model;
-    wire hungry;
-    wire starving;
+    wire wake_up_signal, sleep_in_signal;
+    wire clk_model, hungry, starving, vital_energy_zero, ill;
     wire [15:0] stimuli;
     wire [7:0] emotional_state;
     wire [7:0] action;
     wire [1:0] heartbeat;
     wire [1:0] vital_energy_level;
-    wire sleep_state;
-    wire vital_energy_zero;
-
-    assign sleep_state = !action[0];
 
     assign stimuli[0] = ui_in[1];   /* Tickle      */
     assign stimuli[1] = ui_in[2];   /* Play with   */
@@ -56,7 +51,7 @@ module tt_um_moody_mimosa (
     assign stimuli[11] = hungry;
     assign stimuli[12] = starving;
     assign stimuli[13] = (vital_energy_level == 2'b00);
-    assign stimuli[14] = 0;
+    assign stimuli[14] = ill;
     assign stimuli[15] = 0;
 
     assign uio_out[1:0] = 2'b00;
@@ -89,7 +84,6 @@ module tt_um_moody_mimosa (
         .emotional_state (emotional_state),
         .stimuli (stimuli),
         .action (action),
-        .sleep_state (sleep_state),
         .neurotransmitter_level_in (neurotransmitter_level_in),
         .neurotransmitter_level_out (neurotransmitter_level_out)
         `ifdef PY_SIM
@@ -102,8 +96,9 @@ module tt_um_moody_mimosa (
     );
 
     emotion_regulator emotions (
-        .sleep_state (sleep_state),
+        .action (action),
         .neurotransmitter_level (neurotransmitter_level_out),
+        .stimuli (stimuli),
         .emotional_state (emotional_state)
     );
 
@@ -113,7 +108,6 @@ module tt_um_moody_mimosa (
         .neurotransmitter_level (neurotransmitter_level_out),
         .stimuli (stimuli),
         .action (action),
-        .sleep_state (sleep_state),
         .vital_energy_level (vital_energy_level),
         .vital_energy_zero (vital_energy_zero)
          `ifdef PY_SIM
@@ -121,13 +115,9 @@ module tt_um_moody_mimosa (
         `endif
     );
 
-    wire wake_up_signal, sleep_in_signal;
-
-
     nourishment_system nourishment (
         .clk (clk_model),
         .rst_n (rst_n),
-        .sleep_state (sleep_state),
         .stimuli (stimuli),
         .action (action),
         .hungry (hungry),
@@ -138,7 +128,7 @@ module tt_um_moody_mimosa (
     );
 
     heartbeat_regulator heartbeat_ (
-        .sleep_state (sleep_state),
+        .action (action),
         .neurotransmitter_level (neurotransmitter_level_out),
         .stimuli (stimuli),
         .emotional_state (emotional_state),
@@ -160,11 +150,22 @@ module tt_um_moody_mimosa (
         .rst_n (rst_n),
         .stimuli (stimuli),
         .emotional_state(emotional_state),
-        .sleep_state(sleep_state),
         .vital_energy_level (vital_energy_level),
         .sleep_in_signal (sleep_in_signal),
         .wake_up_signal (wake_up_signal),
         .action (action)
+    );
+
+    illness_system illness_sys (
+        .clk (clk_model),
+        .rst_n (rst_n),
+        .stimuli (stimuli),
+        .action (action),
+        .neurotransmitter_level (neurotransmitter_level_out),
+        .ill (ill)
+        `ifdef PY_SIM
+        , .dbg_illness (dbg_illness)
+        `endif
     );
 
     `ifdef PY_SIM
@@ -173,7 +174,6 @@ module tt_um_moody_mimosa (
     assign dbg_emotional_state = emotional_state;
     assign dbg_action = action;
     assign dbg_heartbeat = heartbeat;
-    assign dbg_sleep_state = sleep_state;
     `endif
 
     assign uo_out = action;
