@@ -24,7 +24,12 @@ RUN apt-get update && \
     x11-apps \
     libx11-dev \
     libxrender-dev \
+    autoconf \
+    cmake \
     && apt-get clean
+
+# Install arm gcc compiler for stm32 logger application 
+RUN apt-get install -y gcc-arm-none-eabi
 
 # Allow access to X server (from within the container)
 RUN apt-get install -y x11-xserver-utils
@@ -35,7 +40,6 @@ ENV DISPLAY=host.docker.internal:0
 # Clone tt-support-tools
 RUN mkdir -p /ttsetup
 RUN git clone -b tt10 https://github.com/TinyTapeout/tt-support-tools /ttsetup/tt-support-tools
-
 COPY test/requirements.txt /ttsetup/test_requirements.txt
 COPY .devcontainer/copy_tt_support_tools.sh /ttsetup
 

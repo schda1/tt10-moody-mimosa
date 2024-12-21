@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1097</width>
-    <height>591</height>
+    <width>1219</width>
+    <height>630</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>10</y>
+      <y>530</y>
       <width>151</width>
       <height>44</height>
      </rect>
@@ -65,9 +65,9 @@ QPushButton:checked {
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>70</y>
+      <y>10</y>
       <width>151</width>
-      <height>301</height>
+      <height>241</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_3">
@@ -79,7 +79,7 @@ QPushButton:checked {
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QPushButton" name="led_em_happy">
+      <widget class="QPushButton" name="led_emo_happy">
        <property name="maximumSize">
         <size>
          <width>50</width>
@@ -107,7 +107,7 @@ QPushButton:checked {
       </widget>
      </item>
      <item row="5" column="1">
-      <widget class="QPushButton" name="led_em_angry">
+      <widget class="QPushButton" name="led_emo_angry">
        <property name="styleSheet">
         <string notr="true">QPushButton {
     background-color: white; /* Normal background color */
@@ -129,7 +129,7 @@ QPushButton:checked {
       </widget>
      </item>
      <item row="6" column="1">
-      <widget class="QPushButton" name="led_em_nervous">
+      <widget class="QPushButton" name="led_emo_calm">
        <property name="styleSheet">
         <string notr="true">QPushButton {
     background-color: white; /* Normal background color */
@@ -151,7 +151,7 @@ QPushButton:checked {
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QPushButton" name="led_em_bored">
+      <widget class="QPushButton" name="led_emo_nervous">
        <property name="styleSheet">
         <string notr="true">QPushButton {
     background-color: white; /* Normal background color */
@@ -175,19 +175,19 @@ QPushButton:checked {
      <item row="2" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Excited</string>
+        <string>Stressed</string>
        </property>
       </widget>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label_5">
        <property name="text">
-        <string>Bored</string>
+        <string>Nervous</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QPushButton" name="led_em_excited">
+      <widget class="QPushButton" name="led_emo_stressed">
        <property name="styleSheet">
         <string notr="true">QPushButton {
     background-color: white; /* Normal background color */
@@ -209,7 +209,7 @@ QPushButton:checked {
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QPushButton" name="led_em_tired">
+      <widget class="QPushButton" name="led_emo_bored">
        <property name="styleSheet">
         <string notr="true">QPushButton {
     background-color: white; /* Normal background color */
@@ -231,7 +231,7 @@ QPushButton:checked {
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QPushButton" name="led_em_comfortable">
+      <widget class="QPushButton" name="led_emo_excited">
        <property name="styleSheet">
         <string notr="true">QPushButton {
     background-color: white; /* Normal background color */
@@ -255,14 +255,14 @@ QPushButton:checked {
      <item row="6" column="0">
       <widget class="QLabel" name="label_8">
        <property name="text">
-        <string>Nervous</string>
+        <string>Calm</string>
        </property>
       </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Comfortable</string>
+        <string>Excited</string>
        </property>
       </widget>
      </item>
@@ -276,19 +276,19 @@ QPushButton:checked {
      <item row="4" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>Tired</string>
+        <string>Bored</string>
        </property>
       </widget>
      </item>
      <item row="7" column="0">
       <widget class="QLabel" name="label_9">
        <property name="text">
-        <string>Stressed</string>
+        <string>Apathetic</string>
        </property>
       </widget>
      </item>
      <item row="7" column="1">
-      <widget class="QPushButton" name="led_em_stressed">
+      <widget class="QPushButton" name="led_emo_apathetic">
        <property name="styleSheet">
         <string notr="true">QPushButton {
     background-color: white; /* Normal background color */
@@ -311,147 +311,13 @@ QPushButton:checked {
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="gridLayoutWidget_4">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>400</y>
-      <width>151</width>
-      <height>131</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout_5">
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_12">
-       <property name="text">
-        <string>Sleeping</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_13">
-       <property name="text">
-        <string>Dying</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QPushButton" name="led_st_asleep">
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-    background-color: white; /* Normal background color */
-}
-
-QPushButton:checked {
-    background-color: rgb(30,165,240); /* Background color when checked */
-}</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QPushButton" name="led_st_awake">
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-    background-color: white; /* Normal background color */
-}
-
-QPushButton:checked {
-    background-color: rgb(30,165,240); /* Background color when checked */
-}</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_11">
-       <property name="text">
-        <string>Awake</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QPushButton" name="led_st_dying">
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-    background-color: white; /* Normal background color */
-}
-
-QPushButton:checked {
-    background-color: rgb(230,8,3) /* Background color when checked */
-}</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QPushButton" name="led_st_dead">
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-    background-color: white; /* Normal background color */
-}
-
-QPushButton:checked {
-    background-color: rgb(117,3,1) /* Background color when checked */
-}</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_14">
-       <property name="text">
-        <string>Dead</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QFrame" name="plotFrame">
     <property name="geometry">
      <rect>
       <x>400</x>
       <y>10</y>
-      <width>671</width>
-      <height>521</height>
+      <width>801</width>
+      <height>561</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -464,15 +330,15 @@ QPushButton:checked {
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>160</y>
+      <x>10</x>
+      <y>80</y>
       <width>111</width>
-      <height>271</height>
+      <height>171</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QPushButton" name="button_tickle">
+      <widget class="QPushButton" name="button_act_tickle">
        <property name="maximumSize">
         <size>
          <width>100</width>
@@ -500,7 +366,91 @@ QPushButton:checked {
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="button_feed">
+      <widget class="QPushButton" name="button_act_play_with">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(34,177,76); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string>Play with</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_act_talk_to">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(34,177,76); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string>Talk to</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_act_calm_down">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(34,177,76); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string>Calm down</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_act_feed">
        <property name="maximumSize">
         <size>
          <width>100</width>
@@ -518,146 +468,6 @@ QPushButton:checked {
        </property>
        <property name="text">
         <string>Feed</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="button_too_hot">
-       <property name="maximumSize">
-        <size>
-         <width>100</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-    background-color: white; /* Normal background color */
-}
-
-QPushButton:checked {
-    background-color: rgb(34,177,76); /* Background color when checked */
-}</string>
-       </property>
-       <property name="text">
-        <string>Too hot</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="button_too_loud">
-       <property name="maximumSize">
-        <size>
-         <width>100</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-    background-color: white; /* Normal background color */
-}
-
-QPushButton:checked {
-    background-color: rgb(34,177,76); /* Background color when checked */
-}</string>
-       </property>
-       <property name="text">
-        <string>Too loud</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="button_too_calm">
-       <property name="maximumSize">
-        <size>
-         <width>100</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-    background-color: white; /* Normal background color */
-}
-
-QPushButton:checked {
-    background-color: rgb(34,177,76); /* Background color when checked */
-}</string>
-       </property>
-       <property name="text">
-        <string>Too calm</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="button_too_bright">
-       <property name="maximumSize">
-        <size>
-         <width>100</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-    background-color: white; /* Normal background color */
-}
-
-QPushButton:checked {
-    background-color: rgb(34,177,76); /* Background color when checked */
-}</string>
-       </property>
-       <property name="text">
-        <string>Too bright</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="button_reanimate">
-       <property name="maximumSize">
-        <size>
-         <width>100</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-    background-color: white; /* Normal background color */
-}
-
-QPushButton:checked {
-    background-color: rgb(34,177,76); /* Background color when checked */
-}</string>
-       </property>
-       <property name="text">
-        <string>Reanimate</string>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -714,8 +524,8 @@ QPushButton:checked {
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>100</y>
+      <x>30</x>
+      <y>550</y>
       <width>80</width>
       <height>22</height>
      </rect>
@@ -724,13 +534,443 @@ QPushButton:checked {
      <string>PushButton</string>
     </property>
    </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>280</y>
+      <width>111</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QPushButton" name="button_env_cool">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(34,177,76); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string>Cool</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_env_hot">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(34,177,76); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string>Hot</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_env_quiet">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(34,177,76); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string>Quiet</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_env_loud">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(34,177,76); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string>Loud</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_env_dark">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(34,177,76); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string>Dark</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="button_env_bright">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(34,177,76); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string>Bright</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget_4">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>270</y>
+      <width>151</width>
+      <height>241</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_4">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>Sleep</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="led_act_sleep">
+       <property name="maximumSize">
+        <size>
+         <width>50</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(34,177,76); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QPushButton" name="led_act_kick_legs">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(240,104,6); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QPushButton" name="led_act_idle">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(240,104,6); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QPushButton" name="led_act_smile">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(252,232,9); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_11">
+       <property name="text">
+        <string>Play</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_12">
+       <property name="text">
+        <string>Smile</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QPushButton" name="led_act_play">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(34,177,76); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QPushButton" name="led_act_babble">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(252,232,9); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="led_act_eat">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(34,177,76); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_13">
+       <property name="text">
+        <string>Idle</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_14">
+       <property name="text">
+        <string>Eat</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_17">
+       <property name="text">
+        <string>Kick legs</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_18">
+       <property name="text">
+        <string>Babble</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="label_19">
+       <property name="text">
+        <string>Cry</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QPushButton" name="led_act_cry">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: white; /* Normal background color */
+}
+
+QPushButton:checked {
+    background-color: rgb(240,104,6); /* Background color when checked */
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1097</width>
+     <width>1219</width>
      <height>19</height>
     </rect>
    </property>
