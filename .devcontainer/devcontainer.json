@@ -7,7 +7,7 @@
     "context": ".."
   },
   "runArgs": [
-    "--memory=10GB", 
+    "--memory=10GB",
     "--env", "DISPLAY=host.docker.internal:0",  // Set DISPLAY for X11 forwarding to the Windows host
     "-v", "/tmp/.X11-unix:/tmp/.X11-unix"     // Mount X11 socket
   ],
@@ -18,11 +18,14 @@
       },
       "extensions": [
         "mshr-h.veriloghdl",
-        "surfer-project.surfer", 
+        "surfer-project.surfer",
         "ms-python.python",
+        "ms-python.black-formatter",
         "ms-toolsai.jupyter",
         "mhutchie.git-graph",
-        "donjayamanne.githistory"
+        "donjayamanne.githistory",  
+        "marus25.cortex-debug",
+        "marus25.cortex-debug-dp-stm32l4"
       ]
     }
   },
@@ -33,7 +36,5 @@
       "version": "latest",
       "dockerDashComposeVersion": "none"
     }
-  },
-  "postStartCommand": ["pip install -r /workspaces/tt10-moody-mimosa/test/requirements.txt", 
-                       "pip install -r /workspaces/tt10-moody-mimosa/simulation/requirements.txt"]
+  }
 }

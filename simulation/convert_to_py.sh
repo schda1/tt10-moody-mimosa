@@ -1,0 +1,1 @@
+pyuic6 -o mimosa_sim/ui/ui_main_app.py mimosa_sim/ui/app.ui
