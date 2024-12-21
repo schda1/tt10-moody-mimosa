@@ -1,2 +1,4 @@
+cocotb
+pytest
 ipykernel==6.29.5
 pyeda==0.29.0
