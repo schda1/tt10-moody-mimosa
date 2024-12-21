@@ -45,7 +45,11 @@ The moody mimosa model depends on several layers of abstraction.
 
 From the outher world, only one layer can be influenced directly (stimuli) and only one layer can be observed directly (actions). However, there are various indirect ways of how the stimuli influence the basic resources, emotions and actions and how the actions are influenced by emotions, basic resources and stimuli. The mimosa might cry because it is tired, ill, stressed, starving or angry because it cannot stand that it gets tickled all the time. You just don't know the reason. However, after some time, you develop an understanding of the creature and begin to realize what it might need.
 
-#### Implementation
+#### Architecture
+
+![](figs/Mimosa_model_v1.0.png)
+
+#### Implementation details
 
 Each resource consists of a saturating counter (counting up or down) and a regulator, regulating whether it should count up or down, slow or fast, or remain unchanged. The main feedback behaviour is encoded in the regulators. I tried to mimick the biology of the neurotransmitters involved. The first-level, rapid stress response is mediated by norepinephrine (NE). If stress persists, the slower second-level response mediated by the hormone cortisol sets in and leads to long-term stress effects. The competing triple of serotonin, gaba and dopamine controls the mood and allows emotions such as happiness, excitement, boredom, anxiousness. During elevated periods of stress, all of them start to decrease, basically leading to a depressive state with negative emotions and without motivation. Hunger and tiredness also affects the neurotransmitters and even actions may lead to feedback effects, allowing both bottom-up and top-down emotion regulation ("smiling makes you feel better" vs. "if you feel good, you start smiling"). Although resources are themselv counters with 6-9 bits, only the upper two bits are used for emotion encoding and actions in order to limit gates needed. 
 
