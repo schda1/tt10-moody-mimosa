@@ -37,3 +37,6 @@ fpga/.Xil
 
 **/.old
 **/tmp
+
+misc/mimosa_logger/build
+misc/mimosa_logger/tests/build
