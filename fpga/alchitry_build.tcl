@@ -2,7 +2,7 @@
 create_project -force test_project ./build -part xc7a35tftg256-1
 
 # Add source files
-add_files -norecurse ../src
+add_files ../src
 add_files -norecurse src
 add_files -fileset constrs_1 src/au.xdc
 
