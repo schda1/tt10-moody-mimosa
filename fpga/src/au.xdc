@@ -139,7 +139,7 @@ set_property IOSTANDARD LVCMOS33 [get_ports {uio_out[6]}]
 set_property PACKAGE_PIN K5 [get_ports {uio_out[7]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {uio_out[7]}]
 
-# Debug port 
+# Debug port
 set_property PACKAGE_PIN G2 [get_ports {debug_out[0]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {debug_out[0]}]
 

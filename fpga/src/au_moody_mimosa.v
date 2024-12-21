@@ -12,22 +12,22 @@ module au_moody_mimosa (
 );
 
     wire [7:0] ui_in_model;
-    wire [7:0] uio_oe; 
-    wire ena;      
+    wire [7:0] uio_oe;
+    wire ena;
     wire clk_prescaled;
 
     // Create model clock, 100 MHz prescaled by 2**24 (6 Hz)
     static_clock_divider #(.N(24)) model_clk_divider (
-        .clk(clk),                  
-        .rst_n(rst_n),                
-        .clk_out(clk_prescaled)     
+        .clk(clk),
+        .rst_n(rst_n),
+        .clk_out(clk_prescaled)
     );
     assign ui_in_model = { ui_in[7:1], clk_prescaled};
 
     // Instantiate the actual moody mimosa module
     tt_um_moody_mimosa mimosa (
-        .ui_in(ui_in_model),              
-        .uo_out(uo_out),         
+        .ui_in(ui_in_model),
+        .uo_out(uo_out),
         .uio_in(uio_in),
         .uio_out(uio_out),
         .uio_oe(uio_oe),
