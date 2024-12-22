@@ -16,6 +16,7 @@ endif
 # Production code files are compiled and put into
 # a library to link with the test runner.
 SRC_FILES += ../App/Src/message_parser.c
+SRC_FILES += ../App/Src/pwm_handler.c
 # SRC_DIRS += example-platform
 
 # --- TEST_SRC_FILES and TEST_SRC_DIRS ---
