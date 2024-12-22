@@ -2,46 +2,17 @@
 #include <string.h>
 #include <uart_mock.h>
 
-static struct mock_buffer uart;
+static uart_rx_callback_t rx_callback;
 
-uint8_t uart_available(uint8_t* huart)
+void uart_mock_init(uart_rx_callback_t cb)
 {
-    (void)huart;
-    return uart.head != uart.tail;
-}
-
-void uart_receive(uint8_t* huart, uint8_t* c)
-{
-    *c = uart.buf[uart.tail];
-
-    if (uart_available(huart)) {
-        uart.tail = (uart.tail + 1) % MOCK_BUFFER_LEN;
-    }
-}
-
-void uart_mock_init(void)
-{
-    uart_mock_clear();
+    rx_callback = cb;
 }
  
 void uart_mock_add_message(const char* msg, uint16_t len)
 {   
-    uint16_t pos = uart.head;
-
     for (uint16_t i = 0; i < len; i++) {
-        uart.buf[pos] = msg[i];
-        pos = (pos + 1) % MOCK_BUFFER_LEN;
+        /* Emulate firing interrupt and corresponding ISR */
+        rx_callback(msg[i]);
     }
-
-    uart.head = pos;
-}
-
-void uart_mock_clear(void)
-{
-    memset(&uart, 0, sizeof(struct mock_buffer));
-}
-
-const struct mock_buffer* uart_mock_get_buf(void)
-{
-    return (const struct mock_buffer*) uart.buf;
 }

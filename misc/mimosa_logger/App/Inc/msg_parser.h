@@ -29,7 +29,13 @@ enum msg_type {
     MSG_START, 
     MSG_STOP,
     MSG_PAUSE, 
-    MSG_SET_PERIOD, 
+    MSG_SET_PERIOD,
+    MSG_SET_COLD,
+    MSG_SET_HOT,
+    MSG_SET_DARK,
+    MSG_SET_BRIGHT,
+    MSG_SET_QUIET,
+    MSG_SET_LOUD,
     MSG_INVALID
 };
 
@@ -53,6 +59,14 @@ void msg_parser_init(struct msg_parser* msg_parser, UART_HandleTypeDef* huart);
  * @param msg Current message. can be none
  */
 void msg_parser_update(struct msg_parser* msg_parser, struct msg* msg);
+
+/**
+ * @brief Add a character to the message parser
+ * 
+ * @param msg_parser Message parser data structure
+ * @param c Character to add
+ */
+void msg_parser_add(struct msg_parser* msg_parser, uint8_t* c);
 
 
 #ifdef __cplusplus

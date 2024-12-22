@@ -9,19 +9,12 @@ extern "C" {
 
 #define MOCK_BUFFER_LEN (256)
 
-struct mock_buffer {
-    uint8_t buf[MOCK_BUFFER_LEN];
-    uint16_t head;
-    uint16_t tail;
-};
-
-uint8_t uart_available(uint8_t* huart);
-void uart_receive(uint8_t* huart, uint8_t* c);
+typedef void (*uart_rx_callback_t)(char c);
 
 /**
  * @brief Initialize the mock uart
  */
-void uart_mock_init(void);
+void uart_mock_init(uart_rx_callback_t rx_callback);
 
 /**
  * @brief Emulate sending a message 
@@ -31,17 +24,6 @@ void uart_mock_init(void);
  */
 void uart_mock_add_message(const char* msg, uint16_t len);
 
-/**
- * @brief Clear the internal mock uart buffer
- */
-void uart_mock_clear(void);
-
-/**
- * @brief Get read access to the internal buffer
- *
- * @return Access to the internal mock buffer
- */
-const struct mock_buffer* uart_mock_get_buf(void);
 
 #ifdef __cplusplus
 }

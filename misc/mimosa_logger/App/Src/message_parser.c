@@ -1,15 +1,12 @@
-#include "msg_parser.h"
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <msg_parser.h>
 
-static void gather_incoming_data(struct msg_parser* parser);
 static void find_start(struct msg_parser* parser);
 static void check_for_full_message(struct msg_parser* parser, struct msg* msg);
 static void extract_message(struct msg_parser* parser, struct msg* msg, uint8_t start, uint8_t end);
-
-uint8_t uart_available(UART_HandleTypeDef* huart);
-void uart_receive(UART_HandleTypeDef* huart, uint8_t* c);
 
 void msg_parser_init(struct msg_parser* parser, UART_HandleTypeDef* huart)
 {
@@ -19,26 +16,18 @@ void msg_parser_init(struct msg_parser* parser, UART_HandleTypeDef* huart)
     parser->huart = huart;
 }
 
+void msg_parser_add(struct msg_parser* parser, uint8_t* c)
+{
+    parser->buf[parser->head] = *c;
+    parser->head = (parser->head + 1) % MSG_BUFFER_LEN;
+    parser->count++;
+}
+
 void msg_parser_update(struct msg_parser* parser, struct msg* msg)
 {
-    gather_incoming_data(parser);
-
     find_start(parser);
 
     check_for_full_message(parser, msg);
-}
-
-static void gather_incoming_data(struct msg_parser* parser)
-{
-    uint16_t pos = parser->head;
-
-    while (uart_available(parser->huart)) {
-        uart_receive(parser->huart, &parser->buf[pos]);
-        pos = (pos + 1) % MSG_BUFFER_LEN;
-        parser->count++;
-    }
-
-    parser->head = pos;
 }
 
 static void find_start(struct msg_parser* parser)
@@ -104,7 +93,6 @@ static void extract_message(struct msg_parser* parser, struct msg* msg, uint8_t 
 {
     char buf[32] = {0};
     char cmd[32];
-    uint32_t value = 0;
     uint16_t pos = start;
     uint8_t cmd_pos = 0;
 
@@ -114,7 +102,7 @@ static void extract_message(struct msg_parser* parser, struct msg* msg, uint8_t 
     }
 
     if (strchr(buf, ',') != NULL) {
-        sscanf(buf, ":%49[^,],%ud\n", cmd, &value);
+        sscanf(buf, ":%49[^,],%ud\n", cmd, &msg->value);
     } else {
         sscanf(buf, ":%s\n", cmd);
     }
@@ -127,21 +115,20 @@ static void extract_message(struct msg_parser* parser, struct msg* msg, uint8_t 
         msg->type = MSG_PAUSE;
     } else if (strcmp(cmd, "SET_PERIOD") == 0) {
         msg->type = MSG_SET_PERIOD;
-        msg->value = value;
-    } else {
+    } else if (strcmp(cmd, "SET_COLD") == 0) {
+        msg->type = MSG_SET_COLD;
+    } else if (strcmp(cmd, "SET_HOT") == 0) {
+        msg->type = MSG_SET_HOT;
+    } else if (strcmp(cmd, "SET_DARK") == 0) {
+        msg->type = MSG_SET_DARK;
+    } else if (strcmp(cmd, "SET_BRIGHT") == 0) {
+        msg->type = MSG_SET_BRIGHT;
+    } else if (strcmp(cmd, "SET_QUIET") == 0) {
+        msg->type = MSG_SET_QUIET;
+    } else if (strcmp(cmd, "SET_LOUD") == 0) {
+        msg->type = MSG_SET_LOUD;
+    }else {
         msg->type = MSG_INVALID;
+        msg->value = 0;
     }
 }
-
-/* Hardware dependency. These functions will be mocked for unit tests */
-#ifndef UTEST
-uint8_t uart_available(UART_HandleTypeDef* huart)
-{
-    return __HAL_UART_GET_FLAG(huart, UART_FLAG_RXNE);
-}
-
-void uart_receive(UART_HandleTypeDef* huart, uint8_t* c)
-{
-    HAL_UART_Receive(huart, c, 1, HAL_MAX_DELAY);
-}
-#endif
