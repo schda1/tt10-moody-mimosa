@@ -2,6 +2,7 @@
 #include "pin_observer.h"
 #include "msg_parser.h"
 #include "pwm_handler.h"
+#include "parameter_handler.h"
 #include <stdint.h>
 #include <stdio.h>
 
@@ -52,6 +53,10 @@ extern UART_HandleTypeDef hlpuart1;
 static volatile uint8_t flag = 0;
 static volatile uint8_t rxByte;
 
+static struct parameter_handler param_handler;
+static uint64_t test_variable_1 = 0xBBBBAAAAU;
+static uint64_t test_variable_2 = 0x12345634U;
+
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
     if (huart->Instance == LPUART1) {
@@ -90,6 +95,17 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 
 void app_init(void)
 {
+    parameter_handler_init(&param_handler, NULL);
+
+    param_handler_attach(&param_handler, &test_variable_1, 0);
+    param_handler_attach(&param_handler, &test_variable_2, 0);
+    param_handler_upload(&param_handler);
+
+    for (uint8_t i = 0; i < 10; i++) {
+        HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+        HAL_Delay(1000);
+    }
+
     msg_parser_init(&msg_parser, &hlpuart1);
     app_init_pwm_handler();
     pin_observer_init(&pin_observer);

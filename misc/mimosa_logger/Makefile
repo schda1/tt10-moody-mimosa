@@ -41,6 +41,7 @@ App/Src/printf_util.c \
 App/Src/pin_observer.c \
 App/Src/message_parser.c \
 App/Src/pwm_handler.c \
+App/Src/parameter_handler.c \
 Core/Src/main.c \
 Core/Src/stm32g4xx_it.c \
 Core/Src/stm32g4xx_hal_msp.c \
