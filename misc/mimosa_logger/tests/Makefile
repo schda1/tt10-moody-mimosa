@@ -1,5 +1,6 @@
 #Set this to @ to keep the makefile quiet
 SILENCE = @
+VERBOSE = 1
 
 #---- Outputs ----#
 COMPONENT_NAME = mimosa_logger
@@ -15,8 +16,10 @@ endif
 # --- SRC_FILES and SRC_DIRS ---
 # Production code files are compiled and put into
 # a library to link with the test runner.
-SRC_FILES += ../App/Src/message_parser.c
-SRC_FILES += ../App/Src/pwm_handler.c
+SRC_FILES += ../App/PersistantStorage/PersistantStorage.cpp
+SRC_FILES += ../App/Parameter/ParameterHandler.cpp
+SRC_FILES += ../App/PinObserver.cpp
+SRC_FILES += ../App/PwmHandler.cpp
 # SRC_DIRS += example-platform
 
 # --- TEST_SRC_FILES and TEST_SRC_DIRS ---
@@ -33,10 +36,11 @@ MOCKS_SRC_DIRS +=../tests/mock
 CPPUTEST_USE_EXTENSIONS = Y
 
 # INCLUDE_DIRS are searched in order after the included file's containing directory
-INCLUDE_DIRS += $(CPPUTEST_HOME)/include
 INCLUDE_DIRS += $(CPPUTEST_HOME)/include/Platforms/Gcc
-INCLUDE_DIRS += ../App/Inc
+INCLUDE_DIRS += $(CPPUTEST_HOME)/include
+INCLUDE_DIRS += ../App
 INCLUDE_DIRS += ../tests
+
 
 # --- CPPUTEST_OBJS_DIR ---
 # CPPUTEST_OBJS_DIR lets you control where the
@@ -49,6 +53,7 @@ CPPUTEST_WARNINGFLAGS += -Werror
 CPPUTEST_WARNINGFLAGS += -Wfatal-errors
 CPPUTEST_WARNINGFLAGS += -Wswitch-default
 CPPUTEST_WARNINGFLAGS += -Wno-format-nonliteral
+CPPUTEST_WARNINGFLAGS += -Wno-format
 CPPUTEST_WARNINGFLAGS += -Wno-sign-conversion
 CPPUTEST_WARNINGFLAGS += -Wno-pedantic
 CPPUTEST_WARNINGFLAGS += -Wno-shadow
@@ -58,8 +63,13 @@ CPPUTEST_CFLAGS += -pedantic
 CPPUTEST_CFLAGS += -Wno-missing-prototypes
 CPPUTEST_CFLAGS += -Wno-strict-prototypes
 CPPUTEST_CFLAGS += -DUTEST
+CPPUTEST_CFLAGS += -lstdc++
+CPPUTEST_CFLAGS += -fpack-struct
+# Important to include the common.hpp file in order to avoid the 
+# incompatibilities between memory leak detection and STL containers
+CPPUTEST_CXXFLAGS += -include common.hpp
 CPPUTEST_CXXFLAGS += -Wno-c++14-compat
-CPPUTEST_CXXFLAGS += --std=c++11
+CPPUTEST_CXXFLAGS += --std=c++20
 CPPUTEST_CXXFLAGS += -Wno-c++98-compat-pedantic
 CPPUTEST_CXXFLAGS += -Wno-c++98-compat
 CPPUTEST_CXXFLAGS += -DUTEST
