@@ -1,115 +1,153 @@
+#include <common.hpp>
 #include <CppUTest/TestHarness.h>
 
-#include <pwm_handler.h>
-#include <gpio_mock.h>
-#include <timer_mock.h>
-#include <stdio.h>
+#include <TimerMock.hpp>
+#include <PwmHandler.hpp>
+#include <DigitalOutputMock.hpp>
 
-static struct pwm_handler pwm;
-static GPIO_TypeDef port;
-static uint8_t pin_nr = 2;
-static TIM_HandleTypeDef htim;
+TimerMock* timer;
+PwmHandler* pwm;
+DigitalOutputMock* output_1;
+DigitalOutputMock* output_2;
 
 TEST_GROUP(PwmHandler)
 {
     void setup() {
-        memset(&pwm, 0, sizeof(struct pwm_handler));
+        output_1 = new DigitalOutputMock(GPIOA, 0);
+        output_2 = new DigitalOutputMock(GPIOB, 0);
+        output_1->init();
+        output_2->init();
+
+        timer = new TimerMock(TIM1);
+        timer->set_period(10);
+        timer->set_prescaler(1);
+        timer->init();
+
+        pwm = new PwmHandler(timer);
+        pwm->attach(output_1, 50);
+        pwm->attach(output_2, 10);
+        pwm->init();
+        pwm->enable(true);
     }
 
     void teardown() {
-        /* Nothing to be done */
+        delete pwm;
+        delete timer;
+        delete output_1;
+        delete output_2;
     }
 };
 
-TEST(PwmHandler, test_gpio_mock)
+TEST(PwmHandler, test_init)
 {
-    for (uint8_t i = 0; i < 16; i++) {
-        gpio_write_pin(&port, i, 1);
-        LONGS_EQUAL(1<<i, port);
-        gpio_write_pin(&port, i, 0);
-        LONGS_EQUAL(0, port);
-    }
-}
+    CHECK_EQUAL(0, output_1->get());
+    CHECK_EQUAL(0, output_2->get());
+    CHECK_EQUAL(0, timer->get_interrupt_counter());
 
-TEST(PwmHandler, test_timer_mock)
-{
-    TIM_HandleTypeDef htim;
-    CHECK_EQUAL(false, timer_is_running(&htim));
-    timer_start(&htim);
-    CHECK_EQUAL(true, timer_is_running(&htim));
-    timer_stop(&htim);
-    CHECK_EQUAL(false, timer_is_running(&htim));
-}
-
-TEST(PwmHandler, test_init) 
-{
-    pwm_handler_init(&pwm, &htim);
-    CHECK_EQUAL(&htim, pwm.htim);
-    CHECK_EQUAL(0, pwm.n_channels);
-    CHECK_EQUAL(false, pwm.enabled);
-}
-
-TEST(PwmHandler, test_attach)
-{
-    pwm_handler_init(&pwm, &htim);
-    pwm_handler_attach(&pwm, &port, pin_nr, 50);
-    CHECK_EQUAL(1, pwm.n_channels);
-    CHECK_EQUAL(&port, pwm.channels[0].port);
-    CHECK_EQUAL(pin_nr, pwm.channels[0].pin_nr);
-    CHECK_EQUAL(50, pwm.channels[0].duty_cycle);
-}
-
-TEST(PwmHandler, test_set_duty_cycle)
-{
-    pwm_handler_init(&pwm, &htim);
-    pwm_handler_attach(&pwm, &port, pin_nr, 50);
-    pwm_handler_set_duty_cycle(&pwm, 0, 75);
-    CHECK_EQUAL(75, pwm.channels[0].duty_cycle);
-}
-
-TEST(PwmHandler, test_enable)
-{
-    pwm_handler_init(&pwm, &htim);
-    pwm_handler_attach(&pwm, &port, pin_nr, 50);
-    pwm_handler_enable(&pwm, true);
-    CHECK_EQUAL(true, pwm.enabled);
-    CHECK_EQUAL(true, timer_is_running(&htim));
-    pwm_handler_enable(&pwm, false);
-    CHECK_EQUAL(false, pwm.enabled);
-    CHECK_EQUAL(false, timer_is_running(&htim));
-}
-
-TEST(PwmHandler, test_configure_too_many_channels)
-{
-    pwm_handler_init(&pwm, &htim);
-
-    for (uint8_t i = 0; i < N_PWM_CHANNELS; i++) {
-        pwm_handler_attach(&pwm, &port, i, 50);
-    }
-    pwm_handler_attach(&pwm, &port, N_PWM_CHANNELS, 50);
-    CHECK_EQUAL(N_PWM_CHANNELS, pwm.n_channels);
+    timer->tick(10);
+    
+    CHECK_EQUAL(1, output_1->get());
+    CHECK_EQUAL(1, timer->get_interrupt_counter());
 }
 
 TEST(PwmHandler, test_pwm_functionality)
 {
-    pwm_handler_init(&pwm, &htim);
-    pwm_handler_attach(&pwm, &port, pin_nr, 50);
-    pwm_handler_enable(&pwm, true);
+    timer->tick(10);
+    CHECK_EQUAL(1, timer->get_interrupt_counter());
+    CHECK_EQUAL(1, output_1->get());
+    CHECK_EQUAL(1, output_2->get());
 
-    for (uint8_t i = 0; i < 100; i++) {
-        pwm_handler_callback(&pwm);
-        CHECK_EQUAL(i < 50, gpio_read_pin(&port, pin_nr));
-    }
+    timer->tick(10*10);
+    CHECK_EQUAL(11, timer->get_interrupt_counter());
+    CHECK_EQUAL(1, output_1->get());
+    CHECK_EQUAL(0, output_2->get());
+
+    timer->tick(40*10);
+    CHECK_EQUAL(51, timer->get_interrupt_counter());
+    CHECK_EQUAL(0, output_1->get());
+    CHECK_EQUAL(0, output_2->get());
+
+    timer->tick(50*10);
+    CHECK_EQUAL(101, timer->get_interrupt_counter());
+    CHECK_EQUAL(1, output_1->get());
+    CHECK_EQUAL(1, output_2->get());
 }
 
-TEST(PwmHandler, test_output_if_not_enabled)
+TEST(PwmHandler, test_set_duty_cycle)
 {
-    pwm_handler_init(&pwm, &htim);
-    pwm_handler_attach(&pwm, &port, pin_nr, 50);
-    pwm_handler_enable(&pwm, false);
+    pwm->set_duty_cycle(0, 20);
+    pwm->set_duty_cycle(1, 40);
 
-    for (uint8_t i = 0; i < 100; i++) {
-        pwm_handler_callback(&pwm);
-        CHECK_EQUAL(0, gpio_read_pin(&port, pin_nr));
+    timer->tick(10);
+    CHECK_EQUAL(1, output_1->get());
+    CHECK_EQUAL(1, output_2->get());
+
+    timer->tick(20*10);
+    CHECK_EQUAL(0, output_1->get());
+    CHECK_EQUAL(1, output_2->get());
+
+    timer->tick(20*10);
+    CHECK_EQUAL(0, output_1->get());
+    CHECK_EQUAL(0, output_2->get());
+}
+
+TEST(PwmHandler, test_enable)
+{
+    bool are_off = true;
+    pwm->enable(false);
+
+    for (uint8_t i = 0; i < 200; i++) {
+        timer->tick(10);
+        are_off = are_off && (output_1->get() == 0);
+        are_off = are_off && (output_2->get() == 0);
+    }
+
+    CHECK_EQUAL(true, are_off);
+}
+
+TEST(PwmHandler, test_attach_channels)
+{
+    DigitalOutputMock output(GPIOC, 0);
+
+    CHECK_EQUAL(2, pwm->attached_channels());
+    pwm->attach(&output, 50);
+    CHECK_EQUAL(3, pwm->attached_channels());
+}
+
+TEST(PwmHandler, test_attach_too_many_channels)
+{
+    DigitalOutputMock* additional_outputs[10];
+    uint8_t attached_channels = 2;
+
+    for (uint8_t i = 0; i < 10; i++) {
+        additional_outputs[i] = new DigitalOutputMock(GPIOC, i);
+    }
+
+    for (uint8_t i = 0; i < 10; i++) {
+        pwm->attach(additional_outputs[i], 50);
+        attached_channels++;
+
+        if (attached_channels < N_PWM_CHANNELS) {
+            CHECK_EQUAL(attached_channels, pwm->attached_channels());
+        } else {
+            CHECK_EQUAL(N_PWM_CHANNELS, pwm->attached_channels());
+        }
+    }
+    
+    for (uint8_t i = 0; i < 10; i++) {
+        delete additional_outputs[i];
     }
 }
+
+TEST(PwmHandler, test_attach_same_channel_twice) 
+{
+    DigitalOutputMock output(GPIOC, 0);
+
+    /* Attach channel */
+    pwm->attach(&output, 50);
+    CHECK_EQUAL(3, pwm->attached_channels());
+
+    /* Attach channel again */
+    pwm->attach(&output, 50);
+    CHECK_EQUAL(3, pwm->attached_channels());
+} 
