@@ -27,8 +27,6 @@ module tt_um_moody_mimosa (
     `endif
 );
 
-    assign uio_oe = 8'b1111_1100;
-
     wire wake_up_signal, sleep_in_signal;
     wire clk_model, hungry, starving, vital_energy_zero, ill;
     wire [15:0] stimuli;
@@ -37,26 +35,34 @@ module tt_um_moody_mimosa (
     wire [1:0] heartbeat;
     wire [1:0] vital_energy_level;
 
-    assign stimuli[0] = ui_in[1];   /* Tickle      */
-    assign stimuli[1] = ui_in[2];   /* Play with   */
-    assign stimuli[2] = ui_in[3];   /* Talk to     */
-    assign stimuli[3] = ui_in[4];   /* Calm down   */
-    assign stimuli[4] = ui_in[5];   /* Feed        */
-    assign stimuli[5] = ui_in[6];   /* Env: Cool   */
-    assign stimuli[6] = ui_in[7];   /* Env: Hot    */
-    assign stimuli[7] = uio_in[0];  /* Env: Quiet  */
-    assign stimuli[8] = uio_in[1];  /* Env: Loud   */
-    assign stimuli[9] = uio_in[2];  /* Env: Dark   */
-    assign stimuli[10] = uio_in[3]; /* Env: Bright */
+    assign stimuli[0] = ui_in[0];   /* Tickle      */
+    assign stimuli[1] = ui_in[1];   /* Play with   */
+    assign stimuli[2] = ui_in[2];   /* Talk to     */
+    assign stimuli[3] = ui_in[3];   /* Calm down   */
+    assign stimuli[4] = ui_in[4];   /* Feed        */
+    assign stimuli[5] = ui_in[5];   /* Env: Cool   */
+    assign stimuli[6] = ui_in[6];   /* Env: Hot    */
+    assign stimuli[7] = ui_in[7];   /* Env: Quiet  */
+    assign stimuli[8] = uio_in[0];  /* Env: Loud   */
+    assign stimuli[9] = 0;          /* uio_in[1];  /* Env: Dark   */
+    assign stimuli[10] = uio_in[1]; /* Env: Bright */
     assign stimuli[11] = hungry;
     assign stimuli[12] = starving;
     assign stimuli[13] = (vital_energy_level == 2'b00);
     assign stimuli[14] = ill;
     assign stimuli[15] = 0;
 
-    assign uio_out[1:0] = 2'b00;
-    assign uio_out[2] = clk_model;
-    assign uio_out[7:3] = 5'b00000;
+    wire spi_miso, spi_mosi, spi_sck, spi_cs, uart_tx;
+
+    assign spi_miso = uio_in[2];
+    assign uio_out[3] = spi_sck;
+    assign uio_out[4] = spi_cs;
+    assign uio_out[5] = spi_mosi;
+    assign uio_out[6] = uart_tx;
+    assign uio_out[7] = clk_model;
+
+    assign uio_out[2:0] = 3'b0;
+    assign uio_oe = 8'b1111_1000;
 
     wire [9:0] neurotransmitter_level_in;
     reg [9:0] neurotransmitter_level_feedback;
@@ -71,10 +77,16 @@ module tt_um_moody_mimosa (
 
     assign neurotransmitter_level_in = neurotransmitter_level_feedback;
 
-    dynamic_clock_divider #(.N(2)) heartbeat_divider (
+    // dynamic_clock_divider #(.N(2)) heartbeat_divider (
+    //     .clk(clk),
+    //     .rst_n(rst_n),
+    //     .x(heartbeat),
+    //     .clk_out(clk_model)
+    // );
+
+    static_clock_divider #(.N(14)) heartbeat_divider (
         .clk(clk),
         .rst_n(rst_n),
-        .x(heartbeat),
         .clk_out(clk_model)
     );
 
@@ -166,6 +178,33 @@ module tt_um_moody_mimosa (
         `ifdef PY_SIM
         , .dbg_illness (dbg_illness)
         `endif
+    );
+
+    wire start, done;
+    wire [15:0] address;
+    wire [5:0] num_bytes;
+
+    assign address = 16'b0;
+    assign num_bytes = 6'b011000;
+
+    counter_with_pulse #(.TARGET_COUNT(10)) counter (
+        .clk (clk_model),
+        .rst_n (rst_n),
+        .pulse (start)
+    );
+
+    remember_and_talk talking (
+        .clk (clk),
+        .rst_n (rst_n),
+        .start(start), 
+        .address(address),
+        .num_bytes(num_bytes),
+        .spi_miso(spi_miso),
+        .spi_mosi(spi_mosi),
+        .spi_clk(spi_sck),
+        .spi_cs(spi_cs),
+        .uart_tx(uart_tx),
+        .done(done)
     );
 
     `ifdef PY_SIM

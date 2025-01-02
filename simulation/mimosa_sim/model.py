@@ -149,6 +149,7 @@ class MoodyMimosaSimulator:
             "sleep",
             "utility",
             "illness",
+            "talk",
         ]
 
         base_path = os.path.join(current_dir_path, "..", "..", "src")
