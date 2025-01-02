@@ -31,9 +31,12 @@ project:
     - "sleep/sleep_regulator.v"
     - "emotion/emotion_regulator.v"
     - "action/action_regulator.v"
-    - "utility/dynamic_clock_divider.v"
     - "illness/illness_regulator.v"
     - "illness/illness_system.v"
+    - "talk/remember_and_talk.v"
+    - "utility/dynamic_clock_divider.v"
+    - "utility/static_clock_divider.v"
+    - "utility/counter_with_pulse.v"
 
 pinout:
   # Inputs
@@ -58,12 +61,12 @@ pinout:
 
   # Bidirectional pins
   uio[0]: "LOUD"
-  uio[1]: "DARK"
-  uio[2]: "BRIGHT"
-  uio[3]: "UNUSED3"
-  uio[4]: "UNUSED4"
-  uio[5]: "UNUSED5"
-  uio[6]: "UNUSED6"
-  uio[7]: "UNUSED7"
+  uio[1]: "BRIGHT"
+  uio[2]: "SPI_MISO"
+  uio[3]: "SPI_SCK"
+  uio[4]: "SPI_CS"
+  uio[5]: "SPI_MOSI"
+  uio[6]: "UART_TX"
+  uio[7]: "CLK_MODEL"
 
 yaml_version: 6

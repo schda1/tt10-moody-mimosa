@@ -26,6 +26,7 @@ RUN apt-get update && \
     libxrender-dev \
     autoconf \
     cmake \
+    clang-format \
     && apt-get clean
 
 # Install arm gcc compiler for stm32 logger application 
