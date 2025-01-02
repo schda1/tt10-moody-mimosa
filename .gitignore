@@ -40,3 +40,6 @@ fpga/.Xil
 
 misc/mimosa_logger/build
 misc/mimosa_logger/tests/build
+misc/mimosa_logger/tests/mimosa_logger_tests
+
+misc/mimosa_pcb/spice

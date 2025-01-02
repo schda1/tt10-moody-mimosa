@@ -61,6 +61,18 @@ void Error_Handler(void);
 #define clk_GPIO_Port GPIOA
 #define rst_n_Pin GPIO_PIN_5
 #define rst_n_GPIO_Port GPIOA
+#define pwm_0_Pin GPIO_PIN_7
+#define pwm_0_GPIO_Port GPIOA
+#define pwm_1_Pin GPIO_PIN_8
+#define pwm_1_GPIO_Port GPIOA
+#define pwm_2_Pin GPIO_PIN_9
+#define pwm_2_GPIO_Port GPIOA
+#define pwm_3_Pin GPIO_PIN_10
+#define pwm_3_GPIO_Port GPIOA
+#define pwm_4_Pin GPIO_PIN_11
+#define pwm_4_GPIO_Port GPIOA
+#define pwm_5_Pin GPIO_PIN_12
+#define pwm_5_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 

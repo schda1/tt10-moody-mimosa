@@ -53,3 +53,25 @@ For such a project, developing with verilog is cumbersome. Especially structured
 While it is possible to add the -sv option to the yosys execution command in the project.py of the tt-tools, including the header files in different modules fails. The include mechanism appears not to work properly - or it is not supported. I did not investigate it further but it would be very interesting to know whether there is a tiny tapeout project using structured datatypes with SystemVerilog (There are [SystemVerilog projects with SystemVerilog](https://github.com/yuri-panchul/tt08-adder-with-flow-control/tree/main) but they don't use structured data types). 
 
 I know that there are tools that convert the SystemVerilog sources to Verilog (e.g. [sv2v](https://github.com/zachjs/sv2v)). However, that's not really the way I want to go...
+
+## Additional features
+
+I decided to reserve two tiles since I already had to increase the target density percentage to 62% to fit the current design to a single tile. Now, I am left with a lot of additional unused space and I am thinking about additional features to implement. Feel free to contact me if you have fun ideas or thoughts, by opening an issue or by mail. 
+
+### Let the mimosa talk I
+
+A SPI FRAM such as a [MB85RS64V](https://www.fujitsu.com/us/Images/MB85RS64-DS501-00012-5v0-E.pdf) could be added, preloaded with lots of phrases. Since there is already a microcontroller on the custom pcb board, one could use that to store phrases (even in different languages). By pre-partition the FRAM, one could relate the address region to certain emotions or physical states. The Mimosa would cyclically switch to a certain position in the FRAM address space and basically route the bytes stored there (the phrases) to e.g. UART or even a display. 
+
+So, the main necessary components are 1. a SPI-reader (mode 0 or 3) that reads data from FRAM starting at a defined address, 2. an address encoder and 3. a boiler-plate module routing the information read from SPI to uart or to a display. Not trivial but it would probably fit on half a tile.
+
+In this case, the input clock would be much faster than the model clock and the model clock would either have to be divided or an individual clock would be required (e.g. provided on an input pin). 
+
+### Let the mimosa talk II
+
+I used to play with mp3 decoder chips such as the [VLSI VS1053B](https://www.adafruit.com/product/1381). Even if I do not recall in detail how the data transfer from the SD card to the decoder chip was mediated, it would be fun to let the ASIC mediate it and add a speaker or headphones.
+
+### Let the mimosa learn
+
+Currently, there are only a few medium-term feedback mechanisms and no long-term feedback mechanisms. If the mimosa feels stressed for a prolonged period, the cortisol level increases and takes time to drop again. Moreover, if the mimosa is both starving and exhausted, recovery will take quite a while because the mimosa tends to sleep in while eating. However, this is not really what I'd call 'learning.' 
+
+A long-lasting feedback mechanism would be interesting. Currently, I have only loose ideas, such as implementing 'basic trust' - Urvertrauen, a concept from childhood psychology and attachment theory. Regular feeding, not feeling alone, engaging in meaningful interactions with the caregiver, and healthy sleep should all contribute to a strengthened bond and, in the long term, lead to successful social interactions. Neglect or harmful interactions, on the other hand, should result in increasingly difficult social interactions over time. In the latter case, the mimosa could react to physical contact or conversations with unexpected harsh emotions (anger, boredom) or generally exhibit higher tendency to depressive states.
