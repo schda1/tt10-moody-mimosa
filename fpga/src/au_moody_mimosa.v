@@ -29,13 +29,6 @@ module au_moody_mimosa (
     /* The alchitry UART has an on-board FTDI. Route the UART TX accordingly */
     assign usb_tx = port_a2[6];
 
-    /* Reduce the 100 MHz Alchitry clock to the 19200 Hz input clock */
-    static_clock_divider_v2 #(.PRESCALER(5208)) model_clock_divider (
-        .clk(clk),
-        .rst_n(rst_n),
-        .clk_out(clk_mimosa)
-    );
-
     /* Instantiate the actual moody mimosa module */
     tt_um_moody_mimosa mimosa (
         .uo_out(port_a0),
@@ -45,7 +38,7 @@ module au_moody_mimosa (
         .uio_oe(uio_oe),
         .debug(debug_out),
         .ena(ena),
-        .clk(clk_mimosa),
+        .clk(clk),
         .rst_n(rst_n)
     );
 

@@ -10,6 +10,13 @@ by AMD (Xilinx). This is the FPGA chipset placed on the [Alchitry Au board](http
 
 ![Alchitry Au FPGA board](https://cdn.sparkfun.com/assets/parts/1/5/4/0/1/16527-Alchitry_Au_FPGA_Development_Board__Xilinx_Artix_7_-02.jpg)
 
+In addition, two expansion boards have been used, the Alchitry Io Board with on-board Leds and Buttons and the Alchitry Br Board with headers to access all FPGA pins. 
+
+<div style="display: flex; justify-content: center; align-items: center;">
+  <img src="https://cdn.sparkfun.com/r/455-455/assets/parts/1/6/2/9/1/17278-Alchitry_Io_Element_Board-04.jpg" alt="Alchitry Au FPGA board" style="width: 45%; margin-right: 5%;" />
+  <img src="https://cdn.sparkfun.com/r/455-455/assets/parts/1/5/3/9/8/16524-Alchitry_Br_Prototype_Element_Board-04.jpg" alt="Alchitry Br FPGA board" style="width: 45%;" />
+</div>
+
 In order to build the bitstream for this FPGA, you need the Vivado toolchain.
 The installation process is described [here](Link). With some tweaks, you could
 add the vivado build environment to the docker container. However, you have
@@ -18,7 +25,9 @@ website. The installation is heavy (50-100GB). You also need a loader to actuall
 provides a [Alchitry loader](https://alchitry.com/news/alchitry-loader-v2/)
 to simplify your life.
 
-![Alchitry Au FPGA board](https://cdn.alchitry.com/labs-v2/loader-alpha.png)
+
+
+ ![Alchitry Au FPGA board](https://cdn.alchitry.com/labs-v2/loader-alpha.png)
 
 In principle, you could develop the fpg application in the Vivado IDE
 and navigate within the GUI. In this project, the build process is
@@ -45,6 +54,8 @@ of the Alchitry Io board with plenty of leds, buttons and dip switches on
 board. More information about the pin assignment is contained in the
 schematic of the [Alchitry Au](https://cdn.alchitry.com/docs/alchitry_au_sch.pdf)
 and the [Alchitry Io](https://cdn.alchitry.com/docs/alchitry_io_sch.pdf) board.
+
+![](../docs/figs/Pinout_Alchitry.png)
 
 Detail: Since we do not need bidirectional pins in the moody mimosa project,
 the output-enabled signals are not implemented.

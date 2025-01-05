@@ -6,10 +6,15 @@ set_property BITSTREAM.CONFIG.SPI_32BIT_ADDR NO [current_design]
 set_property BITSTREAM.CONFIG.SPI_BUSWIDTH 1 [current_design]
 set_property BITSTREAM.CONFIG.SPI_FALL_EDGE YES [current_design]
 
-# 100 MHz base clock
-create_clock -period 10.000 -name clk -waveform {0.000 5.000} [get_ports clk]
+# 19200 Hz external clock
+create_clock -period 52083.000 -name clk -waveform {0.000 5.000} [get_ports clk]
 
-set_property PACKAGE_PIN N14 [get_ports clk]
+# Instead of the 100 MHz on-board clock, the FPGA is clocked by an external 19200 Hz 
+# signal on pin N11, provided by an external microcontroller. Attention: Not every
+# pin can be used as a clock input, only the ones that are connected to the global
+# clock network. The pinout is defined in the schematic.
+
+set_property PACKAGE_PIN N11 [get_ports clk]
 set_property IOSTANDARD LVCMOS33 [get_ports clk]
 
 set_property PACKAGE_PIN P6 [get_ports rst_n]
@@ -90,7 +95,7 @@ set_property IOSTANDARD LVCMOS33 [get_ports {port_a2[6]}]
 set_property PACKAGE_PIN N6 [get_ports {port_a2[7]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {port_a2[7]}]
 
-# serial names are flipped in the schematic (named for the FTDI chip)
+# Serial names are flipped in the schematic (named for the FTDI chip)
 set_property PACKAGE_PIN P16 [get_ports {usb_tx}]
 set_property IOSTANDARD LVCMOS33 [get_ports {usb_tx}]
 
