@@ -60,6 +60,7 @@
 module nt_norepinephrine_regulator (
     input wire [9:0] neurotransmitter_level,
     input wire [7:0] emotional_state,
+    input wire [1:0] development_stage,
     input wire [15:0] stimuli,
     input wire [7:0] action,
     output wire inc,

@@ -25,7 +25,8 @@
         "mhutchie.git-graph",
         "donjayamanne.githistory",  
         "marus25.cortex-debug",
-        "marus25.cortex-debug-dp-stm32l4"
+        "marus25.cortex-debug-dp-stm32l4",
+        "xaver.clang-format"
       ]
     }
   },

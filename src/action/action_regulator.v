@@ -10,6 +10,7 @@ module action_regulator (
     input wire [15:0] stimuli,
     input wire [7:0] emotional_state,
     input wire [1:0] vital_energy_level,
+    input wire [1:0] development_stage,
     input wire sleep_in_signal,
     input wire wake_up_signal,
     output reg [7:0] action

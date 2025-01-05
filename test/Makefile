@@ -11,6 +11,8 @@ PROJECT_SOURCES += utility/dynamic_clock_divider.v
 PROJECT_SOURCES += utility/edge_triggered_counter.v
 PROJECT_SOURCES += utility/range_classifier.v
 PROJECT_SOURCES += utility/saturating_counter.v
+PROJECT_SOURCES += utility/static_clock_divider.v
+PROJECT_SOURCES += utility/counter_with_pulse.v
 PROJECT_SOURCES += action/action_regulator.v 
 PROJECT_SOURCES += emotion/emotion_regulator.v 
 PROJECT_SOURCES += heartbeat/heartbeat_regulator.v 
@@ -33,6 +35,11 @@ PROJECT_SOURCES += sleep/vital_energy_regulator.v
 PROJECT_SOURCES += sleep/vital_energy_system.v
 PROJECT_SOURCES += illness/illness_regulator.v
 PROJECT_SOURCES += illness/illness_system.v
+PROJECT_SOURCES += development_stage/development_stage_regulator.v
+PROJECT_SOURCES += development_stage/development_stage_system.v
+PROJECT_SOURCES += talk/remember_and_talk.v
+PROJECT_SOURCES += talk/speech_planner.v
+
 
 ifneq ($(GATES),yes)
 

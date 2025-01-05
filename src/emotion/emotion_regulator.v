@@ -8,6 +8,7 @@ module emotion_regulator (
     input wire [7:0] action,
     input wire [9:0] neurotransmitter_level,
     input wire [15:0] stimuli,
+    input wire [1:0] development_stage,
     output wire [7:0] emotional_state
 );
 
