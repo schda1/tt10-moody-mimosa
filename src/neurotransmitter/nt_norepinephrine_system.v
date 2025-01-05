@@ -8,6 +8,7 @@ module nt_norepinephrine_system (
     input wire rst_n,                           // Active-low reset
     input wire [9:0] neurotransmitter_level,
     input wire [7:0] emotional_state,
+    input wire [1:0] development_stage,
     input wire [15:0] stimuli,
     input wire [7:0] action,
     output wire [1:0] norepinephrine_level      // Updated norepinephrine level
@@ -26,6 +27,7 @@ module nt_norepinephrine_system (
     nt_norepinephrine_regulator norepinephrine_regulator (
         .neurotransmitter_level(neurotransmitter_level),
         .emotional_state(emotional_state),
+        .development_stage(development_stage),
         .stimuli(stimuli),
         .action(action),
         .inc(inc),

@@ -1,3 +1,8 @@
+`default_nettype none
+`ifndef PY_SIM
+/* verilator lint_off UNUSEDSIGNAL */
+`endif
+
 module tt_um_moody_mimosa (
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
@@ -24,8 +29,16 @@ module tt_um_moody_mimosa (
     , output wire [7:0]  dbg_nourishment
     , output wire [7:0]  dbg_vital_energy
     , output wire [8:0]  dbg_illness
+    , output wire [9:0]  dbg_dev_stage_level
     `endif
 );
+
+    wire start, done;
+    wire [15:0] address;
+    wire [5:0] num_bytes;
+    wire [1:0] development_stage;
+
+    assign num_bytes = 6'b011000;
 
     wire wake_up_signal, sleep_in_signal;
     wire clk_model, hungry, starving, vital_energy_zero, ill;
@@ -94,6 +107,7 @@ module tt_um_moody_mimosa (
         .clk (clk_model),
         .rst_n (rst_n),
         .emotional_state (emotional_state),
+        .development_stage (development_stage),
         .stimuli (stimuli),
         .action (action),
         .neurotransmitter_level_in (neurotransmitter_level_in),
@@ -110,6 +124,7 @@ module tt_um_moody_mimosa (
     emotion_regulator emotions (
         .action (action),
         .neurotransmitter_level (neurotransmitter_level_out),
+        .development_stage (development_stage),
         .stimuli (stimuli),
         .emotional_state (emotional_state)
     );
@@ -162,6 +177,7 @@ module tt_um_moody_mimosa (
         .rst_n (rst_n),
         .stimuli (stimuli),
         .emotional_state(emotional_state),
+        .development_stage (development_stage),
         .vital_energy_level (vital_energy_level),
         .sleep_in_signal (sleep_in_signal),
         .wake_up_signal (wake_up_signal),
@@ -180,17 +196,35 @@ module tt_um_moody_mimosa (
         `endif
     );
 
-    wire start, done;
-    wire [15:0] address;
-    wire [5:0] num_bytes;
+    development_stage_system development_stage_sys (
+        .clk (clk_model),
+        .rst_n (rst_n),
+        .stimuli (stimuli),
+        .emotional_state (emotional_state),
+        .action (action),
+        .development_stage (development_stage)
+        `ifdef PY_SIM
+        , .dbg_dev_stage_level (dbg_dev_stage_level)
+        `endif
+    );
 
-    assign address = 16'b0;
-    assign num_bytes = 6'b011000;
+    
 
-    counter_with_pulse #(.TARGET_COUNT(10)) counter (
+    counter_with_pulse #(.TARGET_COUNT(10)) counter_ (
         .clk (clk_model),
         .rst_n (rst_n),
         .pulse (start)
+    );
+
+    /* The clock is the start signal as only the start signal
+     * indicates that a new phrase is to be spoken */
+    speech_planner speech_planner_ (
+        .clk (start), 
+        .nrst (rst_n),
+        .emotional_state (emotional_state),
+        .development_stage (development_stage),
+        .action (action),
+        .address (address)
     );
 
     remember_and_talk talking (

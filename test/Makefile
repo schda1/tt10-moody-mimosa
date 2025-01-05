@@ -35,7 +35,11 @@ PROJECT_SOURCES += sleep/vital_energy_regulator.v
 PROJECT_SOURCES += sleep/vital_energy_system.v
 PROJECT_SOURCES += illness/illness_regulator.v
 PROJECT_SOURCES += illness/illness_system.v
+PROJECT_SOURCES += development_stage/development_stage_regulator.v
+PROJECT_SOURCES += development_stage/development_stage_system.v
 PROJECT_SOURCES += talk/remember_and_talk.v
+PROJECT_SOURCES += talk/speech_planner.v
+
 
 ifneq ($(GATES),yes)
 

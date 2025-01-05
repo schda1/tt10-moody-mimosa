@@ -7,6 +7,7 @@ module nt_neurotransmitter_system (
     input wire clk,
     input wire rst_n,
     input wire [7:0] emotional_state,
+    input wire [1:0] development_stage,
     input wire [15:0] stimuli,
     input wire [7:0] action,
     input wire [9:0] neurotransmitter_level_in,
@@ -44,6 +45,7 @@ module nt_neurotransmitter_system (
         .rst_n(rst_n),
         .neurotransmitter_level(neurotransmitter_level_in),
         .emotional_state(emotional_state),
+        .development_stage (development_stage),
         .stimuli(stimuli),
         .action(action),
         .dopamine_level(dopamine_level)
@@ -70,6 +72,7 @@ module nt_neurotransmitter_system (
         .rst_n(rst_n),
         .neurotransmitter_level(neurotransmitter_level_in),
         .emotional_state(emotional_state),
+        .development_stage (development_stage),
         .stimuli(stimuli),
         .action(action),
         .norepinephrine_level(norepinephrine_level)
