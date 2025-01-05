@@ -3,6 +3,8 @@
 
 #include <HalWrapper/IDigitalOutput.hpp>
 #include <HalWrapper/ITimer.hpp>
+#include <HalWrapper/IExtiInput.hpp>
+#include <HalWrapper/PwmOutput.hpp>
 #include <Parameter/ParameterHandler.hpp>
 #include <Parameter.hpp>
 #include <PinObserver.hpp>
@@ -11,7 +13,7 @@ class MimosaDriver
 {
 
 public:
-    MimosaDriver(ITimer* timer, IDigitalOutput* clk, IDigitalOutput* rst_n, PinObserver* observer, ParameterHandler* handler);
+    MimosaDriver(PwmOutput* clk, IExtiInput *exti , IDigitalOutput* rst_n, PinObserver* observer, ParameterHandler* handler);
     virtual ~MimosaDriver() {}
 
     void init();
@@ -22,16 +24,19 @@ public:
 
     void enable_log(bool enable);
 
-    void callback(void);
+    void callback_exti(void);
+    void callback_timer(void);
 
     void update();
 
 protected:
     void set_period();
 
-    ITimer* mimosa_timer;
-    IDigitalOutput* clk;
+    PwmOutput* clk;
+    IExtiInput* model_clk_exti;
+
     IDigitalOutput* rst_n;
+
     PinObserver* pin_observer;
     ParameterHandler* param_handler;
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <common.hpp>
 #include <HalWrapper/IUart.hpp>
 
 class Uart : public IUart
@@ -10,9 +11,11 @@ public:
     virtual ~Uart() {}
 
     void init() override;
+    void deinit() override;
 
     void set_baudrate(uint32_t baudrate) override;
 
+    void write(uint8_t data) override;
     void write(const uint8_t* data, uint16_t len) override;
     uint16_t read(uint8_t* data, uint16_t len) override;
 

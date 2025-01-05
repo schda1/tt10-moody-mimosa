@@ -1,7 +1,7 @@
 #pragma once
 
 #include <functional>
-#include "stm32g4xx_hal.h"
+#include <common.hpp>
 
 class IUart {
     public: 
@@ -12,9 +12,11 @@ class IUart {
         virtual ~IUart() {}
 
         virtual void init() = 0;
+        virtual void deinit() = 0;
 
         virtual void set_baudrate(uint32_t baudrate) = 0;
 
+        virtual void write(uint8_t data) = 0;
         virtual void write(const uint8_t* data, uint16_t len) = 0;
         virtual uint16_t read(uint8_t* data, uint16_t len) = 0;
 

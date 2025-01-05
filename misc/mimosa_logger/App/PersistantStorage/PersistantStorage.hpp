@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stdint.h>
+#include <common.hpp>
 
 class PersistantStorage
 {
@@ -13,6 +13,8 @@ public:
     virtual void set_region(uint32_t start_address, uint32_t len);
 
     virtual void init() = 0;
+    virtual void deinit() = 0;
+    
     virtual void erase();
     virtual void erase(uint32_t start_address, uint32_t len) = 0;
 

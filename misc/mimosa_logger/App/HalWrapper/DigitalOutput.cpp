@@ -1,7 +1,5 @@
 #include <HalWrapper/DigitalOutput.hpp>
 
-#include "stm32g4xx_hal.h"
-
 DigitalOutput::DigitalOutput(GPIO_TypeDef* port, uint8_t pin)
 {
     this->port = port;
@@ -27,6 +25,11 @@ void DigitalOutput::init()
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
 
     HAL_GPIO_Init(port, &GPIO_InitStruct);
+}
+
+void DigitalOutput::deinit()
+{
+   HAL_GPIO_DeInit(port, (1L << pin));
 }
 
 void DigitalOutput::set(uint8_t state)
@@ -55,7 +58,7 @@ uint8_t DigitalOutput::get() const
 
 void DigitalOutput::toggle()
 {
-    HAL_GPIO_TogglePin(port, pin);
+    HAL_GPIO_TogglePin(port, 1L << pin);
 }
 
 void DigitalOutput::invert(bool invert)

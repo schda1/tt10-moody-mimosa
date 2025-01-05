@@ -9,47 +9,51 @@
 #define MASK_HALF_CYCLE (1 << 2)
 #define MASK_FULL_CYCLE (1 << 3)
 
-MimosaDriver::MimosaDriver(ITimer* timer, IDigitalOutput* clk, IDigitalOutput* rst_n, PinObserver* observer, ParameterHandler* handler) :
-    mimosa_timer(timer),
+MimosaDriver::MimosaDriver(PwmOutput* clk, IExtiInput *exti, IDigitalOutput* rst_n, PinObserver* observer, ParameterHandler* handler) :
     clk(clk),
+    model_clk_exti(exti),
     rst_n(rst_n),
     pin_observer(observer),
     param_handler(handler)
-{
-    timer->set_callback([this]() { this->callback(); });
-}
+{ }
 
 void MimosaDriver::init()
 {
+    /* Initialize external interrupt for model clock */
+    model_clk_exti->set_input_mode(DigitalInputMode::INPUT_PULL_DOWN);
+    model_clk_exti->set_edge(InterruptEdge::BOTH);
+    model_clk_exti->set_callback([this]() { this->callback_exti(); });
+    model_clk_exti->init();
+    
+    /* Initialize timer for creating mimosa input clock */
+    clk->set_prescaler(130);
     clk->init();
+
     rst_n->init();
 
     period_ms = param_handler->get_or_create<uint32_t>(PARAM_MIMOSA_PERIOD, PARAM_MIMOSA_PERIOD_DEFAULT);
     printf("Mimosa Period: %ld\n", *period_ms);
-
-    // set_period();
 }
 
 void MimosaDriver::start()
 {
-    clk->set(1);
+    clk->start();
     rst_n->set(1);
-    mimosa_timer->start();
     status &= ~MASK_NOT_RUNNING;
+    printf("Mimosa start \n");
 }
 
 void MimosaDriver::stop()
 {
-    clk->set(0);
+    clk->stop();
     rst_n->set(0);
-    mimosa_timer->stop();
     counter = 0;
     status |= MASK_IS_STOPPED;
 }
 
 void MimosaDriver::pause()
 {
-    mimosa_timer->stop();
+    clk->stop();
     status |= MASK_IS_PAUSED;
 }
 
@@ -81,25 +85,18 @@ void MimosaDriver::enable_log(bool enable)
 
 void MimosaDriver::set_period()
 {
-    mimosa_timer->set_period(*period_ms);
+    // 
 }
 
-void MimosaDriver::callback()
+void MimosaDriver::callback_exti()
 {
     if ((status & MASK_NOT_RUNNING) == 0) {
-
+        
         counter++;
 
-        /* Create rising edge */
-        if (counter == *period_ms / 2) {
-            clk->set(1);
+        if (clk->get()) {
             status |= MASK_HALF_CYCLE;
-        }
-
-        /* Create falling edge */
-        else if (counter >= *period_ms) {
-            counter = 0;
-            clk->set(0);
+        } else {
             status |= MASK_FULL_CYCLE;
         }
     }

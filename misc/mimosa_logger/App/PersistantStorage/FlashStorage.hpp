@@ -1,7 +1,8 @@
 #pragma once
 
+#include <common.hpp>
 #include <PersistantStorage/PersistantStorage.hpp>
-#include "stm32g4xx_hal.h"
+
 
 class FlashStorage : public PersistantStorage
 {
@@ -12,6 +13,9 @@ public:
     virtual ~FlashStorage() {}
 
     virtual void init() override;
+    virtual void deinit() override;
+
+
     virtual void erase(uint32_t start_address, uint32_t len) override;
     virtual void erase() override;
 

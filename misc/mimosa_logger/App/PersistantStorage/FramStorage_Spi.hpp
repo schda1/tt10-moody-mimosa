@@ -1,5 +1,6 @@
 #pragma once
 
+#include <common.hpp>
 #include <PersistantStorage/PersistantStorage.hpp>
 #include <HalWrapper/ISpi.hpp>
 
@@ -11,16 +12,19 @@ public:
     FramStorage_Spi(ISpi* hspi, uint32_t start_address, uint32_t len);
     virtual ~FramStorage_Spi() {}
 
-    virtual void init() override;
-    virtual void erase(uint32_t start_address, uint32_t len) override;
+    void init() override;
+    void deinit() override;
 
-    virtual void write8(uint32_t address, uint8_t value) override;
-    virtual void write32(uint32_t address, uint32_t value) override;
-    virtual void write(uint32_t address, const uint8_t* data, uint32_t size) override;
+    void erase() override;
+    void erase(uint32_t start_address, uint32_t len) override;
 
-    virtual void read8(uint32_t address, uint8_t* value) override;
-    virtual void read32(uint32_t address, uint32_t* value) override;
-    virtual void read(uint32_t address, uint8_t* data, uint32_t size) override;
+    void write8(uint32_t address, uint8_t value) override;
+    void write32(uint32_t address, uint32_t value) override;
+    void write(uint32_t address, const uint8_t* data, uint32_t size) override;
+
+    void read8(uint32_t address, uint8_t* value) override;
+    void read32(uint32_t address, uint32_t* value) override;
+    void read(uint32_t address, uint8_t* data, uint32_t size) override;
 
 private:
     // void set_cs(bool value);

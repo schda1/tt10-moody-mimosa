@@ -1,5 +1,6 @@
 #pragma once
 
+#include <common.hpp>
 #include <HalWrapper/ITimer.hpp>
 #include <HalWrapper/IDigitalOutput.hpp>
 

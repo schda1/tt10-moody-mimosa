@@ -35,15 +35,31 @@ FramStorage_Spi::FramStorage_Spi(ISpi* hspi, uint32_t start_address, uint32_t le
 void FramStorage_Spi::init()
 {
     hspi->init();
+    printf("spi init \n");
     write_enable(true);
+    printf("write enabled \n");
     read_device_id();
+    printf("read dev id \n");
+}
+
+void FramStorage_Spi::deinit()
+{
+    hspi->deinit();
+}
+
+void FramStorage_Spi::erase()
+{
+    erase(start_address, len);
 }
 
 void FramStorage_Spi::erase(uint32_t start_address, uint32_t len)
 {
-    /* TODO: More efficient implementation */
-    for (uint8_t i = start_address; i < start_address + len; i++) {
-        write8(i, 0xFF);
+    uint8_t buffer[32];
+    memset(buffer, 0x00, sizeof(buffer));
+
+    for (uint32_t i = 0; i < 8192; i+=64) {
+        write(i, buffer, 64);
+        HAL_Delay(10);
     }
 }
 
@@ -120,6 +136,9 @@ void FramStorage_Spi::read_device_id()
         manufacturer_id = buffer[0];
         product_id = (((uint16_t)buffer[1]) << 8) | (buffer[2]);
     }
+
+    printf("Manufacturer ID: 0x%02X\n", manufacturer_id);
+    printf("Product ID: 0x%04X\n", product_id);
 
     if (!valid_device()) {
         manufacturer_id = 0;

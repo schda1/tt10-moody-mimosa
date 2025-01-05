@@ -1,6 +1,5 @@
 
 #include <PersistantStorage/FlashStorage.hpp>
-#include <stdio.h>
 
 #define DOUBLE_WORD_ERASED (0xFFFFFFFFFFFFFFFFULL)
 
@@ -9,6 +8,11 @@ FlashStorage::FlashStorage() : PersistantStorage(FLASH_BASE, FLASH_SIZE) {}
 FlashStorage::FlashStorage(uint32_t start_address, uint32_t len) : PersistantStorage(start_address, len) {}
 
 void FlashStorage::init()
+{
+    /* Nothing to do */
+}
+
+void FlashStorage::deinit()
 {
     /* Nothing to do */
 }

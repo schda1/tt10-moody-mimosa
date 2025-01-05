@@ -1,6 +1,5 @@
 #include <Parameter/ParameterHandler.hpp>
-#include <stdio.h>
-#include <string.h>
+
 
 #define MASK_SIZE (0xF000)
 #define MASK_ID (0x0FFF)

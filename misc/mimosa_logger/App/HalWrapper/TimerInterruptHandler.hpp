@@ -1,7 +1,7 @@
 #pragma once
 
+#include <common.hpp>
 #include <HalWrapper/ITimer.hpp>
-#include "stm32g4xx_hal.h"
 
 #define N_TIMER (12)
 

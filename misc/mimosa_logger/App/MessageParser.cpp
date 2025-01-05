@@ -1,6 +1,5 @@
 #include <MessageParser.hpp>
-#include <stdio.h>
-#include <string.h>
+
 
 #define MSG_INVALID (-1)
 #define MSG_NONE (0)
@@ -98,8 +97,8 @@ void MessageParser::check_for_full_message(Msg* msg)
 
 void MessageParser::extract_message(Msg* msg, uint16_t start, uint16_t end)
 {
-    char cbuf[64] = {0};
-    char cmd[20];
+    char cbuf[96] = {0};
+    char cmd[64];
     uint16_t pos = start;
     uint8_t cmd_pos = 0;
 
@@ -136,8 +135,6 @@ void MessageParser::extract_message(Msg* msg, uint16_t start, uint16_t end)
         }
 
         if (strcmp(cmd_table[i].name, cmd) == 0) {
-            printf("Found command: %s, %d\n", cmd, cmd_table[i].id);
-
             msg->id = cmd_table[i].id;
             break;
         }

@@ -1,6 +1,6 @@
 #include <HalWrapper/TimerInterruptHandler.hpp>
 #include <HalWrapper/ITimer.hpp>
-#include <stdio.h>
+
 
 TimerInterruptHandler* TimerInterruptHandler::handler = nullptr;
 
@@ -114,6 +114,15 @@ extern "C" void TIM2_IRQHandler(void)
 extern "C" void TIM3_IRQHandler(void)
 {
     ITimer* timer = TimerInterruptHandler::getInstance()->get_timer(TIM3);
+
+    if (timer != nullptr) {
+        HAL_TIM_IRQHandler(timer->get_handle());
+    }
+}
+
+extern "C" void TIM4_IRQHandler(void)
+{
+    ITimer* timer = TimerInterruptHandler::getInstance()->get_timer(TIM4);
 
     if (timer != nullptr) {
         HAL_TIM_IRQHandler(timer->get_handle());

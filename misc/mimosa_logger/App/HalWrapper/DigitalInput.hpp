@@ -1,16 +1,19 @@
-#include <HalWrapper/IDigitalInput.hpp>
+#pragma once
 
-#include "stm32g4xx_hal.h"
+#include <common.hpp>
+#include <HalWrapper/IDigitalInput.hpp>
 
 class DigitalInput : public IDigitalInput
 {
 public:
-    DigitalInput(GPIO_TypeDef* port, uint8_t pin);
+    DigitalInput(GPIO_TypeDef* port, uint8_t pin, DigitalInputMode mode = DigitalInputMode::INPUT);
     virtual ~DigitalInput() {}
-
-    void init(DigitalInputMode mode) override;
-    uint8_t get() const override;
-    void invert(bool invert) override;
+    
+    virtual void init() override;
+    virtual void deinit() override;
+    
+    virtual uint8_t get() const override;
+    virtual void invert(bool invert) override;
 
 protected:
     DigitalInputMode mode;

@@ -1,8 +1,7 @@
 #pragma once
 
+#include <common.hpp>
 #include <HalWrapper/ITimer.hpp>
-
-#include "stm32g4xx_hal.h"
 
 class Timer : public ITimer
 {
@@ -14,9 +13,13 @@ public:
     virtual void set_period(uint32_t period);
 
     virtual void init() override;
+    virtual void deinit() override;
     virtual void start() override;
     virtual void stop() override;
     virtual void reset() override;
 
     virtual void callback() override;
+
+private:
+    IRQn_Type irq_number;
 };

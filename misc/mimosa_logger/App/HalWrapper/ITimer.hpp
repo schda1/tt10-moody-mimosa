@@ -1,7 +1,7 @@
 #pragma once
 
-#include "stm32g4xx_hal.h"
 #include <functional>
+#include <common.hpp>
 
 class ITimer
 {
@@ -15,6 +15,7 @@ public:
     virtual void set_period(uint32_t period) = 0;
 
     virtual void init() = 0;
+    virtual void deinit() = 0;
     virtual void start() = 0;
     virtual void stop() = 0;
     virtual void reset() = 0;

@@ -1,7 +1,6 @@
 #pragma once
 
-#include <stdint.h>
-#include <stdio.h>
+#include <common.hpp>
 #include "PersistantStorage/PersistantStorage.hpp"
 
 #define HEADER_SIZE (2)
