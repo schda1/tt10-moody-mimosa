@@ -26,14 +26,7 @@ RUN apt-get update && \
     libxrender-dev \
     autoconf \
     cmake \
-    clang-format \
     && apt-get clean
-
-# Install arm gcc compiler for stm32 logger application 
-RUN apt-get install -y gcc-arm-none-eabi
-
-# Allow access to X server (from within the container)
-RUN apt-get install -y x11-xserver-utils
 
 # Set environment variable for DISPLAY to point to Windows host (Docker for Windows uses host.docker.internal)
 ENV DISPLAY=host.docker.internal:0
