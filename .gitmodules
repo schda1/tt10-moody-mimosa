@@ -1,6 +1,0 @@
-[submodule "misc/mimosa_logger/Drivers_G4"]
-	path = misc/mimosa_logger/Drivers_G4
-	url = https://github.com/STMicroelectronics/STM32CubeG4.git
-[submodule "misc/mimosa_logger/cpputest"]
-	path = misc/mimosa_logger/cpputest
-	url = https://github.com/cpputest/cpputest.git
