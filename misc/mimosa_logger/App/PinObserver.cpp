@@ -1,6 +1,5 @@
 #include <PinObserver.hpp>
-#include <stdio.h>
-#include <string.h>
+
 
 PinObserver::PinObserver(InputConfigFct config_fct) : config_fct(config_fct), pins({0, 0, 0, 0, 0}), log_on(false)
 {

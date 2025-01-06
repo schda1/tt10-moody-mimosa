@@ -1,8 +1,6 @@
 #pragma once
 
-#include <stdint.h>
-
-#include "stm32g4xx_hal.h"
+#include <common.hpp>
 
 struct PinObservation
 {

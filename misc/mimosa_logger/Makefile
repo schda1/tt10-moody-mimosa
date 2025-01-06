@@ -37,9 +37,10 @@ BUILD_DIR = build
 # C sources
 C_SOURCES =  \
 App/printf_util.c \
-Core/Src/main.c \
-Core/Src/stm32g4xx_it.c \
-Core/Src/stm32g4xx_hal_msp.c \
+App/main.c \
+App/Config_G4/stm32g4xx_it.c \
+App/Config_G4/stm32g4xx_hal_msp.c \
+App/Config_G4/system_stm32g4xx.c \
 Drivers_G4/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c \
 Drivers_G4/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c \
 Drivers_G4/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c \
@@ -58,7 +59,8 @@ Drivers_G4/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma_ex.c \
 Drivers_G4/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr.c \
 Drivers_G4/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c \
 Drivers_G4/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_spi.c \
-Core/Src/system_stm32g4xx.c \
+Drivers_G4/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c \
+Drivers_G4/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c
 
 CPP_SOURCES =  \
 App/App.cpp \
@@ -77,7 +79,13 @@ App/MessageParser.cpp \
 App/MimosaDriver.cpp \
 App/Parameter/ParameterHandler.cpp \
 App/PersistantStorage/FlashStorage.cpp \
-App/ComparatorDriver.cpp
+App/ComparatorDriver.cpp \
+App/HalWrapper/ExtiInput.cpp \
+App/HalWrapper/ExtiInterruptHandler.cpp \
+App/HalWrapper/I2C.cpp \
+App/Display/Lcd_I2C.cpp \
+App/MimosaSpeechDisplay.cpp \
+App/HalWrapper/PwmOutput.cpp
 
 # ASM sources
 ASM_SOURCES =  \
@@ -140,7 +148,7 @@ AS_INCLUDES =
 # C includes
 C_INCLUDES =  \
 -IApp \
--ICore/Inc \
+-IApp/Config_G4 \
 -IDrivers_G4/Drivers/STM32G4xx_HAL_Driver/Inc \
 -IDrivers_G4/Drivers/STM32G4xx_HAL_Driver/Inc/Legacy \
 -IDrivers_G4/Drivers/CMSIS/Device/ST/STM32G4xx/Include \

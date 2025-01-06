@@ -1,6 +1,7 @@
-#include <HalWrapper/IDigitalOutput.hpp>
+#pragma once
 
-#include "stm32g4xx_hal.h"
+#include <common.hpp>
+#include <HalWrapper/IDigitalOutput.hpp>
 
 class DigitalOutput : public IDigitalOutput
 {
@@ -8,12 +9,13 @@ public:
     DigitalOutput(GPIO_TypeDef* port, uint8_t pin);
     virtual ~DigitalOutput() {}
 
-    void init() override;
+    virtual void init() override;
+    virtual void deinit() override;
 
-    void set(uint8_t state) override;
-    uint8_t get() const override;
-    void toggle() override;
-    void invert(bool invert) override;
+    virtual void set(uint8_t value) override;
+    virtual uint8_t get() const override;
+    virtual void toggle() override;
+    virtual void invert(bool invert) override;
 
 protected:
     GPIO_TypeDef* port;

@@ -1,6 +1,5 @@
 #include <HalWrapper/UartInterruptHandler.hpp>
 #include <HalWrapper/IUart.hpp>
-#include <stdio.h>
 
 UartInterruptHandler* UartInterruptHandler::handler = nullptr;
 

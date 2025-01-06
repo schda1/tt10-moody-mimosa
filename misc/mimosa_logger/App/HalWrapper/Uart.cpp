@@ -1,8 +1,6 @@
 #include <HalWrapper/Uart.hpp>
 #include <HalWrapper/UartInterruptHandler.hpp>
 
-#include <cstdio>
-
 Uart::Uart(USART_TypeDef* instance) : IUart(instance)
 {
     huart.Instance = instance;
@@ -26,9 +24,24 @@ void Uart::init()
     init_uart();
 }
 
+void Uart::deinit()
+{
+    HAL_UART_Abort(&huart);
+
+    if (instance == LPUART1) HAL_NVIC_DisableIRQ(LPUART1_IRQn);
+    if (instance == USART3)  HAL_NVIC_DisableIRQ(USART3_IRQn);
+
+    HAL_UART_DeInit(&huart);
+}
+
 void Uart::set_baudrate(uint32_t baudrate)
 {
     huart.Init.BaudRate = baudrate;
+}
+
+void Uart::write(uint8_t data) 
+{
+    HAL_UART_Transmit(&huart, &data, 1, HAL_MAX_DELAY);
 }
 
 void Uart::write(const uint8_t* data, uint16_t len)
@@ -121,7 +134,7 @@ void Uart::init_uart()
         __HAL_RCC_GPIOB_CLK_ENABLE();
 
         /* Configure pins for UART */
-        GPIO_InitStruct.Pin = GPIO_PIN_8 | GPIO_PIN_9;
+        GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_11;
         GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
         GPIO_InitStruct.Pull = GPIO_NOPULL;
         GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

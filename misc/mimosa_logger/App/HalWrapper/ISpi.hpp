@@ -18,6 +18,7 @@ public:
     virtual ~ISpi() {}
 
     virtual void init() = 0;
+    virtual void deinit() = 0;
     virtual void add_cs(IDigitalOutput* cs) = 0;
 
     virtual void set_frequency(uint32_t frequency) = 0;

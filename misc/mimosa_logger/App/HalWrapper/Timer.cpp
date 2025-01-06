@@ -1,9 +1,6 @@
 #include <HalWrapper/Timer.hpp>
 #include <HalWrapper/TimerInterruptHandler.hpp>
 
-#include "stm32g4xx_hal.h"
-#include <stdio.h>
-
 Timer::Timer(TIM_TypeDef* instance) : ITimer(instance)
 {
     this->instance = instance;
@@ -31,11 +28,10 @@ void Timer::init()
 {
     TIM_ClockConfigTypeDef sClockSourceConfig = {0};
     TIM_MasterConfigTypeDef sMasterConfig = {0};
+    TIM_OC_InitTypeDef sConfigOC = {0};
 
     /* Attach timer to timer interrupt handler */
     TimerInterruptHandler::getInstance()->attach(this);
-
-    IRQn_Type irq_number;
 
     if (htim.Instance == TIM2) {
         __HAL_RCC_TIM2_CLK_ENABLE();
@@ -81,10 +77,26 @@ void Timer::init()
     __enable_irq();
 }
 
+void Timer::deinit()
+{
+    HAL_TIM_Base_Stop_IT(&htim);
+
+    if (irq_number > 0) {
+        HAL_NVIC_DisableIRQ(irq_number);
+    }
+
+    HAL_TIM_Base_DeInit(&htim);
+}
+
 void Timer::start()
 {
-    if (HAL_TIM_Base_Start_IT(&htim) != HAL_OK) {
-        /* Error handling */
+    if (instance == TIM4) {
+        // HAL_TIM_OC_Start(&htim, TIM_CHANNEL_4);
+    }
+    else  {
+        if (HAL_TIM_Base_Start_IT(&htim) != HAL_OK) {
+            /* Error handling */
+        }
     }
 }
 

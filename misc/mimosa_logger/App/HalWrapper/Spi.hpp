@@ -1,14 +1,17 @@
-#include <HalWrapper/ISpi.hpp>
+#pragma once 
 
-#include "stm32g4xx_hal.h"
+#include <common.hpp>
+#include <HalWrapper/IDigitalOutput.hpp>
+#include <HalWrapper/ISpi.hpp>
 
 class Spi : public ISpi
 {
 public:
-    Spi(SPI_TypeDef* hspi);
+    Spi(SPI_TypeDef* instance, IDigitalOutput* cs);
     virtual ~Spi() {}
 
     void init() override;
+    void deinit() override;
     void add_cs(IDigitalOutput* cs) override;
 
     void set_frequency(uint32_t frequency) override;
