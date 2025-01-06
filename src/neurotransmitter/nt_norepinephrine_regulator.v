@@ -67,6 +67,10 @@ module nt_norepinephrine_regulator (
     output wire dec,
     output wire fast
 );
+    localparam BABY     = 2'b00;
+    localparam CHILD    = 2'b01;
+    localparam TEENAGER = 2'b10;
+    localparam ADULT    = 2'b11;
 
     wire int_enh, ext_enh, int_red, ext_red;
 
@@ -112,8 +116,6 @@ module nt_norepinephrine_regulator (
     assign tired     = stimuli[13];
     assign ill       = stimuli[14];
 
-    
-
     assign int_enh =  (hungry) ||
                       ((!is_asleep         ) &&
                        (( hungry || tired  ) ||
@@ -138,14 +140,8 @@ module nt_norepinephrine_regulator (
 
     assign ext_red = (is_asleep) || ((!is_asleep) && (calm_down || talk_to));
 
-    // Truth table
-    // assign inc = (int_enh && !ext_enh && !ext_red) || (!int_enh && ext_enh && !int_red) || (int_enh && ext_enh);
-    // assign dec = !int_enh && !ext_enh && (int_red || ext_red);
-    // assign fast = (int_enh && ext_enh) || (!int_enh && !ext_enh && int_red && ext_red);
-
     assign inc = (!int_red && !ext_red);
     assign dec = (!ext_enh && int_red && !ext_red) || (!int_enh && !int_red && ext_red) || (int_red && ext_red);
-    assign fast = (int_red && ext_red) || (int_enh && ext_enh && !int_red && !ext_red);
-
+    assign fast = (int_red && ext_red) || (int_enh && ext_enh && !int_red && !ext_red) || (development_stage == BABY || development_stage == TEENAGER);
 
 endmodule

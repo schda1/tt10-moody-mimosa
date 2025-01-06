@@ -45,6 +45,11 @@ module nt_dopamine_regulator (
     output wire fast
 );
 
+    localparam BABY     = 2'b00;
+    localparam CHILD    = 2'b01;
+    localparam TEENAGER = 2'b10;
+    localparam ADULT    = 2'b11;
+
     wire int_enh, ext_enh, int_red, ext_red;
 
     /* Neurotransmitter levels */
@@ -126,6 +131,6 @@ module nt_dopamine_regulator (
     // Truth table (reducing dominant)
     assign inc = (!int_red && !ext_red) && (CORT != 2'b11);
     assign dec = (!ext_enh && int_red && !ext_red) || (!int_enh && !int_red && ext_red) || (int_red && ext_red) || (CORT == 2'b11);
-    assign fast = (int_red && ext_red) || (int_enh && ext_enh && !int_red && !ext_red);
+    assign fast = (int_red && ext_red) || (int_enh && ext_enh && !int_red && !ext_red) || (development_stage == TEENAGER);
 
 endmodule

@@ -1,6 +1,9 @@
 `default_nettype none
+
 `ifndef PY_SIM
 /* verilator lint_off UNUSEDSIGNAL */
+/* verilator lint_off CASEOVERLAP */
+`else
 /* verilator lint_off CASEOVERLAP */
 `endif
 

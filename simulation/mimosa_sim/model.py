@@ -5,6 +5,7 @@ import pyverilator
 import numpy as np
 import matplotlib.pyplot as plt
 from dataclasses import dataclass
+from mimosa_sim.fram_resource_loader import FramResourceHandler
 
 current_file_path = os.path.abspath(__file__)
 current_dir_path = os.path.dirname(current_file_path)
@@ -39,11 +40,15 @@ class ModelOutput:
     nourishment: int = 0
     vital_energy: int = 0
     emotional_state: int = 0
+    development_stage: int = 0
+    development_stage_lv: int = 0
     heartbeat: int = 0
     action: int = 0
     stimuli: int = 0
     illness: int = 0
     is_ill: int = 0
+    fram_address: int = 0
+    fram_phrase: str = ""
 
 
 @dataclass
@@ -77,11 +82,16 @@ class MoodyMimosaSimulator:
     including ticking the simulator and reading outputs.
     """
 
-    def __init__(self):
+    def __init__(self, fram_resource: str = ""):
         self.sim: pyverilator.PyVerilator = self._init_sim()
+
+        self.fram_handler = None
+        if fram_resource:
+            self.fram_handler = FramResourceHandler(fram_resource)
+
         self.reset()
 
-    def tick(self, input: ModelInput) -> ModelOutput:
+    def tick(self, input: ModelInput, fast: bool = True) -> ModelOutput:
         """
         Simulates one clock cycle with the provided input.
 
@@ -104,7 +114,11 @@ class MoodyMimosaSimulator:
         self.sim.io.ui_in = ui_in
 
         # Advance one clock cycle
-        self.sim.clock.tick()
+        if fast:
+            for i in range(2**12):
+                self.sim.clock.tick()
+        else:
+            self.sim.clock.tick()
 
         # Prepare output data
         neurotransmitter = NeurotransmitterLevels(
@@ -115,6 +129,12 @@ class MoodyMimosaSimulator:
             serotonin=int(self.sim.io.dbg_serotonin),
         )
 
+        if self.fram_handler:
+            fram_address = int(self.sim.io.dbg_fram_address)
+            fram_phrase = self.fram_handler.read(fram_address)
+        else:
+            fram_phrase = ""
+
         output = ModelOutput(
             action=int(self.sim.io.dbg_action),
             emotional_state=int(self.sim.io.dbg_emotional_state),
@@ -124,6 +144,10 @@ class MoodyMimosaSimulator:
             vital_energy=int(self.sim.io.dbg_vital_energy) // 2,
             illness=int(self.sim.io.dbg_illness) // 4,
             is_ill=read_bit(int(self.sim.io.dbg_stimuli), 14),
+            development_stage=int(self.sim.io.dbg_dev_stage),
+            development_stage_lv=int(self.sim.io.dbg_dev_stage_level),
+            fram_address=int(self.sim.io.dbg_fram_address),
+            fram_phrase=fram_phrase,
             nt=neurotransmitter,
         )
 
@@ -150,6 +174,7 @@ class MoodyMimosaSimulator:
             "utility",
             "illness",
             "talk",
+            "development_stage",
         ]
 
         base_path = os.path.join(current_dir_path, "..", "..", "src")

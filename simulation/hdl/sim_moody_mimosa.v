@@ -1,3 +1,9 @@
+`default_nettype none
+`ifndef PY_SIM
+/* verilator lint_off UNUSEDSIGNAL */
+/* verilator lint_off CASEOVERLAP */
+`endif
+
 module sim_moody_mimosa (
     input  wire [7:0]  ui_in,
     output wire [7:0]  uo_out,
@@ -20,24 +26,15 @@ module sim_moody_mimosa (
     output wire [1:0]  dbg_heartbeat,
     output wire [7:0]  dbg_nourishment,
     output wire [7:0]  dbg_vital_energy,
-    output wire [8:0]  dbg_illness
+    output wire [8:0]  dbg_illness,
+    output wire [8:0]  dbg_dev_stage_level,
+    output wire [1:0]  dbg_dev_stage, 
+    output wire [15:0] dbg_fram_address
 );
-
-    wire [7:0] ui_in_model;
-    wire clk_prescaled;
-
-    // // Create model clock, 100 MHz prescaled by 2**24 (6 Hz)
-    // static_clock_divider #(.N(2)) model_clk_divider (
-    //     .clk(clk),
-    //     .rst_n(rst_n),
-    //     .clk_out(clk_prescaled)
-    // );
-
-    assign ui_in_model = { ui_in[7:1], clk};
 
     // Instantiate the actual moody mimosa module
     tt_um_moody_mimosa mimosa (
-        .ui_in(ui_in_model),
+        .ui_in(ui_in),
         .uo_out(uo_out),
         .uio_in(uio_in),
         .uio_out(uio_out),
@@ -57,7 +54,10 @@ module sim_moody_mimosa (
         .dbg_heartbeat (dbg_heartbeat),
         .dbg_nourishment (dbg_nourishment),
         .dbg_vital_energy (dbg_vital_energy), 
-        .dbg_illness (dbg_illness)
+        .dbg_illness (dbg_illness), 
+        .dbg_dev_stage_level (dbg_dev_stage_level),
+        .dbg_dev_stage (dbg_dev_stage), 
+        .dbg_fram_address (dbg_fram_address)
     );
 
 endmodule

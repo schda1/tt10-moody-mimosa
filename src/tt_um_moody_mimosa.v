@@ -29,7 +29,9 @@ module tt_um_moody_mimosa (
     , output wire [7:0]  dbg_nourishment
     , output wire [7:0]  dbg_vital_energy
     , output wire [8:0]  dbg_illness
-    , output wire [9:0]  dbg_dev_stage_level
+    , output wire [8:0]  dbg_dev_stage_level
+    , output wire [1:0]  dbg_dev_stage
+    , output wire [15:0] dbg_fram_address
     `endif
 );
 
@@ -55,9 +57,9 @@ module tt_um_moody_mimosa (
     assign stimuli[4] = ui_in[4];   /* Feed        */
     assign stimuli[5] = ui_in[5];   /* Env: Cool   */
     assign stimuli[6] = ui_in[6];   /* Env: Hot    */
-    assign stimuli[7] = ui_in[7];   /* Env: Quiet  */
-    assign stimuli[8] = uio_in[0];  /* Env: Loud   */
-    assign stimuli[9] = 0;          /* uio_in[1];  /* Env: Dark   */
+    assign stimuli[7] = 0;          /* Env: Quiet  */
+    assign stimuli[8] = ui_in[7];   /* Env: Loud   */
+    assign stimuli[9] = uio_in[0];  /* Env: Dark   */
     assign stimuli[10] = uio_in[1]; /* Env: Bright */
     assign stimuli[11] = hungry;
     assign stimuli[12] = starving;
@@ -75,11 +77,13 @@ module tt_um_moody_mimosa (
     assign uio_out[7] = clk_model;
 
     assign uio_out[2:0] = 3'b0;
-    assign uio_oe = 8'b1111_1000;
+    assign uo_out = action;
 
     wire [9:0] neurotransmitter_level_in;
     reg [9:0] neurotransmitter_level_feedback;
     wire [9:0] neurotransmitter_level_out;
+
+    assign uio_oe = !rst_n ? 8'b0000_0000 : 8'b1111_1000;
 
     always @(posedge clk_model or negedge rst_n) begin
         if (!rst_n)
@@ -89,13 +93,6 @@ module tt_um_moody_mimosa (
     end
 
     assign neurotransmitter_level_in = neurotransmitter_level_feedback;
-
-    // dynamic_clock_divider #(.N(2)) heartbeat_divider (
-    //     .clk(clk),
-    //     .rst_n(rst_n),
-    //     .x(heartbeat),
-    //     .clk_out(clk_model)
-    // );
 
     static_clock_divider #(.N(14)) heartbeat_divider (
         .clk(clk),
@@ -208,8 +205,6 @@ module tt_um_moody_mimosa (
         `endif
     );
 
-    
-
     counter_with_pulse #(.TARGET_COUNT(10)) counter_ (
         .clk (clk_model),
         .rst_n (rst_n),
@@ -247,32 +242,10 @@ module tt_um_moody_mimosa (
     assign dbg_emotional_state = emotional_state;
     assign dbg_action = action;
     assign dbg_heartbeat = heartbeat;
+    assign dbg_dev_stage = development_stage;
+    assign dbg_fram_address = address;
     `endif
 
-    assign uo_out = action;
-
-    // // Final assignments
-    // assign uo_out = emotion;
-    // assign uio_oe = 8'b1111_1111;
-    // assign uio_out[0] = (state == DEAD) ? 1'b0 : (state == ASLEEP);
-    // assign uio_out[1] = (state == DEAD) ? 1'b0 : (state == DYING);
-    // assign uio_out[2] = (state == DEAD) ? 1'b0 : clk_model;
-
-    // // Debug assignments
-    // assign uio_out[3] = (state == DEAD) ? 1'b0 : ui_in[0];
-    // assign uio_out[4] = (state == DEAD) ? 1'b0 : stress_inc;
-    // assign uio_out[5] = (state == DEAD) ? 1'b0 : stress_dec;
-    // assign uio_out[7:6] = (state == DEAD) ? 2'b00 : ui_in[2:1];
-
-    // `ifdef FPGA_TARGET
-    // // assign debug = energy;
-    // assign debug = {2'b00, pleasure_indicator, stress_indicator, energy_indicator};
-    // `endif
-
-    // `ifdef PY_SIM
-    // assign dbg_energy = energy;
-    // assign dbg_stress = stress;
-    // assign dbg_pleasure = pleasure;
-    // `endif
+    
 
 endmodule

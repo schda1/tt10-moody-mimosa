@@ -9,7 +9,7 @@ class SimulatorController:
     and the MainWindow (view).
     """
 
-    def __init__(self, model, view, delta_t=500):
+    def __init__(self, model, view, delta_t=1000):
         self.model = model
         self.view = view
         self.delta_t = delta_t

@@ -11,7 +11,7 @@ module development_stage_system (
     input wire [7:0] action,
     output wire [1:0] development_stage
     `ifdef PY_SIM
-    , output wire [7:0] dbg_dev_stage_level
+    , output wire [8:0] dbg_dev_stage_level
     `endif
 );
     wire inc, dec, fast, setval;
@@ -35,7 +35,7 @@ module development_stage_system (
         .SET_VAL(0),
         .DEFAULT_VAL(0),
         .FAST_STEP(2)
-    ) glucose_resource (
+    ) development_stage_lv (
         .clk(clk),
         .rst_n(rst_n),
         .inc(inc),
@@ -46,7 +46,7 @@ module development_stage_system (
     );
 
     `ifdef PY_SIM
-    assign dbg_dev_stage_level = development_stage_counter;
+    assign dbg_dev_stage_level = development_stage_level;
     `endif
 
 endmodule

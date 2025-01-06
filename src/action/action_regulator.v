@@ -26,6 +26,11 @@ module action_regulator (
     localparam IDLE       = 8'b01000000;
     localparam CRY        = 8'b10000000;
 
+    localparam BABY     = 2'b00;
+    localparam CHILD    = 2'b01;
+    localparam TEENAGER = 2'b10;
+    localparam ADULT    = 2'b11;
+
     reg [7:0] next_action;
 
     /* External stimuli */
@@ -55,19 +60,32 @@ module action_regulator (
     assign apathetic = emotional_state[7];
 
     /* Transition indicators */
-    wire ready_to_eat, ready_to_cry, ready_to_smile, ready_to_stop_crying, ready_to_start_babble, ready_to_play;
-    assign ready_to_eat = (happy || calm || angry || nervous || bored) && hungry && feed && !action[1] && !is_asleep;
-    assign ready_to_play = (happy || calm || excited || bored) && !tired && play_with && !action[2] && !is_asleep;
-    assign ready_to_smile = ((tired && (bored || calm)) || (!tired && nervous)) && (talk_to || tickle || calm_down) && !action[3] && !is_asleep;
-    assign ready_to_start_babble = (happy || calm || excited || bored) && !tired && (talk_to || tickle) && !action[4] && !is_asleep;
-    assign ready_to_cry = (stressed || starving || (tired && (nervous || bored || angry || hungry)) || (tired && (tickle || play_with || talk_to))) && !action[1] && !action[7] && !is_asleep;
+    wire ready_to_eat, ready_to_cry, ready_to_smile, ready_to_stop_crying, ready_to_start_babble, ready_to_play, autonomous;
+
+    assign autonomous = (development_stage == TEENAGER ) || (development_stage == ADULT);
+
+    assign ready_to_eat = (happy || calm || angry || nervous || bored) && hungry && !action[1] && !is_asleep && (feed || autonomous);
+
+    assign ready_to_play = (happy || calm || excited || bored) && !tired && !action[2] && !is_asleep && (play_with);
+
+    assign ready_to_smile = ((tired && (bored || calm)) || (!tired && nervous)) && 
+                            (talk_to || tickle || calm_down) && 
+                            !action[3] && !is_asleep;
+
+    assign ready_to_start_babble = (happy || calm || excited || bored) && !tired && 
+                                   (talk_to || (tickle && (development_stage == BABY))) && !action[4] && !is_asleep;
+
+    assign ready_to_cry = (stressed || starving || (tired && (nervous || bored || angry || hungry)) || 
+                          (tired && (tickle || play_with || talk_to)) && (development_stage == BABY)) && 
+                          !action[1] && !action[7] && !is_asleep;
+
     assign ready_to_stop_crying = !hungry && tired && calm_down && !is_asleep;
     
 
     /* Synchronous state transition */
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            action <= SMILE; // Reset to SLEEP state
+            action <= SMILE;
         end else begin
             action <= next_action;
         end
@@ -105,12 +123,9 @@ module action_regulator (
                 end
                 /* 2 PLAY */
                 PLAY: begin
-                    // if (bored && !tired) begin
-                    //     next_action = SMILE;
-                    // end else if (bored && tired) begin
-                    //     next_action = KICK_LEGS;
-                    // end else 
-                    if (tired) begin
+                    if ((development_stage == BABY) && (bored && !tired)) begin
+                        next_action = SMILE;
+                    end else if (tired) begin
                         next_action = IDLE;
                     end else begin
                         next_action = PLAY;
@@ -118,7 +133,7 @@ module action_regulator (
                 end
                 /* 3 SMILE */
                 SMILE: begin
-                    if (tired || hungry) begin
+                    if ((tired || hungry) && (development_stage == BABY)) begin
                         next_action = KICK_LEGS;
                     end else begin
                         next_action = SMILE;
@@ -126,7 +141,7 @@ module action_regulator (
                 end
                 /* 4 BABBLE */
                 BABBLE: begin
-                    if (tired || hungry) begin
+                    if ((tired || hungry) && (development_stage == BABY)) begin
                         next_action = KICK_LEGS;
                     end else begin
                         next_action = BABBLE;

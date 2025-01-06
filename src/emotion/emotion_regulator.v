@@ -12,6 +12,11 @@ module emotion_regulator (
     output wire [7:0] emotional_state
 );
 
+    localparam BABY     = 2'b00;
+    localparam CHILD    = 2'b01;
+    localparam TEENAGER = 2'b10;
+    localparam ADULT    = 2'b11;
+
     wire [1:0] DOP, GABA, SER, CORT, NE;
 
     /* Neurotransmitter levels */
@@ -51,9 +56,10 @@ module emotion_regulator (
     /* Stressed */
     assign emotional_state[2] = (!is_asleep) &&
                                 ((NE    == 2'b11) &&
-                                 (CORT  == 2'b00 || CORT == 2'b11) &&
+                                 (CORT  != 2'b00) &&
                                  ((SER  == 2'b00 || SER  == 2'b01) ||
-                                  (GABA == 2'b00 || GABA == 2'b01)) &&
+                                  (GABA == 2'b00 || GABA == 2'b01) ||
+                                  (development_stage == BABY)) &&
                                 !(starving && tired)
                                 );
 
@@ -62,7 +68,8 @@ module emotion_regulator (
                                 ((NE   == 2'b10) &&
                                  (CORT != 2'b00                  ) &&
                                  ((GABA == 2'b00 || GABA == 2'b01) ||
-                                  (SER  == 2'b00 || SER  == 2'b01))
+                                  (SER  == 2'b00 || SER  == 2'b01) ||
+                                  (development_stage == BABY))
                                 );
 
     /* Bored */
@@ -76,10 +83,10 @@ module emotion_regulator (
     /* Angry */
     assign emotional_state[5] = (!is_asleep) &&
                                 ((NE    == 2'b10 || NE   == 2'b11) &&
-                                 (CORT  == 2'b00 || CORT == 2'b11) &&
                                  (DOP   == 2'b00 || DOP  == 2'b01) &&
                                  ((GABA == 2'b00 || GABA == 2'b01) ||
-                                  (SER  == 2'b00 || SER  == 2'b01))
+                                  (SER  == 2'b00 || SER  == 2'b01) ||
+                                  (development_stage == TEENAGER))
                                 );
 
     /* Calm, amused */
@@ -93,8 +100,7 @@ module emotion_regulator (
 
     /* Apathetic */
     assign emotional_state[7] = (!is_asleep) &&
-                                ((NE    == 2'b11 || NE   == 2'b11) &&
-                                 (CORT  == 2'b11) &&
+                                ((CORT  == 2'b11 || CORT  == 2'b10) &&
                                  (SER   == 2'b00) && 
                                  (starving && tired)
                                 );
