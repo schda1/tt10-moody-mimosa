@@ -13,36 +13,9 @@
  * of cortisol can negatively affect health, leading to issues like anxiety,
  * weight gain, and immune suppression. It also influences various neurotransmitters,
  * impacting mood, cognition, and behavior.
- *
- * Model:
- * In contrast to the fast neurotransmitter regulation, the regulation
- * of the hormone cortisol is slower and consistutes "chronic stress". We assume
- * that it is mainly regulated by the first-level "acute stress" response mediated
- * by norepinephrine NE (also known as noradrenaline). Therefore, it increases
- * when the NE level is high but only decays slowly afterwards. Secondary effects
- * are mediated by the NE regulation, such as e.g. stress induced by hunger, sleep
- * deprivation, extended periods of crying, etc.
- *
- * Internal, enhancing:
- * - High NE
- * - Low gaba
- * - Hunger and tired
- *
- * Internal, reducing:
- * - High Ser
- * - Low NE
- * - Sleep
- *
- * External, enhancing
- * - High NE (double-count)
- * - If tired: talk-to, play-with, tickle
- * - loud and hot
- *
- * External, reducing
- * - If not tired: calm-down, smile
  */
 
-module nt_cortisol_regulator (
+module cortisol_regulator (
     input wire [9:0] neurotransmitter_level,
     input wire [7:0] emotional_state,
     input wire [15:0] stimuli,

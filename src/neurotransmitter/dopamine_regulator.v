@@ -12,29 +12,9 @@
  * Dopamine also influences the brain's stress response by modulating other
  * neurotransmitters like serotonin and GABA. Its balance is critical for emotional
  * well-being, decision-making, and physical coordination.
- *
- * Internal, enhancing:
- * - Low Cortisol, NE, gaba, insulin
- * - Tired
- * - Hunger
- *
- * Internal, reducing:
- * - High cortisol, NE, serotonin, gaba, insulin
- * - Overfeeding
- * - Sleep
- *
- * External, enhancing
- * - if not tired: talk-to, play
- * - bright light
- * - cool
- *
- * External, reducing
- * - loud, hot
- * - if tired: bright
- * - if tired: talk-to, play
  */
 
-module nt_dopamine_regulator (
+module dopamine_regulator (
     input wire [9:0] neurotransmitter_level,
     input wire [7:0] emotional_state,
     input wire [15:0] stimuli,

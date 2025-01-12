@@ -4,7 +4,7 @@
 `endif
 
 module counter_with_pulse #(
-    parameter TARGET_COUNT = 255 // Default value up to which the counter counts
+    parameter TARGET_COUNT = 255
 )(
     input wire clk,
     input wire rst_n,

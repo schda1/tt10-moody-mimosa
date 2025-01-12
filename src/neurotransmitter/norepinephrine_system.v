@@ -3,7 +3,7 @@
 /* verilator lint_off UNUSEDSIGNAL */
 `endif
 
-module nt_norepinephrine_system (
+module norepinephrine_system (
     input wire clk,                             // Input clock
     input wire rst_n,                           // Active-low reset
     input wire [9:0] neurotransmitter_level,
@@ -24,7 +24,7 @@ module nt_norepinephrine_system (
     assign setval = 0;
 
     /* Regulator for the norepinephrine level */
-    nt_norepinephrine_regulator norepinephrine_regulator (
+    norepinephrine_regulator norepinephrine_regulator (
         .neurotransmitter_level(neurotransmitter_level),
         .emotional_state(emotional_state),
         .development_stage(development_stage),
@@ -36,7 +36,7 @@ module nt_norepinephrine_system (
     );
 
     /* norepinephrine resource */
-    nt_neurotransmitter_level #(
+    resource #(
         .N(6),
         .SET_VAL(32),
         .DEFAULT_VAL(0),

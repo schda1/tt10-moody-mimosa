@@ -3,28 +3,30 @@
 /* verilator lint_off UNUSEDSIGNAL */
 `endif
 
-module nt_cortisol_system (
+module dopamine_system (
     input wire clk,
     input wire rst_n,
     input wire [9:0] neurotransmitter_level,
     input wire [7:0] emotional_state,
+    input wire [1:0] development_stage,
     input wire [15:0] stimuli,
     input wire [7:0] action,
-    output wire [1:0] cortisol_level
+    output wire [1:0] dopamine_level
     `ifdef PY_SIM
-    , output wire [6:0] dbg_cortisol
+    , output wire [6:0] dbg_dopamine
     `endif
 );
 
     wire inc, dec, fast, setval;
-    wire [6:0] cortisol;
+    wire [6:0] dopamine;
 
     assign setval = 0;
 
-    /* Regulator for the cortisol level */
-    nt_cortisol_regulator cortisol_regulator (
+    /* Regulator for the dopamine level */
+    dopamine_regulator dopamine_regulator (
         .neurotransmitter_level(neurotransmitter_level),
         .emotional_state(emotional_state),
+        .development_stage(development_stage),
         .stimuli(stimuli),
         .action(action),
         .inc(inc),
@@ -32,27 +34,27 @@ module nt_cortisol_system (
         .fast(fast)
     );
 
-    /* cortisol resource */
-    nt_neurotransmitter_level #(
+    /* Dopamine resource */
+    resource #(
         .N(7),
         .SET_VAL(64),
-        .DEFAULT_VAL(0),
-        .FAST_STEP(2)
-    ) cortisol_resource (
+        .DEFAULT_VAL(64),
+        .FAST_STEP(3)
+    ) dopamine_resource (
         .clk(clk),
         .rst_n(rst_n),
         .inc(inc),
         .dec(dec),
         .fast(fast),
         .setval(setval),
-        .value(cortisol)
+        .value(dopamine)
     );
 
-    /* cortisol level, downscaled (2-bit) */
-    assign cortisol_level = cortisol[6:5];
+    /* Dopamine level, downscaled (2-bit) */
+    assign dopamine_level = dopamine[6:5];
 
     `ifdef PY_SIM
-    assign dbg_cortisol = cortisol;
+    assign dbg_dopamine = dopamine;
     `endif
 
 endmodule
