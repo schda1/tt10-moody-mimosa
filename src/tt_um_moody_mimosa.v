@@ -57,7 +57,7 @@ module tt_um_moody_mimosa (
     assign stimuli[6] = ui_in[6];   /* Env: Hot    */
     assign stimuli[7] = ui_in[7];   /* Env: Quiet  */
     assign stimuli[8] = uio_in[0];  /* Env: Loud   */
-    assign stimuli[9] = 0;          /* uio_in[1];  /* Env: Dark   */
+    assign stimuli[9] = 0;          /* Env: Dark   */
     assign stimuli[10] = uio_in[1]; /* Env: Bright */
     assign stimuli[11] = hungry;
     assign stimuli[12] = starving;

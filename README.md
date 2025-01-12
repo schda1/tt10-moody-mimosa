@@ -4,7 +4,26 @@
 
 The original idea was quite simple: I wanted to design my first custom digital ASIC and implement a fun concept. Instead of developing something like an adder or encoder, I wanted to push the boundaries of what’s possible. A Tamagotchi-like, living creature — that’s the vision. A creature with an inner life, capable of interacting with the outside world, and something you can simply have fun with. 
 
-This original idea turned out to be a rabbit hole. What if the internal model closely follows biological processes and takes neurotransmitters and hormones into account? Which neurotransmitters and hormons are relevantand what kind of emotions could emerge? How could sleep and hunger be modeled? What does the creature do? What is observable from the outside? How could illness be incorporated? How does something like this fit on the limited space of the chip? How could it be simulated and optimized offline, or emulated on an FPGA? How could one still gain a complete view of the inner workings for debugging and testing? What might the hardware look like? How do you cheaply measure temperature, noise amplitude or illumination strength?
+This original idea turned out to be a rabbit hole. What if the internal model closely follows biological processes and takes neurotransmitters and hormones into account? Which neurotransmitters and hormons are relevantand what kind of emotions could emerge? How could sleep and hunger be modeled? What does the creature do? What is observable from the outside? How could illness or age (from child to adult) be incorporated? How does something like this fit on the limited space of the chip? How could it be simulated and optimized offline, or emulated on an FPGA? How could one still gain a complete view of the inner workings for debugging and testing? What might the hardware look like? How do you cheaply measure temperature, noise amplitude or illumination strength?
+
+
+# Moody mimosa, my first digital ASIC
+
+The "moody mimosa" emulates the behavior of a simple living organism. It has an internal system made up of various neurotransmitters, hormones, energy reserves, and emotions. It can be tired, hungry, ill, annoyed, bored, happy, nervous, calm, stressed, or excited. And it evolves, from a baby to an adult. 
+
+At the beginning, only its actions can be observed. Leds indicate, what the mimosa does. Maybe it sleeps, eats, plays or cries. However, it soon learns to speak. This allows to understand more about the underlying emotion. Is it angry, nervous or excited? What could you do in order to make it feel better? Maybe it just needs some presence and interaction? Maybe it is too loud or light is too bright? And, possibly, you just can't figure it out. Why is it crying? Why won’t it be calmed down? Why doesn’t it eat or sleep? If you happen to be a parent, this may feel quite familiar to you.
+
+Details about the implementation and technical details are contained in the documentation or comments inside the corresponding verilog modules. However, in the figure below the general architecture is illustrated. 
+
+![](docs/figs/Mimosa_model_v1.1.png)
+
+It is basically a collection of wildly intertwined feedback loops. The blocks with indicated reset and clock signals are sequential (mainly counters and a single state machine for the action regulator), the rest is purely combinational. There is some layering between low-level resources and processes (vital energy, nourishment, neurotransmitter), resulting emotions and observable behaviour and speech. This somehow resembles the brain structure, from brain stem and ancient structures to the limbic system (emotions) and the cortex (complex thinking and actions). However, similar to the human brain, there are feedback loops in both directions, such as for example bottom-up and top-down emotion regulation. 
+
+There are a lot of resources involved (generally called systems) with a corresponding regulator. Such a sequantial resource consists of a counter with only few bits and the possibility to increase and decrease, slow or fast. Whether the resource value increases or decreases is defined by a resource-specific regulator as the feedback mechanism. At the end, only the upper or the upper two bits are relevant, they define a level. This allows to disginuish e.g. "very low", "moderately low", "moderately high" and "very high". While a neurotransmitter system may have a 8-bit counter with a complex regulator, for example, the emotion regulator will only need two wires, from the 7th and 8th bit of the counter. This reduced the coercion between the modules and makes it slightly simpler to route (allthough routing is still complex because there are so many feedback mechanism). 
+
+Inputs are digital signals from either push buttons (deliberate interaction) or the output of comparators for environment sensing signals (ntc for temperature, microphone for noise and photodiodes for light sensing). The clock is generated and parametrized by a microcontroller on the custom mimosa pcb. The latter also tracks all input and outputs and sends it via uart to the host computer for logging or analysis. The actions (output) of the mimosa is indicated by on-board leds. Finally, the phrases transmitted via UART are displayed on an on-board lcd display. 
+
+# Subprojects 
 
 In the meantime, this project has evolved into several subprojects:
 
@@ -15,18 +34,9 @@ In the meantime, this project has evolved into several subprojects:
 | `module_test`  | Testing of specific verilog submodules, based on python and cocotb |
 | `fpga` | Additional files (tcl, xdc) for creating the FPGA design for an Artix-7 Alchitry Au board. For this part, I use the Vivado command line utilities and the Alchitry loader.|
 | `simulation` | A simulation based on PyVerilator and PyQt6 with a graphical interface for optimizing the model (fine-tuning, feedback loops) and debugging the ASIC. PyVerilator uses the actual verilog sources, compiles them into a C/C++ application and allows to access it from within python. |
-|`misc/mimosa_logger` | An STM32 application for an STM32G474 microcontroller to debug the ASIC. This logs all inputs and outputs, returns them via UART/FTDI, and allows for reconstructing the complete history using the simulation. I also added a CppUTest unit test for illustration.|
-|`misc/mimosa_pcb`| KiCad project for the mimosa pcb with the buttons to interact with, the action indicating leds, the analog circuitry for environment sensing (temperature, noise, light) as well as the stm32 microcontroller used for logging and sending data via uart. |
 
-# Moody mimosa, my first digital ASIC
+There are two related subprojects: One for a STM32 application for a microcontroller to interact with and debug the ASIC. And one for a custom pcb with in- and outputs as well as the circuitry for temperature-, light- and audio-measurement, a LCD display and the FRAM chip with the pre-loaded text and a microcontroller.
 
-The "moody mimosa" emulates the behavior of a simple living organism. It has an internal system made up of various neurotransmitters, hormones, energy reserves, and emotions. It can be tired, hungry, ill, annoyed, bored, happy, nervous, calm, stressed, or excited. However, none of this is visible because it cannot articulate itself. From the outside, you can only see what the "moody mimosa" **does** — whether it plays, eats, sleeps, smiles, cries, kicks, babbles, or simply does nothing. Through deliberate interaction like talking, calming down, feeding, playing, tickling or environmental influences, the inner life of the "moody mimosa" is affected, which in turn shapes its behavior. At times, it can be quite exhausting and confusing. Why is it crying? Why won’t it be calmed down? Why doesn’t it eat or sleep? As a dad, all of this feels more than familiar to me. 
-
-Details about the implementation and technical details are contained in the documentation or comments inside the corresponding verilog modules. However, in the figure below the general architecture is illustrated. 
-
-![](docs/figs/Mimosa_model_v1.0.png)
-
-Inputs are digital signals from either push buttons (deliberate interaction) or the output of comparators for environment sensing signals (ntc for temperature, microphone for noise and photodiodes for light sensing). The clock is generated and parametrized by a microcontroller on the custom mimosa pcb. The latter also tracks all input and outputs and sends it via uart to the host computer for logging or analysis. The actions (output) of the mimosa is indicated by on-board leds. The blocks with indicated reset and clock signals are sequential (mainly counters and a single state machine for the action regulator), the rest is purely combinational.
 
 # Current state
 
