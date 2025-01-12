@@ -33,7 +33,7 @@ module nourishment_system (
     );
 
     /* energy resource */
-    nt_neurotransmitter_level #(
+    resource #(
         .N(8),
         .SET_VAL(128),
         .DEFAULT_VAL(128),

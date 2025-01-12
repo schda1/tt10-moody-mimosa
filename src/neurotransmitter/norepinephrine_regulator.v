@@ -12,52 +12,9 @@
  *  preparing the body for rapid action. It also enhances alertness and focus, helping
  *  the brain respond quickly to threats. In chronic stress, sustained high levels of
  *  norepinephrine can contribute to anxiety and other stress-related disorders.
- *
- *  Model:
- *  This regulator could become arbitrary complex as there are so many different
- *  internal and external effects influencing the NE level. To make the model
- *  reasonably simple, we distinguish between internal and external effects, both
- *  for the enhancing and reducing channel.
- *
- *  High-level truth table:
- *
- *  | Int. enh | Ext. enh | Int red. | Ext. red. | inc | dec | fast |
- *  | 1        | 0        | x        | 0         | 1   | 0   | 0    |
- *  | 1        | 0        | x        | 1         | 0   | 0   | 0    |
- *  | 0        | 1        | 0        | x         | 1   | 0   | 0    |
- *  | 0        | 1        | 0        | 1         | 0   | 0   | 0    |
- *  | 1        | 1        | x        | x         | 1   | 0   | 1    |
- *  | 0        | 0        | 0        | 0         | 0   | 0   | 0    |
- *  | 0        | 0        | 1        | 0         | 0   | 1   | 0    |
- *  | 0        | 0        | 0        | 1         | 0   | 1   | 0    |
- *  | 0        | 0        | 1        | 1         | 0   | 1   | 1    |
- *
- *  Internal enhancing:
- *  - Hungry
- *  - Tired
- *  - Low levels of gaba
- *  - Insulin LOW or HIGH
- *  - High levels of dopamine
- *  - High levels of ACH or glutamate
- *
- *  External enhancing:
- *  - If tired: any interaction
- *  - If tired: noise
- *  - If tired: bright light
- *  - Warm / cold, always
- *
- *  Internal reducing:
- *  - State: ASLEEP
- *  - High levels of gaba
- *  - Insulin not LOW or HIGH
- *  - High levels of serotonin
- *
- *  External reducing:
- *  - Calming
- *  - Smiling
  */
 
-module nt_norepinephrine_regulator (
+module norepinephrine_regulator (
     input wire [9:0] neurotransmitter_level,
     input wire [7:0] emotional_state,
     input wire [1:0] development_stage,
@@ -137,11 +94,6 @@ module nt_norepinephrine_regulator (
                     );
 
     assign ext_red = (is_asleep) || ((!is_asleep) && (calm_down || talk_to));
-
-    // Truth table
-    // assign inc = (int_enh && !ext_enh && !ext_red) || (!int_enh && ext_enh && !int_red) || (int_enh && ext_enh);
-    // assign dec = !int_enh && !ext_enh && (int_red || ext_red);
-    // assign fast = (int_enh && ext_enh) || (!int_enh && !ext_enh && int_red && ext_red);
 
     assign inc = (!int_red && !ext_red);
     assign dec = (!ext_enh && int_red && !ext_red) || (!int_enh && !int_red && ext_red) || (int_red && ext_red);

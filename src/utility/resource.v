@@ -3,19 +3,19 @@
 /* verilator lint_off UNUSEDSIGNAL */
 `endif
 
-module nt_neurotransmitter_level #(
-    parameter N = 8,             // Bit width
-    parameter SET_VAL = 0,       // Value to set with setval
-    parameter DEFAULT_VAL = 2,   // Default value on reset
-    parameter FAST_STEP = 3      // Step size for fast adjustments
+module resource #(
+    parameter N = 8,             /* Bit width of the underlying counter */
+    parameter SET_VAL = 0,       /* Value to be set with setval         */
+    parameter DEFAULT_VAL = 2,   /* Default value on reset              */
+    parameter FAST_STEP = 3      /* Step size for fast adjustments      */
 ) (
-    input wire clk,              // Clock input
-    input wire rst_n,            // Reset input
-    input wire inc,              // Increment signal
-    input wire dec,              // Decrement signal
-    input wire fast,             // Fast adjustment signal
-    input wire setval,           // Set to defined value
-    output reg [N-1:0] value     // N-bit value output
+    input wire clk,              
+    input wire rst_n,            
+    input wire inc,
+    input wire dec,
+    input wire fast,
+    input wire setval,
+    output reg [N-1:0] value
 );
 
     always @(posedge clk or negedge rst_n) begin

@@ -33,7 +33,7 @@ module vital_energy_system (
     );
 
     /* Vital energy resource */
-    nt_neurotransmitter_level #(
+    resource #(
         .N(8),
         .SET_VAL(64),
         .DEFAULT_VAL(128),

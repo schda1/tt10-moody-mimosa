@@ -15,7 +15,6 @@ module static_clock_divider #(parameter N = 4) (
             counter <= counter + 1;
     end
 
-    // Use the MSB of the counter as the divided clock
     assign clk_out = counter[N-1];
 
 endmodule

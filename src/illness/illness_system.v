@@ -45,7 +45,7 @@ module illness_system (
     );
 
     /* energy resource */
-    nt_neurotransmitter_level #(
+    resource #(
         .N(9),
         .SET_VAL(128),
         .DEFAULT_VAL(128),

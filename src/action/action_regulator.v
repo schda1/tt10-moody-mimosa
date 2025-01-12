@@ -105,11 +105,6 @@ module action_regulator (
                 end
                 /* 2 PLAY */
                 PLAY: begin
-                    // if (bored && !tired) begin
-                    //     next_action = SMILE;
-                    // end else if (bored && tired) begin
-                    //     next_action = KICK_LEGS;
-                    // end else 
                     if (tired) begin
                         next_action = IDLE;
                     end else begin

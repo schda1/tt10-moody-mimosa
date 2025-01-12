@@ -3,7 +3,7 @@
 /* verilator lint_off UNUSEDSIGNAL */
 `endif
 
-module nt_neurotransmitter_system (
+module neurotransmitter_system (
     input wire clk,
     input wire rst_n,
     input wire [7:0] emotional_state,
@@ -27,7 +27,7 @@ module nt_neurotransmitter_system (
     wire [1:0] norepinephrine_level;
     wire [1:0] serotonin_level;
 
-    nt_cortisol_system cortisol_system (
+    cortisol_system cortisol_system (
         .clk(clk),
         .rst_n(rst_n),
         .neurotransmitter_level(neurotransmitter_level_in),
@@ -40,7 +40,7 @@ module nt_neurotransmitter_system (
         `endif
     );
 
-    nt_dopamine_system dopamine_system (
+    dopamine_system dopamine_system (
         .clk(clk),
         .rst_n(rst_n),
         .neurotransmitter_level(neurotransmitter_level_in),
@@ -54,7 +54,7 @@ module nt_neurotransmitter_system (
         `endif
     );
 
-    nt_gaba_system gaba_system (
+    gaba_system gaba_system (
         .clk(clk),
         .rst_n(rst_n),
         .neurotransmitter_level(neurotransmitter_level_in),
@@ -67,7 +67,7 @@ module nt_neurotransmitter_system (
         `endif
     );
 
-    nt_norepinephrine_system norepinephrine_system (
+    norepinephrine_system norepinephrine_system (
         .clk(clk),
         .rst_n(rst_n),
         .neurotransmitter_level(neurotransmitter_level_in),
@@ -81,7 +81,7 @@ module nt_neurotransmitter_system (
         `endif
     );
 
-    nt_serotonin_system serotonin_system (
+    serotonin_system serotonin_system (
         .clk(clk),
         .rst_n(rst_n),
         .neurotransmitter_level(neurotransmitter_level_in),

@@ -14,50 +14,9 @@
  *  levels during stress can lead to heightened anxiety and poor stress coping.
  *  Overall, serotonin acts as a stabilizer in maintaining emotional and physiological
  *  balance during acute stress.
- *
- *  Model:
- *  Contributions are split into internal and external ones, either reducing
- *  or enhancing the neurotransmitter level. Enhancing is considered to be
- *  dominant. If both internal and external factors are present, the effect
- *  is stronger (fast bit set).
- *
- *  Truth table (reducing is dominant)
- *
- *  | Int. enh | Ext. enh | Int red. | Ext. red. | inc | dec | fast |
- *  | x        | 0        | 1        | 0         | 1   | 0   | 0    |
- *  | x        | 0        | 1        | 1         | 0   | 0   | 0    |
- *  | 0        | 1        | 0        | x         | 1   | 0   | 0    |
- *  | 0        | 1        | 0        | 1         | 0   | 0   | 0    |
- *  | x        | x        | 1        | 1         | 1   | 0   | 1    |
- *  | 0        | 0        | 0        | 0         | 0   | 0   | 0    |
- *  | 0        | 0        | 1        | 0         | 0   | 1   | 0    |
- *  | 0        | 0        | 0        | 1         | 0   | 1   | 0    |
- *  | 0        | 0        | 1        | 1         | 0   | 1   | 1    |
- *
- * Internal, enhancing:
- * - Low NE and low cortisol level
- * - High Ach
- * - Low dopamine
- * - High Gaba
- * - During sleep
- *
- * Internal, reducing:
- * - High NE or high cortisol
- * - Low Ach
- * - High Dopamine
- * - Low Gaba
- * - Tired
- * - Hungry
- *
- * External, reducing:
- * - If tired: any interaction
- * - If tired: lout, bright, hot
- *
- * External, enhancing:
- * - Calm down
  */
 
-module nt_serotonin_regulator (
+module serotonin_regulator (
     input wire [9:0] neurotransmitter_level,
     input wire [7:0] emotional_state,
     input wire [15:0] stimuli,

@@ -1,7 +1,7 @@
 module prescaler #(parameter DIV_FACTOR = 4) (
-    input wire clk,        // Input clock
-    input wire rst_n,      // Active-low reset
-    output reg clk_out     // Prescaled clock output
+    input wire clk,
+    input wire rst_n,
+    output reg clk_out
 );
 
     localparam HALF_DIV = DIV_FACTOR >> 1;

@@ -11,7 +11,7 @@ module dynamic_clock_divider #(parameter N = 2)(
     reg [N-1:0] x_sync;
     reg [N-1:0] x_sync_prev;
 
-    // Synchronize the x input to avoid glitches when it changes
+    /* Synchronize the x input to avoid glitches when it changes */
     always @(posedge clk or negedge rst_n) begin
         if (~rst_n) begin
             x_sync <= 0;
@@ -22,7 +22,7 @@ module dynamic_clock_divider #(parameter N = 2)(
         end
     end
 
-    // Main clock divider logic
+    /* Main clock divider logic */
     always @(posedge clk or negedge rst_n) begin
         if (~rst_n) begin
             div_count <= 0;

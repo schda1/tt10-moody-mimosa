@@ -11,18 +11,17 @@ project:
 
   source_files:
     - "tt_um_moody_mimosa.v"
-    - "neurotransmitter/nt_cortisol_regulator.v"
-    - "neurotransmitter/nt_cortisol_system.v"
-    - "neurotransmitter/nt_gaba_regulator.v"
-    - "neurotransmitter/nt_gaba_system.v"
-    - "neurotransmitter/nt_dopamine_regulator.v"
-    - "neurotransmitter/nt_dopamine_system.v"
-    - "neurotransmitter/nt_serotonin_regulator.v"
-    - "neurotransmitter/nt_serotonin_system.v"
-    - "neurotransmitter/nt_norepinephrine_regulator.v"
-    - "neurotransmitter/nt_norepinephrine_system.v"
-    - "neurotransmitter/nt_neurotransmitter_level.v"
-    - "neurotransmitter/nt_neurotransmitter_system.v"
+    - "neurotransmitter/cortisol_regulator.v"
+    - "neurotransmitter/cortisol_system.v"
+    - "neurotransmitter/gaba_regulator.v"
+    - "neurotransmitter/gaba_system.v"
+    - "neurotransmitter/dopamine_regulator.v"
+    - "neurotransmitter/dopamine_system.v"
+    - "neurotransmitter/serotonin_regulator.v"
+    - "neurotransmitter/serotonin_system.v"
+    - "neurotransmitter/norepinephrine_regulator.v"
+    - "neurotransmitter/norepinephrine_system.v"
+    - "neurotransmitter/neurotransmitter_system.v"
     - "heartbeat/heartbeat_regulator.v"
     - "nourishment/nourishment_system.v"
     - "nourishment/nourishment_regulator.v"
@@ -40,6 +39,7 @@ project:
     - "utility/dynamic_clock_divider.v"
     - "utility/static_clock_divider.v"
     - "utility/counter_with_pulse.v"
+    - "utility/resource.v"
 
 pinout:
   # Inputs

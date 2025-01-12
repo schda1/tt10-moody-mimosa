@@ -11,28 +11,9 @@
  * like glutamate. GABA plays a key role in regulating sleep, mood, and anxiety. Its calming effects
  * are crucial for preventing overstimulation and protecting neurons from damage. Imbalances in GABA
  * levels are associated with conditions like anxiety, insomnia, and epilepsy.
- *
- * Internal, enhancing:
- * - High serotonin, insulin
- * - Low NE and cortisol
- * - Feeling tired
- * - During sleep
- *
- * Internal, reducing:
- * - High cortisol, NE
- * - Low serotonin, insulin
- * - Hunger, low energy
- *
- * External, enhancing
- * - Calm down, smile
- * - Quiet, dark
- *
- * External, reducing
- * - Tickling
- * - Loud, bright, hot
  */
 
-module nt_gaba_regulator (
+module gaba_regulator (
     input wire [9:0] neurotransmitter_level,
     input wire [7:0] emotional_state,
     input wire [15:0] stimuli,

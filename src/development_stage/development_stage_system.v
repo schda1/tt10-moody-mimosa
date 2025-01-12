@@ -30,7 +30,7 @@ module development_stage_system (
     );
 
     /* energy resource */
-    nt_neurotransmitter_level #(
+    resource #(
         .N(9),
         .SET_VAL(0),
         .DEFAULT_VAL(0),
